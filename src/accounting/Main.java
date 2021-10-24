@@ -3,9 +3,10 @@ import house.House;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        int choice1 = 0, choice2 = 0;
+        int choice1, choice2;
         List<House> arrayOfHouses = new ArrayList<>();
         do {
             System.out.println("--------------------------------------------------------------------------------");
@@ -22,46 +23,32 @@ public class Main {
                         break;
                     }
                     int houseNumber;
-                    do {
-                        if (arrayOfHouses.size() != 1) {
-                            System.out.print("Введите номер нужного дома" + "(1-" + Integer.toString(arrayOfHouses.size()) + "):");
-                        } else {
-                            System.out.print("Введите номер нужного дома(1): ");
-                        }
-                        houseNumber = EnteringInfoCheckForHouseNumber(arrayOfHouses);
-                        if (arrayOfHouses.size() < houseNumber || houseNumber <= 0) {
-                            System.out.println("Дома с таким номером нет/номер введен неверно!");
-
-                        }
-                    } while (arrayOfHouses.size() < houseNumber || houseNumber <= 0);
-
+                    houseNumber = EnteringInfoCheckForHouseNumber(arrayOfHouses);
+                    if(houseNumber> arrayOfHouses.size() || houseNumber <=0){
+                        System.out.println("Введен номер несуществующего лома");
+                        do {
+                            houseNumber = EnteringInfoCheckForHouseNumber(arrayOfHouses);
+                        }while(houseNumber> arrayOfHouses.size() || houseNumber <=0);
+                    }
                     do {
                         System.out.println("--------------------------------------------------------------------------------");
-                        choice2 = EnteringInfoCheck("Выберите нужное действие: \n1. Высчитать общую площадь дома\n2. Узнать общее количество жильцов в доме\n3. Узнать количество этажей\n4. Просмотреть информацию об отдельной квартире\n5. Вернуться в главное меню\nВаш выбор: ");
+                        choice2 = EnteringInfoCheck("Выберите нужное действие: \n1. Просмотреть всю информацию об этом доме\n2. Просмотреть информацию об отдельной квартире в этом доме\n3. Вернуться в главное меню\nВаш выбор: ");
                         switch (choice2) {
                             case 1:
-                                System.out.println("Общая площадь дома номер " + Integer.toString(houseNumber) + " = " + Double.toString(arrayOfHouses.get(houseNumber - 1).totalHouseSquare()));
+                                System.out.println(arrayOfHouses.get(houseNumber-1));
                                 break;
                             case 2:
-                                System.out.println("Общее количество жильцов в доме номер " + Integer.toString(houseNumber - 1) + " = " + Integer.toString(arrayOfHouses.get(houseNumber - 1).totalHouseResidentsCount()));
+                                int flatNumber;
+                                flatNumber = EnteringInfoCheck("Введите номер нужной квартиры(1-"+arrayOfHouses.get(houseNumber-1).getFlatsCount() +"): ");
+                                System.out.println(arrayOfHouses.get(houseNumber - 1).getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFlat(flatNumber));
                                 break;
                             case 3:
-                                System.out.println("Количество этажей в доме номер " + Integer.toString(houseNumber - 1) + " = " + Integer.toString(arrayOfHouses.get(houseNumber - 1).getFloorsCount()));
                                 break;
-                            case 4:
-                                int flatNumber = 0;
-                                flatNumber = EnteringInfoCheck("Введите номер нужной квартиры(1-"+arrayOfHouses.get(houseNumber-1).getFlatsCount() +"): ");
-                                System.out.println("--------------------------------------------------------------------------------");
-                                System.out.println(arrayOfHouses.get(houseNumber - 1).getFloorByFlatNumber(flatNumber).getFlat(flatNumber));
-                                System.out.println("--------------------------------------------------------------------------------");
-                                break;
-                            case 5:
-                                break;
-
                         }
-                    } while (choice2 != 5);
+                    } while (choice2 != 3);
                     break;
                 case 3:
+
                     if (arrayOfHouses.isEmpty()) {
                         System.out.println("Домов нет");
                         break;
@@ -85,8 +72,8 @@ public class Main {
                         System.out.println("Недостаточно домов в списке для сравнения. Добавьте еще дома");
                         break;
                     }
-                    int houseCompareNumber1 = 0;
-                    int houseCompareNumber2 = 0;
+                    int houseCompareNumber1;
+                    int houseCompareNumber2;
                     System.out.println("Выберите первый дом для сравнения: ");
                     houseCompareNumber1 = EnteringInfoCheckForHouseNumber(arrayOfHouses);
                     if(houseCompareNumber1-1 >= arrayOfHouses.size() || houseCompareNumber1-1<0){
@@ -113,9 +100,7 @@ public class Main {
                         System.out.println("Домов нет");
                         break;
                     }
-                    houseCompareNumber1 = 0;
-                    houseCompareNumber2 = 0;
-                    int flatCompareNumber1 = 0;
+                    int flatCompareNumber1;
                     int flatCompareNumber2 = 0;
                     System.out.println("Выберите первый дом для сравнения: ");
                     houseCompareNumber1 = EnteringInfoCheckForHouseNumber(arrayOfHouses);
@@ -131,6 +116,7 @@ public class Main {
                             System.out.println("Несуществующий номер квартиры...Введите еще раз");
                             flatCompareNumber1 = EnteringInfoCheck("Введите номер нужной квартиры(1-"+arrayOfHouses.get(houseCompareNumber1-1).getFlatsCount() +"): ");
                         }while(flatCompareNumber1 > arrayOfHouses.get(houseCompareNumber1-1).getFlatsCount() ||flatCompareNumber1<=0 );
+                    System.out.println("------------------------------------------------------------\nКвартира успешно добавлена к сравнению!\n------------------------------------------------------------");
                     System.out.println("Выберите второй дом для сравнения: ");
                     houseCompareNumber2 = EnteringInfoCheckForHouseNumber(arrayOfHouses);
                     if(houseCompareNumber2-1 >= arrayOfHouses.size() || houseCompareNumber2-1<0){
@@ -146,8 +132,8 @@ public class Main {
                             System.out.println("Несуществующий номер квартиры(или квартира с таким номером уже добавлена к сравнению)...Введите еще раз");
                             flatCompareNumber2 = EnteringInfoCheck("Введите номер нужной квартиры(1-"+arrayOfHouses.get(houseCompareNumber2-1).getFlatsCount() +"): ");
                         }while(flatCompareNumber2 > arrayOfHouses.get(houseCompareNumber2-1).getFlatsCount() ||flatCompareNumber2<=0 || flatCompareNumber2 == flatCompareNumber1);
-                    System.out.println("Квартира 1"+arrayOfHouses.get(houseCompareNumber1-1).getFloorByFlatNumber(flatCompareNumber1).getFlat(flatCompareNumber1));
-                    System.out.println("Квартира 2"+arrayOfHouses.get(houseCompareNumber2-1).getFloorByFlatNumber(flatCompareNumber2).getFlat(flatCompareNumber2));
+                    System.out.print("Квартира 1"+arrayOfHouses.get(houseCompareNumber1-1).getEntranceByFlatNumber(flatCompareNumber1).getFloorByFlatNumber(flatCompareNumber1).getFlat(flatCompareNumber1));
+                    System.out.println("Квартира 2"+arrayOfHouses.get(houseCompareNumber2-1).getEntranceByFlatNumber(flatCompareNumber2).getFloorByFlatNumber(flatCompareNumber2).getFlat(flatCompareNumber2));
                     break;
                 case 6:
                     scannerChoice.close();
@@ -178,29 +164,27 @@ public class Main {
     public static int EnteringInfoCheckForHouseNumber(List<House> arrayOfHouses) {
         int result = 0;
         Scanner choiceScanner = new Scanner(System.in);
-        do {
-            if (arrayOfHouses.size() != 1)
-                System.out.print("Введите номер нужного дома" + "(1-" + arrayOfHouses.size() + "): ");
-            else
-                System.out.print("Введите номер нужного дома(1): ");
+        if (arrayOfHouses.size() != 1)
+            System.out.print("Введите номер нужного дома" + "(1-" + arrayOfHouses.size() + "): ");
+        else
+            System.out.print("Введите номер нужного дома(1): ");
 
-            boolean numberFormatHouseCompareNumber = true;
-            do {
-                if (numberFormatHouseCompareNumber == false) {
-                    if (arrayOfHouses.size() != 1)
-                        System.out.print("Введите номер нужного дома" + "(1-" + arrayOfHouses.size() + "): ");
-                    else
-                        System.out.print("Введите номер нужного дома(1): ");
-                }
-                try {
-                    numberFormatHouseCompareNumber = true;
-                    result = Integer.parseInt(choiceScanner.nextLine());
-                } catch (NumberFormatException e) {
-                    System.out.println("Введено неверное значение");
-                    numberFormatHouseCompareNumber = false;
-                }
-            } while (!numberFormatHouseCompareNumber);
-            return result;
-        }while (arrayOfHouses.size() < result || result <= 0);
+        boolean numberFormatHouseCompareNumber = true;
+        do {
+            if (numberFormatHouseCompareNumber == false) {
+                if (arrayOfHouses.size() != 1)
+                    System.out.print("Введите номер нужного дома" + "(1-" + arrayOfHouses.size() + "): ");
+                else
+                    System.out.print("Введите номер нужного дома(1): ");
+            }
+            try {
+                numberFormatHouseCompareNumber = true;
+                result = Integer.parseInt(choiceScanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Введено неверное значение");
+                numberFormatHouseCompareNumber = false;
+            }
+        } while (!numberFormatHouseCompareNumber);
+        return result;
     }
 }
