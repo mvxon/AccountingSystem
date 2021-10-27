@@ -99,18 +99,19 @@ public class House {
     }
 
     public Flat getFlat(int flatNumber) {
-        int temp = flatNumber;
-        int subtrahend = 0;
-        subtrahend = this.getEntranceByFlatNumber(flatNumber).getEntranceNumber();
-        subtrahend *= this.getEntranceByFlatNumber(flatNumber).getFloorsCount();
-        subtrahend *= this.getEntranceByFlatNumber(flatNumber).getFlatsPerFloor();
-        int temp2;
-        temp2 = this.getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFloorNumber();
-        temp2 *= this.getEntranceByFlatNumber(flatNumber).getFlatsPerFloor();
+
+        int entranceNumber = this.getEntranceByFlatNumber(flatNumber).getEntranceNumber();
+        int floorsCount = this.getEntranceByFlatNumber(flatNumber).getFloorsCount();
+        int flatsPerFloor = this.getEntranceByFlatNumber(flatNumber).getFlatsPerFloor();
+        int subtrahend = entranceNumber * floorsCount * flatsPerFloor;
+
+        int floorNumber = this.getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFloorNumber();
+        int temp2 = floorNumber * flatsPerFloor;
+
         subtrahend += temp2;
-        temp -= subtrahend;
-        temp--;
-        return this.getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFlatOnFloor(temp);
+        int result = flatNumber - subtrahend;
+        result--;
+        return this.getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFlatOnFloor(result);
     }
 
 }

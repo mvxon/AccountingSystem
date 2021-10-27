@@ -6,7 +6,7 @@ import util.MyNumber;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Floor {
+class Floor {
     private int floorNumber;
     private List<Flat> flats = new ArrayList<>();
     private int flatsPerFloor;

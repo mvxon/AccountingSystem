@@ -2,7 +2,7 @@ package house;
 
 import util.SecuredNumbersScanner;
 
-public class Room {
+class Room {
     private int roomNumber;
     private double roomSquare;
     Room(int roomNumber) {

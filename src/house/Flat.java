@@ -5,8 +5,7 @@ import util.MyNumber;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class Flat {
+class Flat {
     private double flatSquare;
     private int residentsCount;
     private int roomsCount;
