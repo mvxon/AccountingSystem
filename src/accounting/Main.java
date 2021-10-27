@@ -6,7 +6,6 @@ import house.House;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,11 +13,14 @@ public class Main {
         List<House> arrayOfHouses = new ArrayList<>();
         do {
             System.out.println("--------------------------------------------------------------------------------");
-            Scanner scannerChoice = new Scanner(System.in);
-            String questionOfMainAction;
-            questionOfMainAction = "Выберите нужное действие:\n1. Создать новый дом";
-            questionOfMainAction += "\n2. Просмотреть информацию о уже существущем доме\n3. Удалить дом\n4. Сравнить дома";
-            questionOfMainAction += "\n5. Сравнить квартиры\n6. Выйти из программы\nВаш выбор: ";
+            String questionOfMainAction = "Выберите нужное действие:\n" +
+                    "1. Создать новый дом\n" +
+                    "2. Просмотреть информацию о уже существущем доме\n" +
+                    "3. Удалить дом\n" +
+                    "4. Сравнить дома\n" +
+                    "5. Сравнить квартиры\n" +
+                    "6. Выйти из программы\n" +
+                    "Ваш выбор: ";
             mainAction = SecuredNumbersScanner.EnteringInfoCheck(questionOfMainAction);
             System.out.println("--------------------------------------------------------------------------------");
             switch (mainAction) {
@@ -41,9 +43,11 @@ public class Main {
                     do {
                         System.out.println("--------------------------------------------------------------------------------");
                         String questionOfAdditionalAction;
-                        questionOfAdditionalAction = "Выберите нужное действие: \n1. Просмотреть всю информацию об этом доме";
-                        questionOfAdditionalAction += "\n2. Просмотреть информацию об отдельной квартире в этом доме";
-                        questionOfAdditionalAction += "\n3. Вернуться в главное меню\nВаш выбор: ";
+                        questionOfAdditionalAction = "Выберите нужное действие: "+
+                                "\n1. Просмотреть всю информацию об этом доме" +
+                                "\n2. Просмотреть информацию об отдельной квартире в этом доме" +
+                                "\n3. Вернуться в главное меню" +
+                                "\nВаш выбор: ";
                         additionalAction = SecuredNumbersScanner.EnteringInfoCheck(questionOfAdditionalAction);
                         switch (additionalAction) {
                             case 1:
@@ -52,9 +56,20 @@ public class Main {
                             case 2:
                                 int flatNumber;
                                 String flatNumberQuestion;
-                                flatNumberQuestion = "Введите номер нужной квартиры(1-";
-                                flatNumberQuestion += arrayOfHouses.get(houseNumber - 1).getFlatsCount() + "): ";
-                                flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
+                               if(arrayOfHouses.get(houseNumber - 1).getFlatsCount()!=1) {
+                                   flatNumberQuestion = "Введите номер нужной квартиры(1-";
+                                   flatNumberQuestion += arrayOfHouses.get(houseNumber - 1).getFlatsCount() + "): ";
+                               }else {
+                                   flatNumberQuestion = "Введите номер нужной квартиры(1): ";
+                               }
+                                   flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
+                               if(flatNumber>arrayOfHouses.get(houseNumber - 1).getFlatsCount() || flatNumber <=0){
+                                   do {
+                                       System.out.println("Введен номер несуществующей квартиры...Повторите ввод");
+                                       flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
+                                   }while(flatNumber>arrayOfHouses.get(houseNumber - 1).getFlatsCount() ||
+                                           flatNumber <=0);
+                               }
                                 System.out.println(arrayOfHouses.get(houseNumber - 1).getFlat(flatNumber));
                                 break;
                             case 3:
@@ -104,8 +119,9 @@ public class Main {
                             do {
                                 System.out.println("Несуществующий номер дома/Дом с таким номером уже добавлен к сравнению");
                                 houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
-                            } while (houseCompareNumber2 == houseCompareNumber1 || houseCompareNumber2 - 1 >= arrayOfHouses.size() ||
-                                    houseCompareNumber2 - 1 < 0);
+                            } while (houseCompareNumber2 == houseCompareNumber1
+                                    || houseCompareNumber2 - 1 >= arrayOfHouses.size()
+                                    || houseCompareNumber2 - 1 < 0);
                         }
                     }
                     System.out.println(arrayOfHouses.get(houseCompareNumber1 - 1));
@@ -131,7 +147,8 @@ public class Main {
                     String question = "Введите номер нужной квартиры(1-";
                     question += arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount() + "): ";
                     flatCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheck(question);
-                    if (flatCompareNumber1 > arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount() || flatCompareNumber1 <= 0)
+                    if (flatCompareNumber1 > arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount()
+                            || flatCompareNumber1 <= 0)
                         do {
                             System.out.println("Несуществующий номер квартиры...Введите еще раз");
                             flatCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheck(question);
@@ -139,9 +156,32 @@ public class Main {
                                 || flatCompareNumber1 <= 0);
                     System.out.print("\n------------------------------------------------------------");
                     System.out.println("Квартира успешно добавлена к сравнению!");
-                    System.out.println("------------------------------------------------------------");
+                    System.out.println("\n------------------------------------------------------------");
                     System.out.println("Выберите второй дом для сравнения: ");
                     houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+                    if (houseCompareNumber2 == houseCompareNumber1
+                            && arrayOfHouses.get(houseCompareNumber1-1).getFlatsCount() == 1) {
+                        System.out.println("\n------------------------------------------------------------" +
+                                "В выбранном доме только одна квартира. Она уже добавлена к сравнению." +
+                                "\n------------------------------------------------------------");
+                        question = ("Выберите нужное действие:" +
+                                "\n1. Выбрать другой дом" +
+                                "\n2. Выйти в главное меню" +
+                                "\nВаш выбор: ");
+                        additionalAction = SecuredNumbersScanner.EnteringInfoCheck(question);
+                       if(additionalAction == 1){
+                           if(arrayOfHouses.size()==1){
+                               System.out.println("Других домов нет. Сравнение невозможно");
+                                break;
+                           }
+                           System.out.println("\nВыберите второй дом для сравнения: ");
+                           houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+                       }
+                        if(additionalAction == 2){
+                            break;
+                        }
+
+                    }
                     if (houseCompareNumber2 - 1 >= arrayOfHouses.size() || houseCompareNumber2 - 1 < 0) {
                         do {
                             System.out.println("Несуществующий номер дома...Введите еще раз");
@@ -171,7 +211,9 @@ public class Main {
 
                     break;
                 case 6:
-                    scannerChoice.close();
+                    break;
+                default:
+                    System.out.println("Введено неверное значение. Повторите попытку");
                     break;
             }
         } while (mainAction != 6);
