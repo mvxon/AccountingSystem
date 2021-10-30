@@ -24,7 +24,7 @@ class Flat {
                     this.roomsCount = SecuredNumbersScanner.EnteringInfoCheck(question);
                 } while (this.roomsCount <= 0 || this.roomsCount > 7);
         }
-        this.residentsCount = this.roomsCount;
+        this.residentsCount = (int)(Math.random()*(this.roomsCount-1+1)+1);
         for (int i = 0; i < roomsCount; i++) {
             this.rooms.add(new Room(i + 1));
 
@@ -38,7 +38,7 @@ class Flat {
         flatUniqueNumber.Iteration();
         this.roomsCount = flat.roomsCount;
         this.flatSquare = flat.flatSquare;
-        this.residentsCount = flat.residentsCount;
+        this.residentsCount = (int)(Math.random()*(this.roomsCount-1+1)+1);
         for (int i = 0; i < this.roomsCount; i++) {
             this.rooms.add(new Room(flat.rooms.get(i)));
         }
