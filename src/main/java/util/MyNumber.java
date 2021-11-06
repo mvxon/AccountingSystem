@@ -6,7 +6,8 @@ public class MyNumber {
     public MyNumber(Integer intValue) {
         this.intValue = intValue;
     }
-    public void Iteration(){
+
+    public void Iteration() {
         this.intValue++;
     }
 

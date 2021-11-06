@@ -9,7 +9,7 @@ public class House {
     private static int currentHouseNumber;
     private final int houseNumber;
     private int entrancesCount;
-    private MyNumber currentFlatNumber = new MyNumber(1);
+    private MyNumber currentFlatsCount = new MyNumber(0);
     private List<Entrance> entrances = new ArrayList<>();
 
     public House() {
@@ -23,9 +23,9 @@ public class House {
             } while (this.entrancesCount <= 0 || this.entrancesCount > 20);
         for (int i = 0; i < this.entrancesCount; i++) {
             if (i == 0) {
-                this.entrances.add(new Entrance(i, currentFlatNumber));
+                this.entrances.add(new Entrance(i, currentFlatsCount));
             } else {
-                this.entrances.add(new Entrance(entrances.get(0), i, currentFlatNumber));
+                this.entrances.add(new Entrance(entrances.get(0), i, currentFlatsCount));
             }
 
         }
@@ -33,24 +33,9 @@ public class House {
         currentHouseNumber++;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || this.getClass() != o.getClass()) return false;
-        House house = (House) o;
-        if (this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()) {
-            if (this.entrances.get(0).getFlatsPerFloor() == house.entrances.get(0).getFlatsPerFloor()) {
-                if (this.totalHouseSquare() == house.totalHouseSquare()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-
-    }
-
     public double totalHouseSquare() {
         double result = 0;
-        for (int i = 1; i < this.currentFlatNumber.getIntValue(); i++) {
+        for (int i = 1; i < this.currentFlatsCount.getIntValue(); i++) {
             result += this.getFlat(i).getFlatSquare();
         }
         return result;
@@ -58,7 +43,7 @@ public class House {
 
     public int totalHouseResidentsCount() {
         int result = 0;
-        for (int i = 1; i < this.currentFlatNumber.getIntValue(); i++) {
+        for (int i = 1; i < this.currentFlatsCount.getIntValue(); i++) {
             result += this.getFlat(i).getResidentsCount();
         }
         return result;

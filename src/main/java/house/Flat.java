@@ -5,6 +5,8 @@ import util.MyNumber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 class Flat {
     private double flatSquare;
     private int residentsCount;
@@ -13,6 +15,9 @@ class Flat {
     private List<Room> rooms = new ArrayList<>();
 
     Flat(MyNumber flatUniqueNumber, int floorNumber) {
+        if(flatUniqueNumber.getIntValue()==0){
+            flatUniqueNumber.Iteration();
+        }
         this.flatUniqueNumber = flatUniqueNumber.getIntValue();
         if (floorNumber == 0) {
             String question = "Введите количество комнат " + (flatUniqueNumber);
@@ -54,12 +59,14 @@ class Flat {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flat flat = (Flat) o;
-        if (this.flatSquare == flat.flatSquare && this.roomsCount == flat.roomsCount) {
-            return true;
-        }
-        return false;
+        return Double.compare(flat.flatSquare, flatSquare) == 0 && roomsCount == flat.roomsCount;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(flatSquare, roomsCount);
     }
 
     public boolean equalsByRoomsCount(Object o) {
