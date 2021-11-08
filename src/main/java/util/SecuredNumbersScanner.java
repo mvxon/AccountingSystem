@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SecuredNumbersScanner {
     public static int EnteringInfoCheck(String question) {
         int result = 0;
-        Scanner choiceScanner = new Scanner(System.in);
+        Scanner numbersScanner = new Scanner(System.in);
         boolean numberFormat = true;
         System.out.print(question);
         do {
@@ -17,7 +17,7 @@ public class SecuredNumbersScanner {
             }
             try {
                 numberFormat = true;
-                result = Integer.parseInt(choiceScanner.nextLine());
+                result = Integer.parseInt(numbersScanner.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Введено неверное значение");
                 numberFormat = false;
@@ -28,7 +28,7 @@ public class SecuredNumbersScanner {
 
     public static int EnteringInfoCheckForHouseNumber(List<House> arrayOfHouses) {
         int result = 0;
-        Scanner choiceScanner = new Scanner(System.in);
+        Scanner numbersScanner = new Scanner(System.in);
         if (arrayOfHouses.size() != 1)
             System.out.print("Введите номер нужного дома" + "(1-" + arrayOfHouses.size() + "): ");
         else
@@ -44,7 +44,7 @@ public class SecuredNumbersScanner {
             }
             try {
                 numberFormatHouseCompareNumber = true;
-                result = Integer.parseInt(choiceScanner.nextLine());
+                result = Integer.parseInt(numbersScanner.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;

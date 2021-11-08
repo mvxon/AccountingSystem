@@ -49,6 +49,15 @@ public class House {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) return false;
+        House house = (House) o;
+        return this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()
+                && this.entrances.get(0).getFlatsPerFloor() == house.entrances.get(0).getFlatsPerFloor()
+                && this.totalHouseSquare() == house.totalHouseSquare();
+    }
+
     public Entrance getEntranceByFlatNumber(int flatNumber) {
         int result = 0;
         int j = this.entrances.get(0).getFloorsCount() * this.entrances.get(0).getFlatsPerFloor();
@@ -62,6 +71,7 @@ public class House {
             j += this.entrances.get(0).getFloorsCount() * this.entrances.get(0).getFlatsPerFloor();
         }
         return this.entrances.get(result);
+
     }
 
     public String toString() {
@@ -99,4 +109,15 @@ public class House {
         return this.getEntranceByFlatNumber(flatNumber).getFloorByFlatNumber(flatNumber).getFlatOnFloor(result);
     }
 
+    public String flatToString(int flatNumber) {
+        String result;
+
+        result = this.getFlat(flatNumber).flatInfoToString();
+        result += "\nНомер дома: " + this.houseNumber +
+                "\nНомер подъезда: " + (this.getEntranceByFlatNumber(flatNumber).getEntranceNumber() + 1);
+        result += "\n--------------------------------------------------------------------------------\n";
+        return result;
+
+
+    }
 }

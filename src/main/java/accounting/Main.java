@@ -72,7 +72,7 @@ public class Main {
                                     } while (flatNumber > arrayOfHouses.get(houseNumber - 1).getFlatsCount() ||
                                             flatNumber <= 0);
                                 }
-                                System.out.println(arrayOfHouses.get(houseNumber - 1).getFlat(flatNumber));
+                                System.out.println(arrayOfHouses.get(houseNumber - 1).flatToString(flatNumber));
                                 break;
                             case 3:
                                 break;
@@ -173,9 +173,10 @@ public class Main {
                     }
                     if (houseCompareNumber2 == houseCompareNumber1
                             && arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount() == 1) {
-                        System.out.println("------------------------------------------------------------" +
-                                "\nВ выбранном доме только одна квартира. Она уже добавлена к сравнению." +
-                                "\n------------------------------------------------------------");
+                        System.out.println("""
+                                ------------------------------------------------------------
+                                В выбранном доме только одна квартира. Она уже добавлена к сравнению.
+                                ------------------------------------------------------------""");
                         question = ("""
                                 Выберите нужное действие:
                                 1. Выбрать другой дом
@@ -221,12 +222,13 @@ public class Main {
                                 || (houseCompareNumber1 == houseCompareNumber2 && flatCompareNumber1 == flatCompareNumber2));
                     }
                     System.out.print("Квартира 1"
-                            + arrayOfHouses.get(houseCompareNumber1 - 1).getFlat(flatCompareNumber1));
+                            + arrayOfHouses.get(houseCompareNumber1 - 1).flatToString(flatCompareNumber1));
                     System.out.println("Квартира 2"
-                            + arrayOfHouses.get(houseCompareNumber2 - 1).getFlat(flatCompareNumber2));
+                            + arrayOfHouses.get(houseCompareNumber2 - 1).flatToString(flatCompareNumber2));
 
                     break;
                 case 6:
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Введено неверное значение. Повторите попытку");

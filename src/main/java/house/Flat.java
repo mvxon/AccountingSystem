@@ -11,17 +11,17 @@ class Flat {
     private double flatSquare;
     private int residentsCount;
     private int roomsCount;
-    private int flatUniqueNumber = 0;
+    private int flatUniqueNumber;
     private List<Room> rooms = new ArrayList<>();
 
     Flat(MyNumber flatUniqueNumber, int floorNumber) {
-        if(flatUniqueNumber.getIntValue()==0){
+        if (flatUniqueNumber.getIntValue() == 0) {
             flatUniqueNumber.Iteration();
         }
         this.flatUniqueNumber = flatUniqueNumber.getIntValue();
         if (floorNumber == 0) {
             String question = "Введите количество комнат " + (flatUniqueNumber);
-            question += " квартиры на этаже(от 1 до 7): ";
+            question += "-ой квартиры на этаже(от 1 до 7): ";
             this.roomsCount = SecuredNumbersScanner.EnteringInfoCheck(question);
             if (this.roomsCount <= 0 || this.roomsCount > 7)
                 do {
@@ -29,7 +29,8 @@ class Flat {
                     this.roomsCount = SecuredNumbersScanner.EnteringInfoCheck(question);
                 } while (this.roomsCount <= 0 || this.roomsCount > 7);
         }
-        this.residentsCount = (int)(Math.random()*(this.roomsCount-1+1)+1);
+        this.residentsCount = (int) (Math.random() * (this.roomsCount - 1 + 1) + 1);
+        System.out.println("Укажите площадь каждой комнаты: ");
         for (int i = 0; i < roomsCount; i++) {
             this.rooms.add(new Room(i + 1));
 
@@ -43,7 +44,7 @@ class Flat {
         flatUniqueNumber.Iteration();
         this.roomsCount = flat.roomsCount;
         this.flatSquare = flat.flatSquare;
-        this.residentsCount = (int)(Math.random()*(this.roomsCount-1+1)+1);
+        this.residentsCount = (int) (Math.random() * (this.roomsCount - 1 + 1) + 1);
         for (int i = 0; i < this.roomsCount; i++) {
             this.rooms.add(new Room(flat.rooms.get(i)));
         }
@@ -64,6 +65,7 @@ class Flat {
         Flat flat = (Flat) o;
         return Double.compare(flat.flatSquare, flatSquare) == 0 && roomsCount == flat.roomsCount;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(flatSquare, roomsCount);
@@ -101,12 +103,24 @@ class Flat {
     public String toString() {
         String result = "";
         result += "\n--------------------------------------------------------------------------------\n";
-        result += "Номер квартиры: " + this.flatUniqueNumber + "\nКоличество комнат: " + this.roomsCount;
+        result += "Номер квартиры: " + this.flatUniqueNumber +
+                "\nКоличество комнат: " + this.roomsCount;
         for (int i = 0; i < this.roomsCount; i++) {
             result += "\nПлощадь " + (i + 1) + " комнаты: " + this.rooms.get(i).getRoomSquare();
         }
         result += "\nОбщая площадь квартиры: " + this.flatSquare + "\nКоличество жильцов: " + this.residentsCount;
         result += "\n--------------------------------------------------------------------------------\n";
+        return result;
+    }
+    String flatInfoToString() {
+        String result = "";
+        result += "\n--------------------------------------------------------------------------------\n";
+        result += "Номер квартиры: " + this.flatUniqueNumber +
+                "\nКоличество комнат: " + this.roomsCount;
+        for (int i = 0; i < this.roomsCount; i++) {
+            result += "\nПлощадь " + (i + 1) + " комнаты: " + this.rooms.get(i).getRoomSquare();
+        }
+        result += "\nОбщая площадь квартиры: " + this.flatSquare + "\nКоличество жильцов: " + this.residentsCount;
         return result;
     }
 }

@@ -8,7 +8,7 @@ class Room {
 
     Room(int roomNumber) {
         this.roomNumber = roomNumber;
-        String question = "Введите площадь " + (roomNumber) + " комнаты(м^2)(от 1м^2 до 100м^2): ";
+        String question = "Введите площадь " + (roomNumber) + "-ой комнаты(м^2)(от 1м^2 до 100м^2): ";
         this.roomSquare = SecuredNumbersScanner.EnteringInfoCheck(question);
         if (this.roomSquare <= 0 || this.roomSquare > 100)
             do {
