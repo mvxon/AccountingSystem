@@ -1,12 +1,12 @@
-package house;
+package com.bsu.lab.house;
 
-import util.SecuredNumbersScanner;
+import com.bsu.lab.util.SecuredNumbersScanner;
 
-class Room {
+public class Room {
     private int roomNumber;
     private double roomSquare;
 
-    Room(int roomNumber) {
+   public Room(int roomNumber) {
         this.roomNumber = roomNumber;
         String question = "Введите площадь " + (roomNumber) + "-ой комнаты(м^2)(от 1м^2 до 100м^2): ";
         this.roomSquare = SecuredNumbersScanner.EnteringInfoCheck(question);

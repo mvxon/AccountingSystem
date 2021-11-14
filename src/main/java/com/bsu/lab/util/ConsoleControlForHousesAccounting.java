@@ -1,16 +1,18 @@
-package accounting;
+package com.bsu.lab.util;
 
-import util.SecuredNumbersScanner;
-import house.House;
+import com.bsu.lab.house.Flat;
+import com.bsu.lab.house.House;
+import com.bsu.lab.service.FlatService;
+import com.bsu.lab.service.HouseService;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
-    public static void main(String[] args) {
-        int mainAction, additionalAction;
+public class ConsoleControlForHousesAccounting {
+    public void start() {
         List<House> arrayOfHouses = new ArrayList<>();
+        int mainAction, additionalAction;
         do {
             System.out.println("--------------------------------------------------------------------------------");
             String questionOfMainAction = """
@@ -26,7 +28,7 @@ public class Main {
             System.out.println("--------------------------------------------------------------------------------");
             switch (mainAction) {
                 case 1:
-                    arrayOfHouses.add(new House());
+                    arrayOfHouses.add(new House()); // house adding
                     break;
                 case 2:
                     if (arrayOfHouses.isEmpty()) {
@@ -41,6 +43,7 @@ public class Main {
                             houseNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
                         } while (houseNumber > arrayOfHouses.size() || houseNumber <= 0);
                     }
+                    House houseForAdditionalAction = arrayOfHouses.get(houseNumber - 1);
                     do {
                         System.out.println("--------------------------------------------------------------------------------");
                         String questionOfAdditionalAction;
@@ -53,12 +56,12 @@ public class Main {
                         additionalAction = SecuredNumbersScanner.EnteringInfoCheck(questionOfAdditionalAction);
                         switch (additionalAction) {
                             case 1:
-                                System.out.println(arrayOfHouses.get(houseNumber - 1));
+                                System.out.println(houseForAdditionalAction);
                                 break;
                             case 2:
                                 int flatNumber;
                                 String flatNumberQuestion;
-                                if (arrayOfHouses.get(houseNumber - 1).getFlatsCount() != 1) {
+                                if (houseForAdditionalAction.getFlatsCount() != 1) {
                                     flatNumberQuestion = "Введите номер нужной квартиры(1-";
                                     flatNumberQuestion += arrayOfHouses.get(houseNumber - 1).getFlatsCount() + "): ";
                                 } else {
@@ -72,7 +75,8 @@ public class Main {
                                     } while (flatNumber > arrayOfHouses.get(houseNumber - 1).getFlatsCount() ||
                                             flatNumber <= 0);
                                 }
-                                System.out.println(arrayOfHouses.get(houseNumber - 1).flatToString(flatNumber));
+                                Flat flatForCheckInfo = HouseService.getFlat(houseForAdditionalAction, flatNumber);
+                                System.out.println(FlatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
                                 break;
                             case 3:
                                 break;
@@ -150,8 +154,9 @@ public class Main {
                             houseCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
                         } while (houseCompareNumber1 - 1 >= arrayOfHouses.size() || houseCompareNumber1 - 1 < 0);
                     }
-                    String question = "Введите номер нужной квартиры(1-";
-                    question += arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount() + "): ";
+                    House houseForCompare1 = arrayOfHouses.get(houseCompareNumber1 - 1);
+                    String question = "Введите номер нужной квартиры(1-" +
+                            arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount() + "): ";
                     flatCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheck(question);
                     if (flatCompareNumber1 > arrayOfHouses.get(houseCompareNumber1 - 1).getFlatsCount()
                             || flatCompareNumber1 <= 0)
@@ -163,6 +168,7 @@ public class Main {
                     System.out.print("------------------------------------------------------------");
                     System.out.print("\nКвартира успешно добавлена к сравнению!");
                     System.out.print("\n------------------------------------------------------------");
+
                     System.out.print("\nВыберите второй дом для сравнения: \n");
                     houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
                     if (houseCompareNumber2 - 1 >= arrayOfHouses.size() || houseCompareNumber2 - 1 < 0) {
@@ -204,6 +210,7 @@ public class Main {
                         }
 
                     }
+                    House houseForCompare2 = arrayOfHouses.get(houseCompareNumber2 - 1);
                     question = "Введите номер нужной квартиры(1-";
                     question += arrayOfHouses.get(houseCompareNumber2 - 1).getFlatsCount() + "): ";
                     flatCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheck(question);
@@ -222,9 +229,11 @@ public class Main {
                                 || (houseCompareNumber1 == houseCompareNumber2 && flatCompareNumber1 == flatCompareNumber2));
                     }
                     System.out.print("Квартира 1"
-                            + arrayOfHouses.get(houseCompareNumber1 - 1).flatToString(flatCompareNumber1));
+                            + FlatService.flatInfoToString(houseForCompare1, HouseService.getFlat(houseForCompare1,
+                            flatCompareNumber1)));
                     System.out.println("Квартира 2"
-                            + arrayOfHouses.get(houseCompareNumber2 - 1).flatToString(flatCompareNumber2));
+                            + FlatService.flatInfoToString(houseForCompare2, HouseService.getFlat(houseForCompare2,
+                            flatCompareNumber2)));
 
                     break;
                 case 6:
@@ -238,3 +247,4 @@ public class Main {
     }
 
 }
+

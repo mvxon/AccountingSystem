@@ -1,6 +1,6 @@
-package util;
+package com.bsu.lab.util;
 
-import house.House;
+import com.bsu.lab.house.House;
 
 import java.util.List;
 import java.util.Scanner;

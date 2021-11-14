@@ -1,28 +1,19 @@
-package house;
+package com.bsu.lab.house;
 
-import util.SecuredNumbersScanner;
-import util.MyNumber;
+import com.bsu.lab.util.SecuredNumbersScanner;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Entrance {
+public class Entrance {
     private int entranceNumber;
     private int floorsCount;
     private int flatsPerFloor;
     private List<Floor> floors = new ArrayList<>();
 
-    public Floor getFloorByFlatNumber(int flatNumber) {
-        int temp = flatNumber - entranceNumber * floorsCount * flatsPerFloor;
-        if (temp % flatsPerFloor != 0) {
-            do {
-                temp++;
-            } while (temp % flatsPerFloor != 0);
-        }
-        return this.floors.get((temp / flatsPerFloor) - 1);
-    }
 
-    Entrance(int entranceNumber, MyNumber currentFlatsCount) {
+    Entrance(int entranceNumber) {
         this.entranceNumber = entranceNumber;
         String question = "Введите количество этажей в доме(от 1 до 163): ";
         this.floorsCount = SecuredNumbersScanner.EnteringInfoCheck(question);
@@ -33,20 +24,21 @@ class Entrance {
             } while (this.floorsCount <= 0 || this.floorsCount > 163);
         for (int i = 0; i < this.floorsCount; i++) {
             if (i == 0) {
-                this.floors.add(new Floor(i, currentFlatsCount));
-                this.flatsPerFloor = floors.get(0).getFlatsPerFloor();
+                this.floors.add(new Floor(i)); // first floor creating
             } else {
-                this.floors.add(new Floor(floors.get(0), i, currentFlatsCount, flatsPerFloor));
+                // copying first floor by copy constructor
+                this.floors.add(new Floor(floors.get(0), i));
             }
+            this.flatsPerFloor = floors.get(0).getFlatsPerFloor();
         }
     }
-
-    Entrance(Entrance entrance, int entranceNumber, MyNumber currentFlatNumber) {
+// copy constructor
+    Entrance(Entrance entrance, int entranceNumber) {
         this.entranceNumber = entranceNumber;
         this.floorsCount = entrance.floorsCount;
         this.flatsPerFloor = entrance.flatsPerFloor;
         for (int i = 0; i < floorsCount; i++) {
-            this.floors.add(new Floor(entrance.floors.get(0), i, currentFlatNumber, flatsPerFloor));
+            this.floors.add(new Floor(entrance.floors.get(0), i));
         }
     }
 
@@ -62,5 +54,8 @@ class Entrance {
         return entranceNumber;
     }
 
+    public List<Floor> getFloors() {
+        return floors;
+    }
 }
 
