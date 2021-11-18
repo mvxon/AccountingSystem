@@ -3,9 +3,11 @@ package com.bsu.lab.service;
 
 import com.bsu.lab.house.Flat;
 import com.bsu.lab.house.House;
+import com.bsu.lab.util.constants.GeneralConstants;
+import org.jetbrains.annotations.NotNull;
 
 public class FlatService {
-    public static void findFlatSquare(Flat flat) {
+    public static void findFlatSquare(@NotNull Flat flat) {
         double result = 0;
         for (int i = 0; i < flat.getRoomsCount(); i++) {
             result += flat.getRooms().get(i).getRoomSquare();
@@ -13,9 +15,9 @@ public class FlatService {
         flat.setFlatSquare(result);
     }
 
-    public static String flatInfoToString(House house, Flat flat) {
+    public static @NotNull String flatInfoToString(@NotNull House house, @NotNull Flat flat) {
         String result = "";
-        result += "\n--------------------------------------------------------------------------------\n";
+        result += "\n" + GeneralConstants.separation + "\n";
         result += "Номер квартиры: " + flat.getFlatUniqueNumber() +
                 "\nНомер дома: " + house.getHouseNumber() +
                 "\nНомер подъезда: "
@@ -26,7 +28,7 @@ public class FlatService {
         }
         result += "\nОбщая площадь квартиры: " + flat.getFlatSquare() + "\nКоличество жильцов: "
                 + flat.getResidentsCount();
-        result += "\n--------------------------------------------------------------------------------\n";
+        result += "\n" + GeneralConstants.separation + "\n";
         return result;
     }
 
