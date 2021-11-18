@@ -1,6 +1,7 @@
 package com.bsu.lab.util;
 
 import com.bsu.lab.house.House;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class SecuredNumbersScanner {
         return result;
     }
 
-    public static int EnteringInfoCheckForHouseNumber(List<House> arrayOfHouses) {
+    public static int EnteringInfoCheckForHouseNumber(@NotNull List<House> arrayOfHouses) {
         int result = 0;
         Scanner numbersScanner = new Scanner(System.in);
         if (arrayOfHouses.size() != 1)
@@ -48,6 +49,11 @@ public class SecuredNumbersScanner {
             } catch (NumberFormatException e) {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;
+            }
+            if(result-1 < 0 || result > arrayOfHouses.size()){
+                System.out.println("Введен номер несуществующего дома");
+                numberFormatHouseCompareNumber = false;
+                continue;
             }
         } while (!numberFormatHouseCompareNumber);
         return result;

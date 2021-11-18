@@ -1,7 +1,7 @@
 package com.bsu.lab.accounting;
 
 
-import com.bsu.lab.util.ConsoleControlForHousesAccounting;
+import com.bsu.lab.util.consolecontrol.ConsoleControlForHousesAccounting;
 
 public class Main {
     public static void main(String[] args) {
