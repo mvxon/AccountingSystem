@@ -6,33 +6,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Floor {
-    private int floorNumber;
-    private List<Flat> flats = new ArrayList<>();
+    private  int floorNumber;
+    private static int floorNumberCounter;
+    private final List<Flat> flats = new ArrayList<>();
     private static int flatsPerFloor;
 
-   public Floor(int floorNumber) {
-        this.floorNumber = floorNumber;
-        String question = "Введите количество квартир на одном этаже(от 1 до 20): ";
-        this.flatsPerFloor = SecuredNumbersScanner.EnteringInfoCheck(question);
-        if (this.flatsPerFloor <= 0 || this.flatsPerFloor > 20)
-            do {
-                System.out.println("Введено неверное значение...Повторите ввод");
-                this.flatsPerFloor = SecuredNumbersScanner.EnteringInfoCheck(question);
-            } while (this.flatsPerFloor <= 0 || this.flatsPerFloor > 20);
-        if (floorNumber == 0) {
-            for (int i = 0; i < flatsPerFloor; i++) {
-                this.flats.add(new Flat(i+1)); // flats creating
-            }
-        }
+   public Floor() {
+        this.floorNumber = floorNumberCounter;
+        floorNumberCounter++;
+
     }
  // copy constructor
-    Floor(Floor floor, int floorNumber) {
-        this.floorNumber = floorNumber;
+    public Floor(Floor floor) {
+        this.floorNumber = floorNumberCounter;
+        floorNumberCounter++;
         for (int i = 0; i < flatsPerFloor; i++) {
             this.flats.add(new Flat(floor.flats.get(i)));
         }
     }
+    public static void NullifyFloorNumberCounter(){
+        floorNumberCounter = 0;
+    }
 
+    public static void setFlatsPerFloor(int flatsPerFloor) {
+        Floor.flatsPerFloor = flatsPerFloor;
+    }
+public void addFlat(Flat flat){
+       this.flats.add(flat);
+}
     public int getFloorNumber() {
         return this.floorNumber;
     }
