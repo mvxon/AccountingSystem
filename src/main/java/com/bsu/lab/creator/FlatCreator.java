@@ -11,17 +11,17 @@ public class FlatCreator {
         Flat flat = new Flat();
         String question = "Введите количество комнат " + (flat.getFlatUniqueNumber()) +
                 "-ой квартиры на этаже(от 1 до 7): ";
-        flat.setRoomsCount(SecuredNumbersScanner.EnteringInfoCheck(question));
-        if (flat.getRoomsCount() <= 0 || flat.getRoomsCount() > 7)
+        int roomsCount = (SecuredNumbersScanner.EnteringInfoCheck(question));
+        if (roomsCount <= 0 || roomsCount > 7)
             do {
                 System.out.println("Введено неверное значение...Повторите ввод");
-                flat.setRoomsCount(SecuredNumbersScanner.EnteringInfoCheck(question));
-            } while (flat.getRoomsCount() <= 0 || flat.getRoomsCount() > 7);
+                roomsCount = (SecuredNumbersScanner.EnteringInfoCheck(question));
+            } while (roomsCount <= 0 || roomsCount > 7);
 
         flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
         System.out.println("Укажите площадь каждой комнаты: ");
-        for (int i = 0; i < flat.getRoomsCount(); i++) {
-            flat.addRoom(RoomCreator.createRoom()); // rooms creating
+        for (int i = 0; i < roomsCount; i++) {
+            FlatService.addRoom(flat, RoomCreator.createRoom()); // rooms creating
         }
         FlatService.findFlatSquare(flat);
         return flat;

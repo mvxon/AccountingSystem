@@ -1,16 +1,19 @@
 package com.bsu.lab.house;
 
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.SecuredNumbersScanner;
 import com.bsu.lab.util.constants.GeneralConstants;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class House {
     private static int currentHouseNumber;
     private final int houseNumber;
-    private int entrancesCount;
+    @Setter
+    private int entrancesCount = 0;
     private final List<Entrance> entrances = new ArrayList<>();
 
     public House() {
@@ -18,14 +21,6 @@ public class House {
         Entrance.NullifyEntranceNumberCounter();
         Flat.nullifyFlatNumberCounter();
         currentHouseNumber++;
-    }
-
-    public void setEntrancesCount(int entrancesCount) {
-        this.entrancesCount = entrancesCount;
-    }
-
-    public void addEntrance(Entrance entrance) {
-        this.entrances.add(entrance);
     }
 
     @Override
@@ -39,7 +34,7 @@ public class House {
     }
 
     public String toString() {
-        return "\n" + GeneralConstants.separation +
+        return "\n" + GeneralConstants.SEPARATION +
                 "\nНомер дома: " + (this.houseNumber) +
                 "\nКоличество подъездов: " + (this.entrancesCount) +
                 "\nКоличество этажей: " + (this.entrances.get(0).getFloorsCount()) +
@@ -47,19 +42,7 @@ public class House {
                 "\nОбщее количество квартир: " + HouseService.getFlatsCount(this) +
                 "\nОбщая площадь дома: " + (HouseService.totalHouseSquare(this)) +
                 "\nОбщее количество жильцов: " + (HouseService.totalHouseResidentsCount(this)) +
-                "\n" + GeneralConstants.separation + "\n";
-    }
-
-    public int getEntrancesCount() {
-        return this.entrancesCount;
-    }
-
-    public List<Entrance> getEntrances() {
-        return this.entrances;
-    }
-
-    public int getHouseNumber() {
-        return this.houseNumber;
+                "\n" + GeneralConstants.SEPARATION + "\n";
     }
 
 

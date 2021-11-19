@@ -1,11 +1,15 @@
 package com.bsu.lab.house;
 
 import com.bsu.lab.util.SecuredNumbersScanner;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class Room {
     private int roomNumber;
     private static int roomNumberCounter;
+    @Setter
     private double roomSquare;
 
     public Room() {
@@ -22,15 +26,5 @@ public class Room {
         roomNumberCounter = 0;
     }
 
-    public int getRoomNumber() {
-        return this.roomNumber;
-    }
 
-    public double getRoomSquare() {
-        return roomSquare;
-    }
-
-    public void setRoomSquare(double roomSquare) {
-        this.roomSquare = roomSquare;
-    }
 }

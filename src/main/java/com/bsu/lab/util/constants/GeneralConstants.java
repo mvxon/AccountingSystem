@@ -1,5 +1,5 @@
 package com.bsu.lab.util.constants;
 
 public class GeneralConstants {
-    public static final String separation = ("--------------------------------------------------------------------------------");
+    public static final String SEPARATION = ("--------------------------------------------------------------------------------");
 }

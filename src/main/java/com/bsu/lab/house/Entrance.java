@@ -1,16 +1,20 @@
 package com.bsu.lab.house;
 
 import com.bsu.lab.util.SecuredNumbersScanner;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Entrance {
     private static int entranceNumberCounter;
     public int entranceNumber;
-    private int floorsCount;
+    @Setter
+    private int floorsCount = 0;
     private final List<Floor> floors = new ArrayList<>();
 
 
@@ -26,30 +30,16 @@ public class Entrance {
         entranceNumberCounter++;
         Floor.NullifyFloorNumberCounter();
         this.floorsCount = entrance.floorsCount;
-        for (int i = 0; i < floorsCount; i++) {
+        for (int i = 0; i < this.floorsCount; i++) {
             this.floors.add(new Floor(entrance.floors.get(0)));
         }
     }
-    public void setFloorsCount(int floorsCount){
-        this.floorsCount = floorsCount;
-    }
-    public void addFloor(Floor floor){
-        this.floors.add(floor);
-    }
-    public static void NullifyEntranceNumberCounter(){
+
+
+    public static void NullifyEntranceNumberCounter() {
         entranceNumberCounter = 0;
     }
 
-        public int getFloorsCount () {
-            return floorsCount;
-        }
+}
 
-        public int getEntranceNumber () {
-            return entranceNumber;
-        }
-
-        public List<Floor> getFloors () {
-            return floors;
-        }
-    }
 

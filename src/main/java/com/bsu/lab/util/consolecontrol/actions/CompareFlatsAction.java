@@ -36,14 +36,14 @@ public class CompareFlatsAction {
                 flatCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheck(question);
             } while (flatCompareNumber1 > HouseService.getFlatsCount(houseForCompare1)
                     || flatCompareNumber1 <= 0);
-        System.out.println(ConstantsForFlatsComparison.flatAddedInforming);
+        System.out.println(ConstantsForFlatsComparison.FLAT_ADDED_INFORMING);
         System.out.print("\nВыберите второй дом для сравнения: \n");
         // number of the second house for a flats comparing
         int houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         if (houseCompareNumber2 == houseCompareNumber1
                 && HouseService.getFlatsCount(houseForCompare1) == 1) {
-            System.out.println(ConstantsForFlatsComparison.onlyOneFlatInHouseError);
-            question = (ConstantsForFlatsComparison.questionForAction);
+            System.out.println(ConstantsForFlatsComparison.ONLY_ONE_FLAT_IN_HOUSE_ERROR);
+            question = (ConstantsForFlatsComparison.QUESTION_FOR_ACTION);
             int additionalAction;
             do {
                 additionalAction = SecuredNumbersScanner.EnteringInfoCheck(question);
