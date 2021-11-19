@@ -1,7 +1,7 @@
 package com.bsu.lab.util.constants;
 
 public class ConstantsForConsoleControl {
-    public final static String questionOfMainAction =
+    public final static String QUESTION_OF_MAIN_ACTION =
             "--------------------------------------------------------------------------------\n" +
                     """
                             Выберите нужное действие:
@@ -12,7 +12,7 @@ public class ConstantsForConsoleControl {
                             5. Сравнить квартиры
                             6. Выйти из программы
                             Ваш выбор:\s""" ;
-    public static final String questionOfAdditionalAction =
+    public static final String QUESTION_OF_ADDITIONAL_ACTION =
             "--------------------------------------------------------------------------------\n" +
                     """
                             Выберите нужное действие:\s

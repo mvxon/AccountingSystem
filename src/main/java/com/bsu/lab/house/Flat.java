@@ -1,18 +1,22 @@
 package com.bsu.lab.house;
 
-import com.bsu.lab.service.FlatService;
-import com.bsu.lab.util.SecuredNumbersScanner;
 import com.bsu.lab.util.constants.GeneralConstants;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public class Flat {
+    @Setter
     private double flatSquare;
+    @Setter
     private int residentsCount;
-    private int roomsCount;
+    @Setter
+    private int roomsCount = 0;
     private int flatUniqueNumber;
     private static int flatNumberCounter;
     private final List<Room> rooms = new ArrayList<>();
@@ -39,41 +43,6 @@ public class Flat {
         flatNumberCounter = 0;
     }
 
-    public void addRoom(Room room) {
-        this.rooms.add(room);
-    }
-
-    public int getRoomsCount() {
-        return this.roomsCount;
-    }
-
-    public List<Room> getRooms() {
-        return this.rooms;
-    }
-
-    public void setFlatSquare(double square) {
-        this.flatSquare = square;
-    }
-
-    public int getFlatUniqueNumber() {
-        return this.flatUniqueNumber;
-    }
-
-    public int getResidentsCount() {
-        return this.residentsCount;
-    }
-
-    public void setResidentsCount(int residentsCount) {
-        this.residentsCount = residentsCount;
-    }
-
-    public double getFlatSquare() {
-        return flatSquare;
-    }
-
-    public void setRoomsCount(int roomsCount) {
-        this.roomsCount = roomsCount;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -92,7 +61,7 @@ public class Flat {
     @Override
     public String toString() {
         String result = "";
-        result += "\n" + GeneralConstants.separation + "\n";
+        result += "\n" + GeneralConstants.SEPARATION + "\n";
         result += "Номер квартиры: " + this.flatUniqueNumber +
                 "\nКоличество комнат: " + this.roomsCount;
         for (int i = 0; i < this.roomsCount; i++) {
@@ -100,7 +69,7 @@ public class Flat {
         }
         result += "\nОбщая площадь квартиры: " + this.flatSquare +
                 "\nКоличество жильцов: " + this.residentsCount;
-        result += "\n" + GeneralConstants.separation + "\n";
+        result += "\n" + GeneralConstants.SEPARATION + "\n";
         return result;
     }
 

@@ -22,8 +22,8 @@ public class GetHouseInfoAction {
         int additionalAction;
         do {
             additionalAction =
-                    SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.questionOfAdditionalAction);
-            System.out.println(GeneralConstants.separation);
+                    SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_ADDITIONAL_ACTION);
+            System.out.println(GeneralConstants.SEPARATION);
             switch (additionalAction) {
                 case 1: // printing all information about house
                     System.out.println(houseForAdditionalAction);

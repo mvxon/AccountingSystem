@@ -15,8 +15,8 @@ public class ConsoleControlForHousesAccounting {
         List<House> arrayOfHouses = new ArrayList<>();
         int mainAction;
         do {
-            mainAction = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.questionOfMainAction);
-            System.out.println(GeneralConstants.separation);
+            mainAction = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_MAIN_ACTION);
+            System.out.println(GeneralConstants.SEPARATION);
             switch (mainAction) {
                 case 1: // add house
                     AddHouseAction.execute(arrayOfHouses);// house adding
@@ -25,7 +25,7 @@ public class ConsoleControlForHousesAccounting {
                     GetHouseInfoAction.execute(arrayOfHouses);
                     break;
                 case 3: // remove house
-                   RemoveHouseAction.execute(arrayOfHouses);
+                    RemoveHouseAction.execute(arrayOfHouses);
                     break;
                 case 4: // compare houses
                     CompareHousesAction.execute(arrayOfHouses);
