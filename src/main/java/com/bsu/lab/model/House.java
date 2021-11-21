@@ -1,4 +1,4 @@
-package com.bsu.lab.house;
+package com.bsu.lab.model;
 
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.constants.GeneralConstants;

@@ -1,9 +1,9 @@
 package com.bsu.lab.service;
 
-import com.bsu.lab.house.House;
-import com.bsu.lab.house.Floor;
-import com.bsu.lab.house.Entrance;
-import com.bsu.lab.house.Flat;
+import com.bsu.lab.model.House;
+import com.bsu.lab.model.Floor;
+import com.bsu.lab.model.Entrance;
+import com.bsu.lab.model.Flat;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +11,7 @@ public class HouseService {
     public static double totalHouseSquare(@NotNull House house) {
         double result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {
-            result += HouseService.getFlat(house, i).getFlatSquare();
+            result += FlatService.findFlatSquare(HouseService.getFlat(house, i));
         }
         return result;
     }
