@@ -1,33 +1,38 @@
 package com.bsu.lab.service;
 
 
-import com.bsu.lab.house.Flat;
-import com.bsu.lab.house.House;
-import com.bsu.lab.house.Room;
+import com.bsu.lab.model.Flat;
+import com.bsu.lab.model.House;
+import com.bsu.lab.model.Room;
 import com.bsu.lab.util.constants.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
 public class FlatService {
-    public static void findFlatSquare(@NotNull Flat flat) {
+    public static double findFlatSquare(@NotNull Flat flat) {
         double result = 0;
         for (int i = 0; i < flat.getRoomsCount(); i++) {
             result += flat.getRooms().get(i).getRoomSquare();
         }
-        flat.setFlatSquare(result);
+        return result;
     }
 
     public static @NotNull String flatInfoToString(@NotNull House house, @NotNull Flat flat) {
         String result = "";
+        int houseNumber = house.getHouseNumber();
+        int flatNumber = flat.getFlatNumber();
+        int entranceNumber = HouseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber() + 1;
+        int floorNumber = HouseService.getFloorByFlatNumber(HouseService.getEntranceByFlatNumber(house, flatNumber),
+                flatNumber).getFloorNumber() + 1;
         result += "\n" + GeneralConstants.SEPARATION + "\n";
-        result += "Номер квартиры: " + flat.getFlatUniqueNumber() +
-                "\nНомер дома: " + house.getHouseNumber() +
-                "\nНомер подъезда: "
-                + (HouseService.getEntranceByFlatNumber(house, flat.getFlatUniqueNumber()).getEntranceNumber() + 1) +
+        result += "Номер квартиры: " + flatNumber +
+                "\nЭтаж: " + floorNumber +
+                "\nНомер дома: " + houseNumber +
+                "\nНомер подъезда: " + entranceNumber +
                 "\nКоличество комнат: " + flat.getRoomsCount();
         for (int i = 0; i < flat.getRoomsCount(); i++) {
             result += "\nПлощадь " + (i + 1) + " комнаты: " + flat.getRooms().get(i).getRoomSquare();
         }
-        result += "\nОбщая площадь квартиры: " + flat.getFlatSquare() + "\nКоличество жильцов: "
+        result += "\nОбщая площадь квартиры: " + FlatService.findFlatSquare(flat) + "\nКоличество жильцов: "
                 + flat.getResidentsCount();
         result += "\n" + GeneralConstants.SEPARATION + "\n";
         return result;

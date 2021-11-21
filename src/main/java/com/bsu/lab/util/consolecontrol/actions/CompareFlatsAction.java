@@ -1,6 +1,6 @@
 package com.bsu.lab.util.consolecontrol.actions;
 
-import com.bsu.lab.house.House;
+import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.SecuredNumbersScanner;

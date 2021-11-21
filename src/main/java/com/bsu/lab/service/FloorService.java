@@ -1,7 +1,7 @@
 package com.bsu.lab.service;
 
-import com.bsu.lab.house.Flat;
-import com.bsu.lab.house.Floor;
+import com.bsu.lab.model.Flat;
+import com.bsu.lab.model.Floor;
 import org.jetbrains.annotations.NotNull;
 
 public class FloorService {

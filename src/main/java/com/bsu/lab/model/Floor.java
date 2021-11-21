@@ -1,6 +1,5 @@
-package com.bsu.lab.house;
+package com.bsu.lab.model;
 
-import com.bsu.lab.util.SecuredNumbersScanner;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;

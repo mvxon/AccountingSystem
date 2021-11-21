@@ -1,6 +1,6 @@
 package com.bsu.lab.util.consolecontrol.actions;
 
-import com.bsu.lab.house.House;
+import com.bsu.lab.model.House;
 import com.bsu.lab.creator.HouseCreator;
 import org.jetbrains.annotations.NotNull;
 

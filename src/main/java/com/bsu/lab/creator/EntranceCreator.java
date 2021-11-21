@@ -1,7 +1,7 @@
 package com.bsu.lab.creator;
 
-import com.bsu.lab.house.Entrance;
-import com.bsu.lab.house.Floor;
+import com.bsu.lab.model.Entrance;
+import com.bsu.lab.model.Floor;
 import com.bsu.lab.service.EntranceService;
 import com.bsu.lab.util.constants.ConstantsForHouseCreating;
 import com.bsu.lab.util.SecuredNumbersScanner;

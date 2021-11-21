@@ -1,12 +1,13 @@
 package com.bsu.lab.util;
 
-import com.bsu.lab.house.House;
+import com.bsu.lab.model.House;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class SecuredNumbersScanner {
+
     public static int EnteringInfoCheck(String question) {
         int result = 0;
         Scanner numbersScanner = new Scanner(System.in);
@@ -20,7 +21,7 @@ public class SecuredNumbersScanner {
                 numberFormat = true;
                 result = Integer.parseInt(numbersScanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Введено неверное значение");
+                System.out.println("Введено неверное значение...Повторите ввод");
                 numberFormat = false;
             }
         } while (!numberFormat);
