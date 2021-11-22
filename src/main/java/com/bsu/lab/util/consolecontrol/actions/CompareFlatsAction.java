@@ -1,15 +1,19 @@
 package com.bsu.lab.util.consolecontrol.actions;
 
+import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.SecuredNumbersScanner;
+import com.bsu.lab.util.consolecontrol.actions.subactions.FindDiffParametersForFlatsAction;
 import com.bsu.lab.util.constants.ConstantsForFlatsComparison;
+import com.bsu.lab.util.constants.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
 public class CompareFlatsAction {
-    public static void execute(@NotNull List<House> arrayOfHouses){
+    public static void execute(@NotNull List<House> arrayOfHouses) {
         if (arrayOfHouses.isEmpty()) {
             System.out.println("Домов нет");
             return;
@@ -79,11 +83,19 @@ public class CompareFlatsAction {
                     || flatCompareNumber2 <= 0
                     || (houseCompareNumber1 == houseCompareNumber2 && flatCompareNumber1 == flatCompareNumber2));
         }
-        System.out.print("Квартира 1"
-                + FlatService.flatInfoToString(houseForCompare1, HouseService.getFlat(houseForCompare1,
-                flatCompareNumber1)));
-        System.out.println("Квартира 2"
-                + FlatService.flatInfoToString(houseForCompare2, HouseService.getFlat(houseForCompare2,
-                flatCompareNumber2)));
+
+        Flat flatForCompare1 = HouseService.getFlat(houseForCompare1, flatCompareNumber1);
+        System.out.println(GeneralConstants.SEPARATION);
+        System.out.print("Квартира 1" + FlatService.flatInfoToString(houseForCompare1, flatForCompare1));
+
+        Flat flatForCompare2 = HouseService.getFlat(houseForCompare2, flatCompareNumber2);
+        System.out.println("Квартира 2" + FlatService.flatInfoToString(houseForCompare2, flatForCompare2));
+
+        if (flatForCompare1.equals(flatForCompare2)) {
+            System.out.println("Квартиры одинаковы!");
+        } else {
+            FindDiffParametersForFlatsAction.execute(flatForCompare1, flatForCompare2);
+        }
     }
+
 }
