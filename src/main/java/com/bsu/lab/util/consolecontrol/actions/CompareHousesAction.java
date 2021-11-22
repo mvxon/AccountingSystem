@@ -20,7 +20,7 @@ public class CompareHousesAction {
         System.out.println("Выберите первый дом для сравнения: ");
         houseCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
 
-        System.out.print("Выберите второй дом для сравнения: ");
+        System.out.println("Выберите второй дом для сравнения: ");
         houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         if (houseCompareNumber2 == houseCompareNumber1) {
             do {
@@ -33,10 +33,10 @@ public class CompareHousesAction {
         House houseForCompare2 = arrayOfHouses.get(houseCompareNumber2 - 1);
 
         System.out.println(GeneralConstants.SEPARATION);
-        System.out.print("\nПервый дом: ");
-        System.out.println(houseForCompare1);
-        System.out.print("Второй дом: ");
-        System.out.println(houseForCompare2);
+        System.out.print("Дом 1: ");
+        System.out.print(houseForCompare1);
+        System.out.print("Дом 2: ");
+        System.out.print(houseForCompare2);
 
         if (houseForCompare1.equals(houseForCompare2)) {
             System.out.println("Дома одинаковы!");
