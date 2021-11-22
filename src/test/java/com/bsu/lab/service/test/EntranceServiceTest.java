@@ -13,7 +13,7 @@ public class EntranceServiceTest extends TestCase {
     public void testAddFloor() {
         Entrance entrance = new Entrance();
         Floor floor = new Floor();
-        floor.setFlatsPerFloor(3);
+        floor.setFlatsCount(3);
         EntranceService.addFloor(entrance, floor);
         int expected = 1;
         int actual = entrance.getFloorsCount();

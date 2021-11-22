@@ -13,7 +13,7 @@ public class Floor {
     private int floorNumber;
     private static int floorNumberCounter;
     private final List<Flat> flats = new ArrayList<>();
-    private int flatsPerFloor = 0;
+    private int flatsCount = 0;
 
     public Floor() {
         this.floorNumber = floorNumberCounter;
@@ -24,9 +24,9 @@ public class Floor {
     // copy constructor
     public Floor(@NotNull Floor floor) {
         this.floorNumber = floorNumberCounter;
-        this.flatsPerFloor = floor.flatsPerFloor;
+        this.flatsCount = floor.flatsCount;
         floorNumberCounter++;
-        for (int i = 0; i < floor.flatsPerFloor; i++) {
+        for (int i = 0; i < floor.flatsCount; i++) {
             this.flats.add(new Flat(floor.flats.get(i)));
         }
     }

@@ -28,9 +28,9 @@ public class House {
         if (o == null || this.getClass() != o.getClass()) return false;
         House house = (House) o;
         return this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()
-                && this.entrances.get(0).getFloors().get(0).getFlatsPerFloor() ==
-                house.entrances.get(0).getFloors().get(0).getFlatsPerFloor()
-                && HouseService.totalHouseSquare(this) == HouseService.totalHouseSquare(house);
+                && this.entrances.get(0).getFloors().get(0).getFlatsCount() ==
+                house.entrances.get(0).getFloors().get(0).getFlatsCount()
+                && HouseService.findTotalHouseSquare(this) == HouseService.findTotalHouseSquare(house);
     }
 
     public String toString() {
@@ -38,10 +38,10 @@ public class House {
                 "\nНомер дома: " + (this.houseNumber) +
                 "\nКоличество подъездов: " + (this.entrancesCount) +
                 "\nКоличество этажей: " + (this.entrances.get(0).getFloorsCount()) +
-                "\nКоличество квартир на одном этаже: " + this.entrances.get(0).getFloors().get(0).getFlatsPerFloor() +
+                "\nКоличество квартир на одном этаже: " + this.entrances.get(0).getFloors().get(0).getFlatsCount() +
                 "\nОбщее количество квартир: " + HouseService.getFlatsCount(this) +
-                "\nОбщая площадь дома: " + (HouseService.totalHouseSquare(this)) +
-                "\nОбщее количество жильцов: " + (HouseService.totalHouseResidentsCount(this)) +
+                "\nОбщая площадь дома: " + (HouseService.findTotalHouseSquare(this)) +
+                "\nОбщее количество жильцов: " + (HouseService.findTotalHouseResidentsCount(this)) +
                 "\n" + GeneralConstants.SEPARATION + "\n";
     }
 

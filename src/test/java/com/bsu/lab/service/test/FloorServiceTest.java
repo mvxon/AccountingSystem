@@ -12,7 +12,7 @@ public class FloorServiceTest extends TestCase {
         Flat flat = new Flat();
         FloorService.addFlat(floor, flat);
         int expectedFlatsCount = 1;
-        int actualFlatsCount = floor.getFlatsPerFloor();
+        int actualFlatsCount = floor.getFlatsCount();
         assertEquals(expectedFlatsCount, actualFlatsCount);
 
     }

@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class FloorService {
     public static void addFlat(@NotNull Floor floor, @NotNull Flat flat) {
         floor.getFlats().add(flat);
-        floor.setFlatsPerFloor(floor.getFlatsPerFloor()+1);
+        floor.setFlatsCount(floor.getFlatsCount()+1);
     }
 }
