@@ -8,7 +8,7 @@ import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 public class HouseService {
-    public static double totalHouseSquare(@NotNull House house) {
+    public static double findTotalHouseSquare(@NotNull House house) {
         double result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {
             result += FlatService.findFlatSquare(HouseService.getFlat(house, i));
@@ -16,7 +16,7 @@ public class HouseService {
         return result;
     }
 
-    public static int totalHouseResidentsCount(@NotNull House house) {
+    public static int findTotalHouseResidentsCount(@NotNull House house) {
         int result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {
             result += HouseService.getFlat(house, i).getResidentsCount();
@@ -28,35 +28,35 @@ public class HouseService {
         int result = 0;
         int i = 0;
         int j = house.getEntrances().get(0).getFloorsCount()
-                * house.getEntrances().get(0).getFloors().get(0).getFlatsPerFloor();
+                * house.getEntrances().get(0).getFloors().get(0).getFlatsCount();
         for (int k = 0; k < house.getEntrancesCount(); k++) {
             if (flatNumber >= i && flatNumber <= j) {
                 result = k;
                 return house.getEntrances().get(result);
             }
             i += house.getEntrances().get(0).getFloorsCount() *
-                    house.getEntrances().get(0).getFloors().get(0).getFlatsPerFloor() - 1;
+                    house.getEntrances().get(0).getFloors().get(0).getFlatsCount() - 1;
             j += house.getEntrances().get(0).getFloorsCount()
-                    * house.getEntrances().get(0).getFloors().get(0).getFlatsPerFloor();
+                    * house.getEntrances().get(0).getFloors().get(0).getFlatsCount();
         }
         return house.getEntrances().get(result);
     }
 
     public static Floor getFloorByFlatNumber(@NotNull Entrance entrance, int flatNumber) {
         int temp = flatNumber - entrance.getEntranceNumber() * entrance.getFloorsCount() *
-                entrance.getFloors().get(0).getFlatsPerFloor();
-        if (temp % entrance.getFloors().get(0).getFlatsPerFloor() != 0) {
+                entrance.getFloors().get(0).getFlatsCount();
+        if (temp % entrance.getFloors().get(0).getFlatsCount() != 0) {
             do {
                 temp++;
-            } while (temp % entrance.getFloors().get(0).getFlatsPerFloor() != 0);
+            } while (temp % entrance.getFloors().get(0).getFlatsCount() != 0);
         }
-        return entrance.getFloors().get((temp / entrance.getFloors().get(0).getFlatsPerFloor()) - 1);
+        return entrance.getFloors().get((temp / entrance.getFloors().get(0).getFlatsCount()) - 1);
     }
 
     public static Flat getFlat(House house, int flatNumber) {
         int entranceNumber = HouseService.getEntranceByFlatNumber(house, flatNumber).getEntranceNumber();
         int floorsCount = HouseService.getEntranceByFlatNumber(house, flatNumber).getFloorsCount();
-        int flatsPerFloor = HouseService.getEntranceByFlatNumber(house, flatNumber).getFloors().get(0).getFlatsPerFloor();
+        int flatsPerFloor = HouseService.getEntranceByFlatNumber(house, flatNumber).getFloors().get(0).getFlatsCount();
         int subtrahend = entranceNumber * floorsCount * flatsPerFloor;
         Entrance entrance = HouseService.getEntranceByFlatNumber(house, flatNumber);
         int floorNumber = HouseService.getFloorByFlatNumber(entrance, flatNumber).getFloorNumber();
@@ -71,7 +71,7 @@ public class HouseService {
     }
 
     public static int getFlatsCount(@NotNull House house) {
-        return house.getEntrancesCount() * house.getEntrances().get(0).getFloors().get(0).getFlatsPerFloor() *
+        return house.getEntrancesCount() * house.getEntrances().get(0).getFloors().get(0).getFlatsCount() *
                 house.getEntrances().get(0).getFloorsCount();
     }
 

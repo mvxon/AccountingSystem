@@ -1,7 +1,6 @@
 package com.bsu.lab.model;
 
 import com.bsu.lab.service.FlatService;
-import com.bsu.lab.util.constants.GeneralConstants;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -56,21 +55,6 @@ public class Flat {
         return Objects.hash(flatNumber, roomsCount);
     }
 
-
-    @Override
-    public String toString() {
-        String result = "";
-        result += "\n" + GeneralConstants.SEPARATION + "\n";
-        result += "Номер квартиры: " + this.flatNumber +
-                "\nКоличество комнат: " + this.roomsCount;
-        for (int i = 0; i < this.roomsCount; i++) {
-            result += "\nПлощадь " + (i + 1) + " комнаты: " + this.rooms.get(i).getRoomSquare();
-        }
-        result += "\nОбщая площадь квартиры: " + FlatService.findFlatSquare(this) +
-                "\nКоличество жильцов: " + this.residentsCount;
-        result += "\n" + GeneralConstants.SEPARATION + "\n";
-        return result;
-    }
 
 
 }

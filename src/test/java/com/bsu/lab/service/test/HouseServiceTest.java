@@ -27,7 +27,7 @@ public class HouseServiceTest extends TestCase {
     public void testTotalHouseSquare() {
         House house = HouseCreatorForTest.createHouseForTest();
         double expectedHouseSquare = 120.0;
-        double actualHouseSquare = HouseService.totalHouseSquare(house);
+        double actualHouseSquare = HouseService.findTotalHouseSquare(house);
         assertEquals(expectedHouseSquare, actualHouseSquare);
     }
 }

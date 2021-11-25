@@ -1,4 +1,4 @@
-package com.bsu.lab.accounting;
+package com.bsu.lab.application;
 
 
 import com.bsu.lab.util.consolecontrol.ConsoleControlForHousesAccounting;
