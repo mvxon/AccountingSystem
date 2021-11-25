@@ -1,11 +1,11 @@
-package com.bsu.lab.util.consolecontrol.actions;
+package com.bsu.lab.util.consolecontrol.action;
 
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.SecuredNumbersScanner;
-import com.bsu.lab.util.consolecontrol.actions.subactions.FindDiffParametersForFlatsAction;
+import com.bsu.lab.util.consolecontrol.action.subaction.FindDiffParametersForFlatsAction;
 import com.bsu.lab.util.constants.ConstantsForFlatsComparison;
 import com.bsu.lab.util.constants.GeneralConstants;
 import org.jetbrains.annotations.NotNull;

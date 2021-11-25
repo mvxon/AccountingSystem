@@ -1,14 +1,13 @@
-package com.bsu.lab.util.consolecontrol.actions.subactions;
+package com.bsu.lab.util.consolecontrol.action.subaction;
 
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.service.FlatService;
-import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.constants.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
 public class FindDiffParametersForFlatsAction {
     public static void execute(@NotNull Flat flatForCompare1, @NotNull Flat flatForCompare2) {
-        System.out.println("Отличающиеся параметры:\n");
+        System.out.println("Отличающиеся параметры:");
 
         if (flatForCompare1.getRoomsCount() != flatForCompare2.getRoomsCount()) {
             System.out.println(GeneralConstants.SEPARATION);

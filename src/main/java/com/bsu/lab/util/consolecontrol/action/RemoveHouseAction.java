@@ -1,4 +1,4 @@
-package com.bsu.lab.util.consolecontrol.actions;
+package com.bsu.lab.util.consolecontrol.action;
 
 import com.bsu.lab.model.House;
 import com.bsu.lab.util.SecuredNumbersScanner;
