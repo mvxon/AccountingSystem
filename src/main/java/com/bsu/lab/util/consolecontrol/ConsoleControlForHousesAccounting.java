@@ -1,8 +1,8 @@
 package com.bsu.lab.util.consolecontrol;
 
 import com.bsu.lab.model.House;
-import com.bsu.lab.util.SecuredNumbersScanner;
-import com.bsu.lab.util.consolecontrol.actions.*;
+import com.bsu.lab.util.input.SecuredNumbersScanner;
+import com.bsu.lab.util.consolecontrol.action.*;
 import com.bsu.lab.util.constants.ConstantsForConsoleControl;
 import com.bsu.lab.util.constants.GeneralConstants;
 

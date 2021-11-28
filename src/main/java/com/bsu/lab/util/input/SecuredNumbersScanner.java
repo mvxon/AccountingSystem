@@ -1,4 +1,4 @@
-package com.bsu.lab.util;
+package com.bsu.lab.util.input;
 
 import com.bsu.lab.model.House;
 import org.jetbrains.annotations.NotNull;

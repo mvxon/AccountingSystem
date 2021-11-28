@@ -1,4 +1,4 @@
-package com.bsu.lab.util.consolecontrol.actions.subactions;
+package com.bsu.lab.util.consolecontrol.action.subaction;
 
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class FindDiffParametersForHousesAction {
      public static void execute(@NotNull House houseForCompare1, @NotNull House houseForCompare2){
 
-        System.out.println("Отличающиеся параметры:\n");
+        System.out.println("Отличающиеся параметры:");
 
         if(houseForCompare1.getEntrancesCount() != houseForCompare2.getEntrancesCount()){
             System.out.println(GeneralConstants.SEPARATION);
