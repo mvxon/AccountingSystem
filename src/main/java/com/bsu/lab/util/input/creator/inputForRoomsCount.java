@@ -1,12 +1,12 @@
-package com.bsu.lab.util.validation;
+package com.bsu.lab.util.input.creator;
 
-import com.bsu.lab.util.SecuredNumbersScanner;
+import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class validationForRoomsCount {
+public class inputForRoomsCount {
     private final static int MAX_ROOMS_COUNT = 7;
     private final static int MIN_ROOMS_COUNT = 1;
 
-    public static int validate(int flatNumber) {
+    public static int input(int flatNumber) {
         String question = "Введите количество комнат " + flatNumber +
                 "-ой квартиры на этаже(от " + MIN_ROOMS_COUNT + " до " + MAX_ROOMS_COUNT + "): ";
         int roomsCount = (SecuredNumbersScanner.EnteringInfoCheck(question));

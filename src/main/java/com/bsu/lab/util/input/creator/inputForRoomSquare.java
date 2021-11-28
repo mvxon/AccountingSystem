@@ -1,12 +1,12 @@
-package com.bsu.lab.util.validation;
+package com.bsu.lab.util.input.creator;
 
-import com.bsu.lab.util.SecuredNumbersScanner;
+import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class validationForRoomSquare {
+public class inputForRoomSquare {
     private final static double MAX_SQUARE = 100;
     private final static double MIN_SQUARE = 1;
 
-    public static double validate(int roomNumber) {
+    public static double input(int roomNumber) {
         String question = "Введите площадь " + roomNumber + "-ой комнаты(м^2)(от " + MIN_SQUARE + "м^2 до "
                 + MAX_SQUARE + "м^2): ";
         double roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
