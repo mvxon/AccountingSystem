@@ -34,7 +34,6 @@ public class ConsoleControlForHousesAccounting {
                     CompareFlatsAction.execute(arrayOfHouses);
                     break;
                 case 6: // exit
-                    System.exit(0);
                     break;
                 default:
                     System.out.println("Введено неверное значение. Повторите попытку");

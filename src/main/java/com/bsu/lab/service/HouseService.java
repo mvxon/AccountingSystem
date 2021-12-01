@@ -71,8 +71,11 @@ public class HouseService {
     }
 
     public static int getFlatsCount(@NotNull House house) {
-        return house.getEntrancesCount() * house.getEntrances().get(0).getFloors().get(0).getFlatsCount() *
-                house.getEntrances().get(0).getFloorsCount();
+        int entrancesCount = house.getEntrancesCount();
+        int flatsPerFloor = house.getEntrances().get(0).getFloors().get(0).getFlatsCount();
+        int floorsCount = house.getEntrances().get(0).getFloorsCount();
+
+        return entrancesCount * flatsPerFloor * floorsCount;
     }
 
     public static void addEntrance(@NotNull House house, @NonNull Entrance entrance) {
