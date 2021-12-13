@@ -4,8 +4,8 @@ import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class inputForFlatNumber {
-    public static int input(House house){
+public class InputForFlatNumber {
+    public static int input(House house) {
         int flatNumber;
         String flatNumberQuestion;
         if (HouseService.getFlatsCount(house) != 1) {
@@ -15,12 +15,9 @@ public class inputForFlatNumber {
             flatNumberQuestion = "Введите номер нужной квартиры(1): ";
         }
         flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
-        if (flatNumber > HouseService.getFlatsCount(house) || flatNumber <= 0) {
-            do {
-                System.out.println("Введен номер несуществующей квартиры...Повторите ввод");
-                flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
-            } while (flatNumber > HouseService.getFlatsCount(house) ||
-                    flatNumber <= 0);
+        while (flatNumber > HouseService.getFlatsCount(house) || flatNumber <= 0) {
+            System.out.println("Введен номер несуществующей квартиры...Повторите ввод");
+            flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
         }
         return flatNumber;
     }

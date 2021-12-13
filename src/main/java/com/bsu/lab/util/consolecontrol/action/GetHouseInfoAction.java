@@ -4,19 +4,19 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
+import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.util.constants.ConstantsForConsoleControl;
 import com.bsu.lab.util.constants.GeneralConstants;
-import com.bsu.lab.util.input.consolecontrol.action.inputForFlatNumber;
+import com.bsu.lab.util.input.consolecontrol.action.InputForFlatNumber;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class GetHouseInfoAction {
     public static void execute(@NotNull List<House> arrayOfHouses) {
-        if (arrayOfHouses.isEmpty()) {
-            System.out.println("Домов нет");
-            return;
-        }
+        if (!AvailabilityOfHousesCheck.check(arrayOfHouses)) return;
+
         int houseNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses); // house number entering
         House houseForAdditionalAction = arrayOfHouses.get(houseNumber - 1); // house for additional action
         int additionalAction;
@@ -29,11 +29,14 @@ public class GetHouseInfoAction {
                     System.out.println(houseForAdditionalAction);
                     break;
                 case 2: // print information about flat by number in this house
-                    int flatNumber = inputForFlatNumber.input(houseForAdditionalAction);
+                    int flatNumber = InputForFlatNumber.input(houseForAdditionalAction);
                     Flat flatForCheckInfo = HouseService.getFlat(houseForAdditionalAction, flatNumber);
                     System.out.println(FlatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
                     break;
                 case 3: // exit to menu
+                    break;
+                default:
+                    System.out.println("Введено неверное значение. Повторите попытку");
                     break;
             }
         } while (additionalAction != 3);

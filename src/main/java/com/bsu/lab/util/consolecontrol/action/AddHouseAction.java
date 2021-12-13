@@ -8,6 +8,6 @@ import java.util.List;
 
 public class AddHouseAction {
     public static void execute(@NotNull List<House> arrayOfHouses){
-        arrayOfHouses.add(HouseCreator.CreateHouse());
+        arrayOfHouses.add(HouseCreator.createHouse());
     }
 }
