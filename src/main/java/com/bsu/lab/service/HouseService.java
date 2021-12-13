@@ -1,13 +1,53 @@
 package com.bsu.lab.service;
 
+
+import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.model.House;
 import com.bsu.lab.model.Floor;
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Flat;
+import com.bsu.lab.util.input.service.inputForEntrancesCount;
+import com.bsu.lab.util.input.service.inputForHouseNumber;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+@Setter
+@NoArgsConstructor
 public class HouseService {
+    private static HouseService houseService;
+    private static final HouseDAO dao = HouseDAO.getInstance();
+
+    public static HouseService getInstance() {
+        if (houseService == null) {
+            houseService = new HouseService();
+        }
+        return houseService;
+    }
+
+    public static @NotNull House createHouse() {
+        House house = new House();
+        int houseNumber = inputForHouseNumber.input();
+        if (houseNumber == 0) {
+            house.setHouseNumber(); // auto house number set
+        } else {
+            house.setHouseNumber(houseNumber);
+        }
+        int entrancesCount = inputForEntrancesCount.input();
+        while (house.getEntrancesCount() < entrancesCount) {
+            if (house.getEntrancesCount() == 0) {
+                HouseService.addEntrance(house, EntranceService.createEntrance()); // creating first entrance
+            } else {
+                // copying first entrance by copy constructor
+                HouseService.addEntrance(house, new Entrance(house.getEntrances().get(0)));
+            }
+        }
+        dao.create(house);
+        System.out.println("Дом номер " + house.getHouseNumber() + " успешно добавлен!");
+        return house;
+    }
+
     public static double findTotalHouseSquare(@NotNull House house) {
         double result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {

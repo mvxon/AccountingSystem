@@ -16,17 +16,17 @@ public class inputForHouseCompareNumbers {
 
         System.out.println("Выберите второй дом для сравнения: ");
         int houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
-        if (houseCompareNumber2 == houseCompareNumber1) {
-            do {
-                System.out.println("Дом с таким номером уже добавлен к сравнению");
-                houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
-            } while (houseCompareNumber2 == houseCompareNumber1);
+        while (houseCompareNumber2 == houseCompareNumber1) {
+            System.out.println("Дом с таким номером уже добавлен к сравнению");
+            houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         }
     }
-    public static int getFirstHouseCompareNumber(){
+
+    public static int getFirstHouseCompareNumber() {
         return firstHouseCompareNumber;
     }
-    public static int getSecondHouseCompareNumber(){
+
+    public static int getSecondHouseCompareNumber() {
         return secondHouseCompareNumber;
     }
 }

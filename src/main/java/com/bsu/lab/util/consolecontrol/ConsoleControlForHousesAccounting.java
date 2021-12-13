@@ -1,18 +1,21 @@
 package com.bsu.lab.util.consolecontrol;
 
 import com.bsu.lab.model.House;
+import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.util.consolecontrol.action.*;
-import com.bsu.lab.util.constants.ConstantsForConsoleControl;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.ConstantsForConsoleControl;
+import com.bsu.lab.constant.GeneralConstants;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConsoleControlForHousesAccounting {
-    public void start() {
+    public void start() throws SQLException {
         List<House> arrayOfHouses = new ArrayList<>();
+        LoadHousesFromDatabaseAction.execute(arrayOfHouses);
         int mainAction;
         do {
             mainAction = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_MAIN_ACTION);
@@ -34,6 +37,7 @@ public class ConsoleControlForHousesAccounting {
                     CompareFlatsAction.execute(arrayOfHouses);
                     break;
                 case 6: // exit
+                    DataBaseConnection.closeConnection();
                     System.exit(0);
                     break;
                 default:

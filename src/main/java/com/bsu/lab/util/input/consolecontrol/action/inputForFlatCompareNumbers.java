@@ -3,8 +3,8 @@ package com.bsu.lab.util.input.consolecontrol.action;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
-import com.bsu.lab.util.constants.ConstantsForFlatsComparison;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.ConstantsForFlatsComparison;
+import com.bsu.lab.constant.GeneralConstants;
 
 import java.util.List;
 
@@ -17,80 +17,76 @@ public class inputForFlatCompareNumbers {
     public static void input(List<House> arrayOfHouses) {
         System.out.println("Выберите первый дом для сравнения: ");
 
-       firstHouseNumberForFlatsCompare = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+        firstHouseNumberForFlatsCompare = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         House houseForCompare1 = arrayOfHouses.get(firstHouseNumberForFlatsCompare - 1);
 
         String question = "Введите номер нужной квартиры(1-" +
                 HouseService.getFlatsCount(arrayOfHouses.get(firstHouseNumberForFlatsCompare - 1)) + "): ";
         firstFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
 
-        if (firstFlatCompareNumber > HouseService.getFlatsCount(houseForCompare1)
-                || firstFlatCompareNumber <= 0)
-            do {
-                System.out.println("Несуществующий номер квартиры...Введите еще раз");
-                firstFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
-            } while (firstFlatCompareNumber > HouseService.getFlatsCount(houseForCompare1)
-                    || firstFlatCompareNumber <= 0);
+        while (firstFlatCompareNumber > HouseService.getFlatsCount(houseForCompare1) || firstFlatCompareNumber <= 0) {
+
+            System.out.println("Несуществующий номер квартиры...Введите еще раз");
+            firstFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
+        }
 
         System.out.println(ConstantsForFlatsComparison.FLAT_ADDED_INFORMING);
         System.out.print("Выберите второй дом для сравнения: \n");
         // number of the second house for a flats comparing
         secondHouseNumberForFlatsCompare = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
 
-        if (secondHouseNumberForFlatsCompare == firstHouseNumberForFlatsCompare
+        while (secondHouseNumberForFlatsCompare == firstHouseNumberForFlatsCompare
                 && HouseService.getFlatsCount(houseForCompare1) == 1) {
-            do {
-                System.out.println(ConstantsForFlatsComparison.ONLY_ONE_FLAT_IN_HOUSE_ERROR);
-                int additionalAction;
-                do {
-                    additionalAction
-                            = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForFlatsComparison.QUESTION_FOR_ACTION);
-                    if (additionalAction <= 0 || additionalAction > 2) {
-                        System.out.println("Введено неверное значение. Повторите ввод");
-                    }
-                } while (additionalAction <= 0 || additionalAction > 2);
 
-                if (additionalAction == 1) {
-                    System.out.println(GeneralConstants.SEPARATION);
-                    System.out.println("Выберите второй дом для сравнения: ");
-                    secondHouseNumberForFlatsCompare = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+            System.out.println(ConstantsForFlatsComparison.ONLY_ONE_FLAT_IN_HOUSE_ERROR);
+            int additionalAction;
+            do {
+                additionalAction
+                        = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForFlatsComparison.QUESTION_FOR_ACTION);
+                if (additionalAction <= 0 || additionalAction > 2) {
+                    System.out.println("Введено неверное значение. Повторите ввод");
                 }
-                if (additionalAction == 2) {
-                    return;
-                }
-            } while (secondHouseNumberForFlatsCompare == firstHouseNumberForFlatsCompare);
+            } while (additionalAction <= 0 || additionalAction > 2);
+
+            if (additionalAction == 1) {
+                System.out.println(GeneralConstants.SEPARATION);
+                System.out.println("Выберите второй дом для сравнения: ");
+                secondHouseNumberForFlatsCompare = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+            }
+            if (additionalAction == 2) {
+                return;
+            }
         }
 
         House houseForCompare2 = arrayOfHouses.get(secondHouseNumberForFlatsCompare - 1);
         question = "Введите номер нужной квартиры(1-" + HouseService.getFlatsCount(houseForCompare2) + "): ";
         secondFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
 
-        if (secondFlatCompareNumber > HouseService.getFlatsCount(houseForCompare2)
+        while (secondFlatCompareNumber > HouseService.getFlatsCount(houseForCompare2)
                 || secondFlatCompareNumber <= 0
-                || (firstHouseNumberForFlatsCompare == secondHouseNumberForFlatsCompare
-                && firstFlatCompareNumber == secondFlatCompareNumber)) {
+                || (firstHouseNumberForFlatsCompare == secondHouseNumberForFlatsCompare &&
+                firstFlatCompareNumber == secondFlatCompareNumber)) {
 
-            do {
-                System.out.println("Несуществующий номер квартиры(или квартира с таким"
-                        + " номером уже добавлена к сравнению)" +
-                        "...Введите еще раз");
-                secondFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
-            } while (secondFlatCompareNumber > HouseService.getFlatsCount(houseForCompare2)
-                    || secondFlatCompareNumber <= 0
-                    || (firstHouseNumberForFlatsCompare == secondHouseNumberForFlatsCompare &&
-                    firstFlatCompareNumber == secondFlatCompareNumber));
+            System.out.println("Несуществующий номер квартиры(или квартира с таким"
+                    + " номером уже добавлена к сравнению)" +
+                    "...Введите еще раз");
+            secondFlatCompareNumber = SecuredNumbersScanner.EnteringInfoCheck(question);
         }
     }
-    public static int getFirstHouseNumberForFlatsCompare(){
+
+    public static int getFirstHouseNumberForFlatsCompare() {
         return firstHouseNumberForFlatsCompare;
     }
-    public static int getSecondHouseNumberForFlatsCompare(){
+
+    public static int getSecondHouseNumberForFlatsCompare() {
         return secondHouseNumberForFlatsCompare;
     }
-    public static int getFirstFlatCompareNumber(){
+
+    public static int getFirstFlatCompareNumber() {
         return firstFlatCompareNumber;
     }
-    public static int getSecondFlatCompareNumber(){
+
+    public static int getSecondFlatCompareNumber() {
         return secondFlatCompareNumber;
     }
 }

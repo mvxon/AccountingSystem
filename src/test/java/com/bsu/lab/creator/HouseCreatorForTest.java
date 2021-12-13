@@ -13,6 +13,7 @@ public class HouseCreatorForTest {
         Entrance entrance = new Entrance();
         Floor floor = new Floor();
         Flat flat = new Flat();
+        flat.setResidentsCount(5);
 
         Room room1 = new Room();
         room1.setRoomSquare(1);

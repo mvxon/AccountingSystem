@@ -1,4 +1,4 @@
-package com.bsu.lab.util.input.creator;
+package com.bsu.lab.util.input.service;
 
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
@@ -11,11 +11,9 @@ public class inputForRoomSquare {
                 + MAX_SQUARE + "м^2): ";
         double roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
 
-        if (roomSquare < MIN_SQUARE || roomSquare > MAX_SQUARE) {
-            do {
-                System.out.println("Введено неверное значение...Повторите ввод");
-                roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
-            } while (roomSquare < MIN_SQUARE || roomSquare > MAX_SQUARE);
+        while (roomSquare < MIN_SQUARE || roomSquare > MAX_SQUARE) {
+            System.out.println("Введено неверное значение...Повторите ввод");
+            roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
         }
         return roomSquare;
     }

@@ -1,7 +1,8 @@
 package com.bsu.lab.model;
 
+import com.bsu.lab.constant.GeneralConstants;
+import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.constants.GeneralConstants;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,18 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class House {
-    private static int currentHouseNumber;
-    private final int houseNumber;
-    @Setter
+    private int id;
+    private int houseNumber;
     private int entrancesCount = 0;
     private final List<Entrance> entrances = new ArrayList<>();
 
     public House() {
-        this.houseNumber = currentHouseNumber + 1;
         Entrance.NullifyEntranceNumberCounter();
         Flat.nullifyFlatNumberCounter();
-        currentHouseNumber++;
+    }
+
+    public void setHouseNumber() {
+        this.houseNumber = HouseDAO.getHousesCount() + 1;
     }
 
     @Override

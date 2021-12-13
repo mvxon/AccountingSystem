@@ -2,10 +2,10 @@ package com.bsu.lab.util.consolecontrol.action.subaction;
 
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.service.FlatService;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
-public class FindDiffParametersForFlatsAction {
+public class FindDiffParametersForFlatsComparingAction {
     public static void execute(@NotNull Flat flatForCompare1, @NotNull Flat flatForCompare2) {
         System.out.println("Отличающиеся параметры:");
 

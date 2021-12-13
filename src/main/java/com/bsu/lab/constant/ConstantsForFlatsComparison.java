@@ -1,4 +1,4 @@
-package com.bsu.lab.util.constants;
+package com.bsu.lab.constant;
 
 public class ConstantsForFlatsComparison {
     public final static String FLAT_ADDED_INFORMING =

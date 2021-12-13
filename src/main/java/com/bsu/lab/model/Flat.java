@@ -10,19 +10,23 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Flat {
-    @Setter
+    private int id;
+    private int floorId;
     private int residentsCount;
-    @Setter
     private int roomsCount = 0;
     private int flatNumber;
     private static int flatNumberCounter;
     private final List<Room> rooms = new ArrayList<>();
 
     public Flat() {
+        Room.nullifyRoomNumberCounter();
+    }
+
+    public void setFlatNumber() {
         this.flatNumber = flatNumberCounter + 1;
         flatNumberCounter++;
-        Room.nullifyRoomNumberCounter();
     }
 
     public Flat(@NotNull Flat flat) { // copy constructor for Flat
@@ -46,7 +50,7 @@ public class Flat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flat flat = (Flat) o;
-        return Double.compare(FlatService.findFlatSquare(flat),FlatService.findFlatSquare(this)) == 0
+        return Double.compare(FlatService.findFlatSquare(flat), FlatService.findFlatSquare(this)) == 0
                 && roomsCount == flat.roomsCount;
     }
 
@@ -54,7 +58,6 @@ public class Flat {
     public int hashCode() {
         return Objects.hash(flatNumber, roomsCount);
     }
-
 
 
 }

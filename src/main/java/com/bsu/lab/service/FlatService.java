@@ -4,16 +4,38 @@ package com.bsu.lab.service;
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.model.Room;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.GeneralConstants;
+import com.bsu.lab.util.input.service.inputForRoomsCount;
 import org.jetbrains.annotations.NotNull;
 
 public class FlatService {
+    private static FlatService flatService;
+
+    private static FlatService getInstance() {
+        if (flatService == null) {
+            flatService = new FlatService();
+        }
+        return flatService;
+    }
+
     public static double findFlatSquare(@NotNull Flat flat) {
         double result = 0;
         for (int i = 0; i < flat.getRoomsCount(); i++) {
             result += flat.getRooms().get(i).getRoomSquare();
         }
         return result;
+    }
+
+    public static @NotNull Flat createFlat() {
+        Flat flat = new Flat();
+        flat.setFlatNumber();
+        int roomsCount = inputForRoomsCount.input(flat.getFlatNumber());
+        flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
+        System.out.println("Укажите площадь каждой комнаты: ");
+        for (int i = 0; i < roomsCount; i++) {
+            FlatService.addRoom(flat, RoomService.createRoom()); // rooms creating
+        }
+        return flat;
     }
 
     public static @NotNull String flatInfoToString(@NotNull House house, @NotNull Flat flat) {

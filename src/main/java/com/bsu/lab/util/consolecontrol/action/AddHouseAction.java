@@ -1,13 +1,15 @@
 package com.bsu.lab.util.consolecontrol.action;
 
+
 import com.bsu.lab.model.House;
-import com.bsu.lab.creator.HouseCreator;
+import com.bsu.lab.service.HouseService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class AddHouseAction {
     public static void execute(@NotNull List<House> arrayOfHouses){
-        arrayOfHouses.add(HouseCreator.CreateHouse());
+        House house = HouseService.createHouse();
+        arrayOfHouses.add(house);
     }
 }

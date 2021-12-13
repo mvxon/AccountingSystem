@@ -2,10 +2,10 @@ package com.bsu.lab.util.consolecontrol.action.subaction;
 
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
-public class FindDiffParametersForHousesAction {
+public class FindDiffParametersForHousesComparingAction {
      public static void execute(@NotNull House houseForCompare1, @NotNull House houseForCompare2){
 
         System.out.println("Отличающиеся параметры:");
