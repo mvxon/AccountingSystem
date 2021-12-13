@@ -1,4 +1,4 @@
-package com.bsu.lab.util.database.dbconnection;
+package com.bsu.lab.util.database.connection;
 
 
 import java.sql.Connection;

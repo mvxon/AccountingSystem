@@ -2,7 +2,7 @@ package com.bsu.lab.dao;
 
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Floor;
-import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
+import com.bsu.lab.util.database.connection.DataBaseConnection;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
@@ -31,14 +31,15 @@ public class EntranceDAO implements DAO<Entrance> {
 
 
     @Override
-    public void create(@NotNull final Entrance entrance) {
+    public boolean create(@NotNull final Entrance entrance) {
+        boolean result = false;
         try (PreparedStatement statement = DataBaseConnection.getConnection().
                 prepareStatement(EntranceSQL.INSERT.QUERY)) {
             statement.setInt(1, entrance.getHouseId());
             statement.setInt(2, entrance.getEntranceNumber());
             statement.setInt(3, entrance.getFloorsCount());
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+            result = resultSet.next();
             int entranceId = resultSet.getInt(1);
             entrance.setId(entranceId);
             for (Floor floor : entrance.getFloors()) {
@@ -49,6 +50,7 @@ public class EntranceDAO implements DAO<Entrance> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
 

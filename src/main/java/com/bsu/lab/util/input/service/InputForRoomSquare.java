@@ -2,7 +2,7 @@ package com.bsu.lab.util.input.service;
 
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class inputForRoomSquare {
+public class InputForRoomSquare {
     private final static double MAX_SQUARE = 100;
     private final static double MIN_SQUARE = 1;
 

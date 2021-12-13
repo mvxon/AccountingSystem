@@ -6,11 +6,16 @@ import com.bsu.lab.constant.GeneralConstants;
 import org.jetbrains.annotations.NotNull;
 
 public class FindDiffParametersForHousesComparingAction {
-     public static void execute(@NotNull House houseForCompare1, @NotNull House houseForCompare2){
+    private static boolean entrancesCount = false;
+    private static boolean flatsCount = false;
+    private static boolean totalHouseSquare = false;
+
+    public static void execute(@NotNull House houseForCompare1, @NotNull House houseForCompare2) {
 
         System.out.println("Отличающиеся параметры:");
 
-        if(houseForCompare1.getEntrancesCount() != houseForCompare2.getEntrancesCount()){
+        if (houseForCompare1.getEntrancesCount() != houseForCompare2.getEntrancesCount()) {
+            entrancesCount = true;
             System.out.println(GeneralConstants.SEPARATION);
             System.out.println("КОЛИЧЕСТВО ПОДЪЕЗДОВ");
             System.out.println("Количество подъездов в первом доме: " + houseForCompare1.getEntrancesCount());
@@ -18,7 +23,8 @@ public class FindDiffParametersForHousesComparingAction {
             System.out.println(GeneralConstants.SEPARATION);
         }
 
-        if(HouseService.getFlatsCount(houseForCompare1) != HouseService.getFlatsCount(houseForCompare2)){
+        if (HouseService.getFlatsCount(houseForCompare1) != HouseService.getFlatsCount(houseForCompare2)) {
+            flatsCount = true;
             System.out.println(GeneralConstants.SEPARATION);
             System.out.println("ОБЩЕЕ КОЛИЧЕСТВО КВАРТИР");
             System.out.println("Количество квартир в первом доме: " + HouseService.getFlatsCount(houseForCompare1));
@@ -26,13 +32,25 @@ public class FindDiffParametersForHousesComparingAction {
             System.out.println(GeneralConstants.SEPARATION);
         }
 
-        if(HouseService.findTotalHouseSquare(houseForCompare1)!=HouseService.findTotalHouseSquare(houseForCompare2)){
+        if (HouseService.findTotalHouseSquare(houseForCompare1) != HouseService.findTotalHouseSquare(houseForCompare2)) {
+            totalHouseSquare = true;
             System.out.println(GeneralConstants.SEPARATION);
             System.out.println("ОБЩАЯ ПЛОЩАДЬ ДОМА");
             System.out.println("Общая площадь первого дома: " + HouseService.findTotalHouseSquare(houseForCompare1));
             System.out.println("Общая площадь второго дома: " + HouseService.findTotalHouseSquare(houseForCompare2));
             System.out.println(GeneralConstants.SEPARATION);
         }
+    }
 
+    public static boolean getEntrancesCount() {
+        return entrancesCount;
+    }
+
+    public static boolean getFlatsCount() {
+        return flatsCount;
+    }
+
+    public static boolean getTotalHouseSquare() {
+        return totalHouseSquare;
     }
 }

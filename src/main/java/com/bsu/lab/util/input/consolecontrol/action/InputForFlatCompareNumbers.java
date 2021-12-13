@@ -8,7 +8,7 @@ import com.bsu.lab.constant.GeneralConstants;
 
 import java.util.List;
 
-public class inputForFlatCompareNumbers {
+public class InputForFlatCompareNumbers {
     private static int firstHouseNumberForFlatsCompare = 0; // number of the first house for a flats comparing
     private static int firstFlatCompareNumber = 0; // number of the first comparing flat
     private static int secondHouseNumberForFlatsCompare = 0; // number of the second comparing flat

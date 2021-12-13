@@ -3,7 +3,7 @@ package com.bsu.lab.util.input.service;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.constant.ConstantsForHouseCreating;
 
-public class inputForFloorsCount {
+public class InputForFloorsCount {
     private final static int MAX_FLOORS_COUNT = 163;
     private final static int MIN_FLOORS_COUNT = 1;
 

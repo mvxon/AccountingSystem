@@ -6,7 +6,7 @@ import com.bsu.lab.util.input.SecuredNumbersScanner;
 import java.util.List;
 
 
-public class inputForHouseCompareNumbers {
+public class InputForHouseCompareNumbers {
     private static int firstHouseCompareNumber = 0;
     private static int secondHouseCompareNumber = 0;
 

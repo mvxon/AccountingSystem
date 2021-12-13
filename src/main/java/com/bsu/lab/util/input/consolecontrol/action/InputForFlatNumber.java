@@ -4,7 +4,7 @@ import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class inputForFlatNumber {
+public class InputForFlatNumber {
     public static int input(House house) {
         int flatNumber;
         String flatNumberQuestion;

@@ -4,7 +4,7 @@ import com.bsu.lab.model.House;
 import com.bsu.lab.util.consolecontrol.action.subaction.FindDiffParametersForHousesComparingAction;
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
-import com.bsu.lab.util.input.consolecontrol.action.inputForHouseCompareNumbers;
+import com.bsu.lab.util.input.consolecontrol.action.InputForHouseCompareNumbers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class CompareHousesAction {
             return;
         }
 
-        inputForHouseCompareNumbers.input(arrayOfHouses);
-        int houseCompareNumber1 = inputForHouseCompareNumbers.getFirstHouseCompareNumber();
-        int houseCompareNumber2 = inputForHouseCompareNumbers.getSecondHouseCompareNumber();
+        InputForHouseCompareNumbers.input(arrayOfHouses);
+        int houseCompareNumber1 = InputForHouseCompareNumbers.getFirstHouseCompareNumber();
+        int houseCompareNumber2 = InputForHouseCompareNumbers.getSecondHouseCompareNumber();
 
         House houseForCompare1 = arrayOfHouses.get(houseCompareNumber1 - 1);
         House houseForCompare2 = arrayOfHouses.get(houseCompareNumber2 - 1);

@@ -1,6 +1,5 @@
 package com.bsu.lab.util.consolecontrol.action;
 
-import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
@@ -9,7 +8,7 @@ import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.constant.ConstantsForConsoleControl;
 import com.bsu.lab.constant.GeneralConstants;
-import com.bsu.lab.util.input.consolecontrol.action.inputForFlatNumber;
+import com.bsu.lab.util.input.consolecontrol.action.InputForFlatNumber;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class GetHouseInfoAction {
                     System.out.println(houseForAdditionalAction);
                     break;
                 case 2: // print information about flat by number in this house
-                    int flatNumber = inputForFlatNumber.input(houseForAdditionalAction);
+                    int flatNumber = InputForFlatNumber.input(houseForAdditionalAction);
                     Flat flatForCheckInfo = HouseService.getFlat(houseForAdditionalAction, flatNumber);
                     System.out.println(FlatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
                     break;

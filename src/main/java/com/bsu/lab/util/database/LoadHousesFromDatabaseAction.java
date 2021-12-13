@@ -1,4 +1,4 @@
-package com.bsu.lab.util.consolecontrol.action;
+package com.bsu.lab.util.database;
 
 import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.model.House;

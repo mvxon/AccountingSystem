@@ -3,7 +3,7 @@ package com.bsu.lab.dao;
 
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.Room;
-import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
+import com.bsu.lab.util.database.connection.DataBaseConnection;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
@@ -28,14 +28,15 @@ public class FlatDAO implements DAO<Flat> {
     }
 
     @Override
-    public void create(@NotNull final Flat flat) {
+    public boolean create(@NotNull final Flat flat) {
+        boolean result = false;
         try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(FlatSQL.INSERT.QUERY)) {
             statement.setInt(1, flat.getFloorId());
             statement.setInt(2, flat.getFlatNumber());
             statement.setInt(3, flat.getRoomsCount());
             statement.setInt(4, flat.getResidentsCount());
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+            result = resultSet.next();
             int flatId = resultSet.getInt(1);
             flat.setId(flatId);
             for (Room room : flat.getRooms()) {
@@ -46,6 +47,7 @@ public class FlatDAO implements DAO<Flat> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public @NotNull List<Flat> read(@NotNull final Integer floorId) {

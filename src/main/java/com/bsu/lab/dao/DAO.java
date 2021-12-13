@@ -1,7 +1,7 @@
 package com.bsu.lab.dao;
 
 public interface DAO<Entity> {
-    void create(Entity model);
+    boolean create(Entity model);
 
     boolean update(Entity model);
 

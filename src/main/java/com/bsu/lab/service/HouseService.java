@@ -6,8 +6,8 @@ import com.bsu.lab.model.House;
 import com.bsu.lab.model.Floor;
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Flat;
-import com.bsu.lab.util.input.service.inputForEntrancesCount;
-import com.bsu.lab.util.input.service.inputForHouseNumber;
+import com.bsu.lab.util.input.service.InputForEntrancesCount;
+import com.bsu.lab.util.input.service.InputForHouseNumber;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
@@ -28,13 +28,13 @@ public class HouseService {
 
     public static @NotNull House createHouse() {
         House house = new House();
-        int houseNumber = inputForHouseNumber.input();
+        int houseNumber = InputForHouseNumber.input();
         if (houseNumber == 0) {
             house.setHouseNumber(); // auto house number set
         } else {
             house.setHouseNumber(houseNumber);
         }
-        int entrancesCount = inputForEntrancesCount.input();
+        int entrancesCount = InputForEntrancesCount.input();
         while (house.getEntrancesCount() < entrancesCount) {
             if (house.getEntrancesCount() == 0) {
                 HouseService.addEntrance(house, EntranceService.createEntrance()); // creating first entrance
@@ -100,9 +100,7 @@ public class HouseService {
         int subtrahend = entranceNumber * floorsCount * flatsPerFloor;
         Entrance entrance = HouseService.getEntranceByFlatNumber(house, flatNumber);
         int floorNumber = HouseService.getFloorByFlatNumber(entrance, flatNumber).getFloorNumber();
-
         int temp2 = floorNumber * flatsPerFloor;
-
         subtrahend += temp2;
         int result = flatNumber - subtrahend;
         result--;

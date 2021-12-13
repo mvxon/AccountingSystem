@@ -2,7 +2,7 @@ package com.bsu.lab.dao;
 
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.House;
-import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
+import com.bsu.lab.util.database.connection.DataBaseConnection;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
@@ -27,13 +27,14 @@ public class HouseDAO implements DAO<House> {
     }
 
     @Override
-    public void create(@NotNull final House house) {
+    public boolean create(@NotNull final House house) {
+        boolean result = false;
         try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(HouseSQL.INSERT.QUERY)) {
             statement.setInt(1, house.getHouseNumber());
             statement.setInt(2, house.getEntrancesCount());
 
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+            result = resultSet.next();
             int houseId = resultSet.getInt(1);
             house.setId(houseId);
             for (Entrance entrance : house.getEntrances()) {
@@ -44,6 +45,7 @@ public class HouseDAO implements DAO<House> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public House read(@NotNull final Integer id) {

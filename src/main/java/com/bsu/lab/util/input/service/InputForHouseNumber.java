@@ -3,7 +3,7 @@ package com.bsu.lab.util.input.service;
 import com.bsu.lab.constant.ConstantsForHouseCreating;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class inputForHouseNumber {
+public class InputForHouseNumber {
     public static int input() {
         int choice = 0;
         int result = 0; // will be 0 if chosen auto input

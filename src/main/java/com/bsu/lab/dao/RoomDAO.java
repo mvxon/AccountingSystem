@@ -3,7 +3,7 @@ package com.bsu.lab.dao;
 
 
 import com.bsu.lab.model.Room;
-import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
+import com.bsu.lab.util.database.connection.DataBaseConnection;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
@@ -27,19 +27,21 @@ public class RoomDAO implements DAO<Room> {
     }
 
     @Override
-    public void create(@NotNull final Room room) {
+    public boolean create(@NotNull final Room room) {
+        boolean result = false;
         try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(RoomSQL.INSERT.QUERY)) {
             statement.setInt(1, room.getFlatId());
             statement.setInt(2, room.getRoomNumber());
             statement.setDouble(3, room.getRoomSquare());
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+            result = resultSet.next();
             int roomId = resultSet.getInt(1);
             room.setId(roomId);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public @NotNull List<Room> read(@NotNull final Integer flatId) {

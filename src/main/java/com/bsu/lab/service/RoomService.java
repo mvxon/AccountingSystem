@@ -1,7 +1,7 @@
 package com.bsu.lab.service;
 
 import com.bsu.lab.model.Room;
-import com.bsu.lab.util.input.service.inputForRoomSquare;
+import com.bsu.lab.util.input.service.InputForRoomSquare;
 import org.jetbrains.annotations.NotNull;
 
 public class RoomService {
@@ -17,7 +17,7 @@ public class RoomService {
     public static @NotNull Room createRoom() {
         Room room = new Room();
         room.setRoomNumber();
-        double roomSquare = inputForRoomSquare.input(room.getRoomNumber() + 1);
+        double roomSquare = InputForRoomSquare.input(room.getRoomNumber() + 1);
         room.setRoomSquare(roomSquare);
         return room;
     }

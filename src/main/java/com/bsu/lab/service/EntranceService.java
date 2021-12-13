@@ -3,7 +3,7 @@ package com.bsu.lab.service;
 
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Floor;
-import com.bsu.lab.util.input.service.inputForFloorsCount;
+import com.bsu.lab.util.input.service.InputForFloorsCount;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ public class EntranceService {
     public static @NotNull Entrance createEntrance() {
         Entrance entrance = new Entrance();
         entrance.setEntranceNumber();
-        int floorsCount = inputForFloorsCount.input();
+        int floorsCount = InputForFloorsCount.input();
         for (int i = 0; i < floorsCount; i++) {
             if (i == 0) {
                 EntranceService.addFloor(entrance, FloorService.createFloor()); // first floor creating

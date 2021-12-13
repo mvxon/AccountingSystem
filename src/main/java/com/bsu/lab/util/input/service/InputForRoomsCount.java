@@ -2,7 +2,7 @@ package com.bsu.lab.util.input.service;
 
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-public class inputForRoomsCount {
+public class InputForRoomsCount {
     private final static int MAX_ROOMS_COUNT = 7;
     private final static int MIN_ROOMS_COUNT = 1;
 

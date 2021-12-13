@@ -1,7 +1,8 @@
 package com.bsu.lab.util.consolecontrol;
 
 import com.bsu.lab.model.House;
-import com.bsu.lab.util.database.dbconnection.DataBaseConnection;
+import com.bsu.lab.util.database.LoadHousesFromDatabaseAction;
+import com.bsu.lab.util.database.connection.DataBaseConnection;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.util.consolecontrol.action.*;
 import com.bsu.lab.constant.ConstantsForConsoleControl;

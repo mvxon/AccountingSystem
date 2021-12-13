@@ -5,7 +5,7 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.model.Room;
 import com.bsu.lab.constant.GeneralConstants;
-import com.bsu.lab.util.input.service.inputForRoomsCount;
+import com.bsu.lab.util.input.service.InputForRoomsCount;
 import org.jetbrains.annotations.NotNull;
 
 public class FlatService {
@@ -29,7 +29,7 @@ public class FlatService {
     public static @NotNull Flat createFlat() {
         Flat flat = new Flat();
         flat.setFlatNumber();
-        int roomsCount = inputForRoomsCount.input(flat.getFlatNumber());
+        int roomsCount = InputForRoomsCount.input(flat.getFlatNumber());
         flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
         System.out.println("Укажите площадь каждой комнаты: ");
         for (int i = 0; i < roomsCount; i++) {

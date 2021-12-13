@@ -4,7 +4,7 @@ import com.bsu.lab.constant.ConstantsForHouseCreating;
 
 import static com.bsu.lab.util.input.SecuredNumbersScanner.EnteringInfoCheck;
 
-public class inputForEntrancesCount {
+public class InputForEntrancesCount {
     private final static int MAX_ENTRANCES_COUNT = 20;
     private final static int MIN_ENTRANCES_COUNT = 1;
 
