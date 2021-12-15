@@ -1,7 +1,6 @@
 package com.bsu.lab.dao;
 
 
-
 import com.bsu.lab.model.Room;
 import com.bsu.lab.util.database.connection.DataBaseConnection;
 import org.jetbrains.annotations.NotNull;
@@ -44,18 +43,37 @@ public class RoomDAO implements DAO<Room> {
         return result;
     }
 
-    public @NotNull List<Room> read(@NotNull final Integer flatId) {
-        final List <Room> result = new ArrayList<>();
+    @Override
+    public @NotNull Room read(int id) {
+        Room room = new Room();
+        try (PreparedStatement statement = DataBaseConnection.getConnection().
+                prepareStatement(RoomSQL.GET.QUERY)) {
+            statement.setInt(1, id);
+            final ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                room.setId(rs.getInt("id"));
+                room.setRoomNumber(rs.getInt("roomNumber"));
+                room.setRoomSquare(rs.getDouble("roomSquare"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return room;
+    }
+
+    public @NotNull List<Room> readAllFromFlat(@NotNull final Integer flatId) {
+        final List<Room> result = new ArrayList<>();
         Room room;
-        try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(RoomSQL.GET.QUERY)) {
+        try (PreparedStatement statement = DataBaseConnection.getConnection().
+                prepareStatement(RoomSQL.GET_ALL_FROM_FLAT.QUERY)) {
             statement.setInt(1, flatId);
             final ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-               room = new Room();
-               room.setId(rs.getInt("id"));
-               room.setRoomNumber(rs.getInt("roomNumber"));
-               room.setRoomSquare(rs.getDouble("roomSquare"));
-               result.add(room);
+                room = new Room();
+                room.setId(rs.getInt("id"));
+                room.setRoomNumber(rs.getInt("roomNumber"));
+                room.setRoomSquare(rs.getDouble("roomSquare"));
+                result.add(room);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,7 +121,8 @@ public class RoomDAO implements DAO<Room> {
     }
 
     enum RoomSQL {
-        GET("SELECT * FROM rooms WHERE rooms.flatId = (?)"),
+        GET_ALL_FROM_FLAT("SELECT * FROM rooms WHERE rooms.flatId = (?)"),
+        GET("SELECT * FROM rooms WHERE rooms.id = (?)"),
         INSERT("INSERT INTO rooms (id, flatId, roomNumber, roomSquare) VALUES" +
                 " (DEFAULT, (?), (?), (?)) RETURNING id"),
         DELETE("DELETE FROM rooms WHERE id = (?)  RETURNING id"),

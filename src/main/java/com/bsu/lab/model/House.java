@@ -5,6 +5,7 @@ import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.service.HouseService;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class House {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@NotNull Object o) {
         if (o == null || this.getClass() != o.getClass()) return false;
         House house = (House) o;
         return this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()

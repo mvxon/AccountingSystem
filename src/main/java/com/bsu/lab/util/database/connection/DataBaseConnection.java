@@ -27,7 +27,8 @@ public class DataBaseConnection {
         return connection;
     }
 
-    public static void closeConnection() throws SQLException {
+    @Override
+    protected void finalize() throws Throwable {
         connection.close();
     }
 }

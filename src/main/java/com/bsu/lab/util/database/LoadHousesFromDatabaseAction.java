@@ -10,6 +10,6 @@ public class LoadHousesFromDatabaseAction {
     private static final HouseDAO houseDAO = HouseDAO.getInstance();
 
     public static void execute(@NotNull List<House> arrayOfHouses) {
-        arrayOfHouses.addAll(houseDAO.readAll());
+        arrayOfHouses.addAll(houseDAO.readAllExisting());
     }
 }

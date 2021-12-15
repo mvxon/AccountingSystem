@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FlatDAO implements DAO<Flat> {
     private static FlatDAO flatDAO;
-    private RoomDAO roomDAO = RoomDAO.getInstance();
+    private final RoomDAO roomDAO = RoomDAO.getInstance();
 
     private FlatDAO() {
 
@@ -50,10 +50,31 @@ public class FlatDAO implements DAO<Flat> {
         return result;
     }
 
-    public @NotNull List<Flat> read(@NotNull final Integer floorId) {
+    @Override
+    public Flat read(int id) {
+        Flat flat = new Flat();
+        try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(FlatSQL.GET.QUERY)) {
+            statement.setInt(1, id);
+            final ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                flat.setId(rs.getInt("id"));
+                flat.setFloorId(rs.getInt("floorId"));
+                flat.setFlatNumber(rs.getInt("flatNumber"));
+                flat.setRoomsCount(rs.getInt("roomsCount"));
+                flat.setResidentsCount(rs.getInt("residentsCount"));
+                flat.getRooms().addAll(roomDAO.readAllFromFlat(flat.getId()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flat;
+    }
+
+    public @NotNull List<Flat> readAllFromFloor(@NotNull final Integer floorId) {
         final List<Flat> result = new ArrayList<>();
         Flat flat;
-        try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(FlatSQL.GET.QUERY)) {
+        try (PreparedStatement statement = DataBaseConnection.getConnection().
+                prepareStatement(FlatSQL.GET_ALL_FROM_FLOOR.QUERY)) {
             statement.setInt(1, floorId);
             final ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -63,7 +84,7 @@ public class FlatDAO implements DAO<Flat> {
                 flat.setFlatNumber(rs.getInt("flatNumber"));
                 flat.setRoomsCount(rs.getInt("roomsCount"));
                 flat.setResidentsCount(rs.getInt("residentsCount"));
-                flat.getRooms().addAll(roomDAO.read(flat.getId()));
+                flat.getRooms().addAll(roomDAO.readAllFromFlat(flat.getId()));
                 result.add(flat);
             }
         } catch (SQLException e) {
@@ -119,7 +140,8 @@ public class FlatDAO implements DAO<Flat> {
     }
 
     enum FlatSQL {
-        GET("SELECT * FROM flats WHERE flats.floorId = (?)"),
+        GET_ALL_FROM_FLOOR("SELECT * FROM flats WHERE flats.floorId = (?)"),
+        GET("SELECT * FROM flats WHERE flats.id = (?)"),
         INSERT("INSERT INTO flats (id, floorId, flatNumber, roomsCount, residentsCount) VALUES" +
                 " (DEFAULT, (?), (?), (?), (?)) RETURNING id"),
         DELETE("DELETE FROM flats WHERE id = (?)  RETURNING id"),

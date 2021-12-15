@@ -8,13 +8,11 @@ import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.util.input.service.InputForEntrancesCount;
 import com.bsu.lab.util.input.service.InputForHouseNumber;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 @Setter
-@NoArgsConstructor
 public class HouseService {
     private static HouseService houseService;
     private static final HouseDAO dao = HouseDAO.getInstance();
@@ -85,10 +83,8 @@ public class HouseService {
     public static Floor getFloorByFlatNumber(@NotNull Entrance entrance, int flatNumber) {
         int temp = flatNumber - entrance.getEntranceNumber() * entrance.getFloorsCount() *
                 entrance.getFloors().get(0).getFlatsCount();
-        if (temp % entrance.getFloors().get(0).getFlatsCount() != 0) {
-            do {
-                temp++;
-            } while (temp % entrance.getFloors().get(0).getFlatsCount() != 0);
+        while (temp % entrance.getFloors().get(0).getFlatsCount() != 0) {
+            temp++;
         }
         return entrance.getFloors().get((temp / entrance.getFloors().get(0).getFlatsCount()) - 1);
     }
@@ -100,8 +96,8 @@ public class HouseService {
         int subtrahend = entranceNumber * floorsCount * flatsPerFloor;
         Entrance entrance = HouseService.getEntranceByFlatNumber(house, flatNumber);
         int floorNumber = HouseService.getFloorByFlatNumber(entrance, flatNumber).getFloorNumber();
-        int temp2 = floorNumber * flatsPerFloor;
-        subtrahend += temp2;
+        int totalFlatsCount = floorNumber * flatsPerFloor;
+        subtrahend += totalFlatsCount;
         int result = flatNumber - subtrahend;
         result--;
         Floor floor = HouseService.getFloorByFlatNumber(entrance, flatNumber);
@@ -116,6 +112,21 @@ public class HouseService {
     public static void addEntrance(@NotNull House house, @NonNull Entrance entrance) {
         house.getEntrances().add(entrance);
         house.setEntrancesCount(house.getEntrancesCount() + 1);
+    }
+
+    public static @NotNull House copyHouse(@NotNull House house) {
+        House resultHouse = new House();
+        resultHouse.setHouseNumber();
+        resultHouse.setEntrancesCount(house.getEntrancesCount());
+        for (Entrance entrance : house.getEntrances()) {
+            resultHouse.getEntrances().add(new Entrance(entrance));
+        }
+        return resultHouse;
+    }
+
+    public static int getFloorsCount(@NotNull House house) {
+        int floorsCount = house.getEntrances().get(0).getFloorsCount();
+        return floorsCount;
     }
 
 

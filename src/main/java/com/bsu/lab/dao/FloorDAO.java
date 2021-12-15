@@ -49,10 +49,31 @@ public class FloorDAO implements DAO<Floor> {
         return result;
     }
 
-    public @NotNull List<Floor> read(@NotNull final Integer entranceId) {
+    @Override
+    public @NotNull Floor read(int id) {
+        Floor floor = new Floor();
+        try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(FloorSQL.GET.QUERY)) {
+            statement.setInt(1, id);
+            final ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                floor.setId(rs.getInt("id"));
+                floor.setEntranceId(rs.getInt("entranceId"));
+                floor.setFloorNumber(rs.getInt("floorNumber"));
+                floor.setFlatsCount(rs.getInt("flatsCount"));
+                floor.getFlats().addAll(flatDAO.readAllFromFloor(floor.getId()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return floor;
+    }
+
+    public @NotNull List<Floor> readAllFromEntrance(@NotNull final Integer entranceId) {
         final List<Floor> result = new ArrayList<>();
         Floor floor;
-        try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(FloorSQL.GET.QUERY)) {
+        try (PreparedStatement statement = DataBaseConnection.getConnection().
+                prepareStatement(FloorSQL.GET_ALL_FROM_ENTRANCE.QUERY)) {
             statement.setInt(1, entranceId);
             final ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -61,7 +82,7 @@ public class FloorDAO implements DAO<Floor> {
                 floor.setEntranceId(rs.getInt("entranceId"));
                 floor.setFloorNumber(rs.getInt("floorNumber"));
                 floor.setFlatsCount(rs.getInt("flatsCount"));
-                floor.getFlats().addAll(flatDAO.read(floor.getId()));
+                floor.getFlats().addAll(flatDAO.readAllFromFloor(floor.getId()));
                 result.add(floor);
             }
         } catch (SQLException e) {
@@ -115,7 +136,8 @@ public class FloorDAO implements DAO<Floor> {
     }
 
     enum FloorSQL {
-        GET("SELECT * FROM floors WHERE floors.entranceId = (?)"),
+        GET_ALL_FROM_ENTRANCE("SELECT * FROM floors WHERE floors.entranceId = (?)"),
+        GET("SELECT * FROM floors WHERE floors.id = (?)"),
         INSERT("INSERT INTO floors (id, entranceId, floorNumber, flatsCount) VALUES (DEFAULT, (?), (?), (?)) " +
                 "RETURNING id"),
         DELETE("DELETE FROM floors WHERE id = (?)  RETURNING id"),

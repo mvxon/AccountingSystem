@@ -12,13 +12,13 @@ public class InputForHouseCompareNumbers {
 
     public static void input(List<House> arrayOfHouses) {
         System.out.println("Выберите первый дом для сравнения: ");
-        int houseCompareNumber1 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+        firstHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
 
         System.out.println("Выберите второй дом для сравнения: ");
-        int houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
-        while (houseCompareNumber2 == houseCompareNumber1) {
+        secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+        while (secondHouseCompareNumber == firstHouseCompareNumber ) {
             System.out.println("Дом с таким номером уже добавлен к сравнению");
-            houseCompareNumber2 = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+            secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         }
     }
 

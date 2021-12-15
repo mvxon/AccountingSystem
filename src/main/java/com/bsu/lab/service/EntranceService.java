@@ -4,10 +4,9 @@ package com.bsu.lab.service;
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Floor;
 import com.bsu.lab.util.input.service.InputForFloorsCount;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@NoArgsConstructor
+
 public class EntranceService {
     private static EntranceService entranceService;
 

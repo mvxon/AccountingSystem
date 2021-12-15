@@ -38,7 +38,6 @@ public class ConsoleControlForHousesAccounting {
                     CompareFlatsAction.execute(arrayOfHouses);
                     break;
                 case 6: // exit
-                    DataBaseConnection.closeConnection();
                     System.exit(0);
                     break;
                 default:

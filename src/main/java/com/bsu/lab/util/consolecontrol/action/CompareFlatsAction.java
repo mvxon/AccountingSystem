@@ -4,7 +4,7 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.consolecontrol.action.subaction.FindDiffParametersForFlatsComparingAction;
+import com.bsu.lab.util.comparer.FlatsComparer;
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
 import com.bsu.lab.util.input.consolecontrol.action.InputForFlatCompareNumbers;
@@ -35,7 +35,9 @@ public class CompareFlatsAction {
         if (flatForCompare1.equals(flatForCompare2)) {
             System.out.println("Квартиры одинаковы!");
         } else {
-            FindDiffParametersForFlatsComparingAction.execute(flatForCompare1, flatForCompare2);
+            FlatsComparer flatsDifferingParameters =
+                    new FlatsComparer(flatForCompare1, flatForCompare2);
+            flatsDifferingParameters.printDifferingParameters();
         }
     }
 

@@ -53,12 +53,31 @@ public class EntranceDAO implements DAO<Entrance> {
         return result;
     }
 
+    @Override
+    public @NotNull Entrance read(int id) {
+        Entrance entrance = new Entrance();
+        try (PreparedStatement statement = DataBaseConnection.getConnection()
+                .prepareStatement(EntranceSQL.GET.QUERY)) {
+            statement.setInt(1, id);
+            final ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                entrance.setId(rs.getInt("id"));
+                entrance.setHouseId(rs.getInt("houseId"));
+                entrance.setEntranceNumber(rs.getInt("entranceNumber"));
+                entrance.setFloorsCount(rs.getInt("floorsCount"));
+                entrance.getFloors().addAll(floorDAO.readAllFromEntrance(entrance.getId()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entrance;
+    }
 
-    public @NotNull List<Entrance> read(@NotNull final Integer houseId) {
+    public @NotNull List<Entrance> readAllFromHouse(@NotNull final Integer houseId) {
         final List<Entrance> result = new ArrayList<>();
         Entrance entrance;
         try (PreparedStatement statement = DataBaseConnection.getConnection()
-                .prepareStatement(EntranceSQL.GET.QUERY)) {
+                .prepareStatement(EntranceSQL.GET_ALL_FROM_HOUSE.QUERY)) {
             statement.setInt(1, houseId);
             final ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -67,7 +86,7 @@ public class EntranceDAO implements DAO<Entrance> {
                 entrance.setHouseId(rs.getInt("houseId"));
                 entrance.setEntranceNumber(rs.getInt("entranceNumber"));
                 entrance.setFloorsCount(rs.getInt("floorsCount"));
-                entrance.getFloors().addAll(floorDAO.read(entrance.getId()));
+                entrance.getFloors().addAll(floorDAO.readAllFromEntrance(entrance.getId()));
                 result.add(entrance);
             }
         } catch (SQLException e) {
@@ -125,7 +144,8 @@ public class EntranceDAO implements DAO<Entrance> {
     }
 
     enum EntranceSQL {
-        GET("SELECT * FROM entrances WHERE entrances.houseId = (?)"),
+        GET_ALL_FROM_HOUSE("SELECT * FROM entrances WHERE entrances.houseId = (?)"),
+        GET("SELECT * FROM entrances WHERE entrances.id = (?)"),
         INSERT("INSERT INTO entrances (id, houseId, entranceNumber, floorsCount) VALUES" +
                 " (DEFAULT, (?), (?), (?)) RETURNING id"),
         DELETE("DELETE FROM entrances WHERE id = (?)  RETURNING id"),
