@@ -4,9 +4,9 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
-import com.bsu.lab.util.consolecontrol.action.subaction.FindDiffParametersForFlatsAction;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.util.comparer.FlatsComparer;
+import com.bsu.lab.constant.GeneralConstants;
+import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
 import com.bsu.lab.util.input.consolecontrol.action.InputForFlatCompareNumbers;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CompareFlatsAction {
     public static void execute(@NotNull List<House> arrayOfHouses) {
-        if(!AvailabilityOfHousesCheck.check(arrayOfHouses)) return;
+        if (NoAvailableHousesCheck.check()) return;
 
         if (arrayOfHouses.size() == 1 && HouseService.getFlatsCount(arrayOfHouses.get(0)) == 1) {
             System.out.println("Недостаточно квартир для сравнения. Добавьте еще дома");
@@ -22,9 +22,9 @@ public class CompareFlatsAction {
         }
 
         InputForFlatCompareNumbers.input(arrayOfHouses);
-        House houseForCompare1 = arrayOfHouses.get(InputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare()-1);
+        House houseForCompare1 = arrayOfHouses.get(InputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare() - 1);
         Flat flatForCompare1 = HouseService.getFlat(houseForCompare1, InputForFlatCompareNumbers.getFirstFlatCompareNumber());
-        House houseForCompare2 = arrayOfHouses.get(InputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare()-1);
+        House houseForCompare2 = arrayOfHouses.get(InputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare() - 1);
         Flat flatForCompare2 = HouseService.getFlat(houseForCompare2, InputForFlatCompareNumbers.getSecondFlatCompareNumber());
 
         System.out.println(GeneralConstants.SEPARATION);
@@ -35,7 +35,9 @@ public class CompareFlatsAction {
         if (flatForCompare1.equals(flatForCompare2)) {
             System.out.println("Квартиры одинаковы!");
         } else {
-            FindDiffParametersForFlatsAction.execute(flatForCompare1, flatForCompare2);
+            FlatsComparer flatsDifferingParameters =
+                    new FlatsComparer(flatForCompare1, flatForCompare2);
+            flatsDifferingParameters.printDifferingParameters();
         }
     }
 

@@ -16,6 +16,7 @@ public class InputForFlatNumber {
         }
         flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
         while (flatNumber > HouseService.getFlatsCount(house) || flatNumber <= 0) {
+
             System.out.println("Введен номер несуществующей квартиры...Повторите ввод");
             flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
         }

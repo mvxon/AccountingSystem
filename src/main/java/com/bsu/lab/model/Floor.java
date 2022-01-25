@@ -1,6 +1,7 @@
 package com.bsu.lab.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,16 +10,19 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Floor {
+    private int id;
+    private int entranceId;
     private int floorNumber;
     private static int floorNumberCounter;
     private final List<Flat> flats = new ArrayList<>();
     private int flatsCount = 0;
 
-    public Floor() {
+
+    public void setFloorNumber() {
         this.floorNumber = floorNumberCounter;
         floorNumberCounter++;
-
     }
 
     // copy constructor

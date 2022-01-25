@@ -1,6 +1,6 @@
-package com.bsu.lab.util.input.creator;
+package com.bsu.lab.util.input.service;
 
-import com.bsu.lab.util.constants.ConstantsForHouseCreating;
+import com.bsu.lab.constant.ConstantsForHouseCreating;
 
 import static com.bsu.lab.util.input.SecuredNumbersScanner.EnteringInfoCheck;
 
@@ -14,7 +14,6 @@ public class InputForEntrancesCount {
             System.out.println(ConstantsForHouseCreating.INVALID_INPUT_ERROR);
             entrancesCount = EnteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_ENTRANCES_COUNT);
         }
-
         return entrancesCount;
     }
 }

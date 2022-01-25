@@ -1,7 +1,7 @@
-package com.bsu.lab.util.input.creator;
+package com.bsu.lab.util.input.service;
 
 import com.bsu.lab.util.input.SecuredNumbersScanner;
-import com.bsu.lab.util.constants.ConstantsForHouseCreating;
+import com.bsu.lab.constant.ConstantsForHouseCreating;
 
 public class InputForFlatsCount {
     private final static int MAX_FLATS_COUNT = 20;

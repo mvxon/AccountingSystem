@@ -1,4 +1,4 @@
-package com.bsu.lab.util.constants;
+package com.bsu.lab.constant;
 
 public class ConstantsForConsoleControl {
     public final static String QUESTION_OF_MAIN_ACTION =

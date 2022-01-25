@@ -4,10 +4,10 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
+import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
-import com.bsu.lab.util.constants.ConstantsForConsoleControl;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.ConstantsForConsoleControl;
+import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.util.input.consolecontrol.action.InputForFlatNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GetHouseInfoAction {
     public static void execute(@NotNull List<House> arrayOfHouses) {
-        if (!AvailabilityOfHousesCheck.check(arrayOfHouses)) return;
+        if (NoAvailableHousesCheck.check()) return;
 
         int houseNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses); // house number entering
         House houseForAdditionalAction = arrayOfHouses.get(houseNumber - 1); // house for additional action
@@ -34,9 +34,6 @@ public class GetHouseInfoAction {
                     System.out.println(FlatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
                     break;
                 case 3: // exit to menu
-                    break;
-                default:
-                    System.out.println("Введено неверное значение. Повторите попытку");
                     break;
             }
         } while (additionalAction != 3);

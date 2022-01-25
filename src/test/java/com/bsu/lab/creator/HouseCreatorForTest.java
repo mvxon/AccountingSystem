@@ -10,9 +10,16 @@ import org.jetbrains.annotations.NotNull;
 public class HouseCreatorForTest {
     public static @NotNull House createHouseForTest() {
         House house = new House();
+
         Entrance entrance = new Entrance();
+        entrance.setEntranceNumber();
+
         Floor floor = new Floor();
+        floor.setFloorNumber();
+
         Flat flat = new Flat();
+        flat.setFlatNumber();
+        flat.setResidentsCount(5);
 
         Room room1 = new Room();
         room1.setRoomSquare(1);

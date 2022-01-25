@@ -16,8 +16,7 @@ public class InputForHouseCompareNumbers {
 
         System.out.println("Выберите второй дом для сравнения: ");
         secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
-        while (secondHouseCompareNumber == firstHouseCompareNumber) {
-
+        while (secondHouseCompareNumber == firstHouseCompareNumber ) {
             System.out.println("Дом с таким номером уже добавлен к сравнению");
             secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
         }

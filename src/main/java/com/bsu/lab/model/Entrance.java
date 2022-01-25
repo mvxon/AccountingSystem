@@ -9,18 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class Entrance {
+    private int id;
+    private int houseId;
     private static int entranceNumberCounter;
-    public int entranceNumber;
-    @Setter
+    private int entranceNumber;
     private int floorsCount = 0;
     private final List<Floor> floors = new ArrayList<>();
 
-
     public Entrance() {
+        Floor.NullifyFloorNumberCounter();
+    }
+
+    public void setEntranceNumber() {
         this.entranceNumber = entranceNumberCounter;
         entranceNumberCounter++;
-        Floor.NullifyFloorNumberCounter();
+
     }
 
     // copy constructor

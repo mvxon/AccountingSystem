@@ -1,30 +1,34 @@
 package com.bsu.lab.model;
 
+import com.bsu.lab.constant.GeneralConstants;
+import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.constants.GeneralConstants;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class House {
-    private static int currentHouseNumber;
-    private final int houseNumber;
-    @Setter
+    private int id;
+    private int houseNumber;
     private int entrancesCount = 0;
     private final List<Entrance> entrances = new ArrayList<>();
 
     public House() {
-        this.houseNumber = currentHouseNumber + 1;
         Entrance.NullifyEntranceNumberCounter();
         Flat.nullifyFlatNumberCounter();
-        currentHouseNumber++;
+    }
+
+    public void setHouseNumber() {
+        this.houseNumber = HouseDAO.getHousesCount() + 1;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@NotNull Object o) {
         if (o == null || this.getClass() != o.getClass()) return false;
         House house = (House) o;
         return this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()
