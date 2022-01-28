@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.dao;
 
 
@@ -136,3 +137,4 @@ public class RoomDAO implements DAO<Room> {
         }
     }
 }
+*/

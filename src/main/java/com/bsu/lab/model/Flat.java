@@ -5,20 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@Entity
 @Getter
 @Setter
 public class Flat {
+    @Id
+    @GeneratedValue
     private int id;
-    private int floorId;
     private int residentsCount;
     private int roomsCount = 0;
     private int flatNumber;
     private static int flatNumberCounter;
-    private final List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "flat_id")
+    private List<Room> rooms = new ArrayList<>();
 
     public Flat() {
         Room.nullifyRoomNumberCounter();

@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.dao;
 
 import com.bsu.lab.model.Entrance;
@@ -159,3 +160,4 @@ public class EntranceDAO implements DAO<Entrance> {
     }
 }
 
+*/

@@ -1,22 +1,29 @@
 package com.bsu.lab.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
 public class Entrance {
+    @Id
+    @GeneratedValue
     private int id;
-    private int houseId;
     private static int entranceNumberCounter;
     private int entranceNumber;
     private int floorsCount = 0;
-    private final List<Floor> floors = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "entrance_id")
+    private List<Floor> floors = new ArrayList<>();
 
     public Entrance() {
         Floor.NullifyFloorNumberCounter();

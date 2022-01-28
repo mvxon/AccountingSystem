@@ -9,7 +9,7 @@ import java.util.List;
 public class LoadHousesFromDatabaseAction {
     private static final HouseDAO houseDAO = HouseDAO.getInstance();
 
-    public static void execute(@NotNull List<House> arrayOfHouses) {
+   /* public static void execute(@NotNull List<House> arrayOfHouses) {
         arrayOfHouses.addAll(houseDAO.readAllExisting());
-    }
+    }*/
 }

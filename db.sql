@@ -1,4 +1,4 @@
-CREATE DATABASE accounting_system ENCODING 'UTF-8';
+CREATE DATABASE accounting_system1 ENCODING 'UTF-8';
 
 
 CREATE TABLE IF NOT EXISTS houses (

@@ -1,15 +1,15 @@
 package com.bsu.lab.dao;
 
 public interface DAO<Entity> {
-    boolean create(Entity model);
+    void create(Entity model);
 
     Entity read(int id);
 
-    boolean update(Entity model);
+    void update(Entity model);
 
-    boolean delete(Entity model);
+    void delete(Entity model);
 
-    boolean deleteAll();
+    void deleteAll();
 
 
 }

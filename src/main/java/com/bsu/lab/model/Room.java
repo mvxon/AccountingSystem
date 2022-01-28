@@ -5,12 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Room {
+    @Id
+    @GeneratedValue
     private int id;
-    private int flatId;
     private int roomNumber;
     private static int roomNumberCounter;
     private double roomSquare;

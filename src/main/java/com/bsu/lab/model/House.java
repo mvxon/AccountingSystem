@@ -7,16 +7,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
 @Getter
 @Setter
 public class House {
+    @Id
+    @GeneratedValue
     private int id;
     private int houseNumber;
     private int entrancesCount = 0;
-    private final List<Entrance> entrances = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "house_id")
+    private List<Entrance> entrances = new ArrayList<>();
 
     public House() {
         Entrance.NullifyEntranceNumberCounter();
