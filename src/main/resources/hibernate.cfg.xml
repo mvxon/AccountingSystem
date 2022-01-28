@@ -6,11 +6,6 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">1</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
-
-        <mapping class="com.bsu.lab.model.House" />
-        <mapping class="com.bsu.lab.model.Entrance" />
-        <mapping class="com.bsu.lab.model.Floor" />
-        <mapping class="com.bsu.lab.model.Flat" />
-        <mapping class="com.bsu.lab.model.Room" />
+        
     </session-factory>
 </hibernate-configuration>
