@@ -3,8 +3,8 @@ package com.bsu.lab.util.input.consolecontrol.action;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
-import com.bsu.lab.util.constants.ConstantsForFlatsComparison;
-import com.bsu.lab.util.constants.GeneralConstants;
+import com.bsu.lab.constant.ConstantsForFlatsComparison;
+import com.bsu.lab.constant.GeneralConstants;
 
 import java.util.List;
 

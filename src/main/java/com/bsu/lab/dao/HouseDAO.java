@@ -2,7 +2,11 @@ package com.bsu.lab.dao;
 
 import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.House;
+import com.bsu.lab.util.HibernateUtil;
 import com.bsu.lab.util.database.connection.DataBaseConnection;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
@@ -13,7 +17,7 @@ import java.util.List;
 
 public class HouseDAO implements DAO<House> {
     private static HouseDAO houseDAO;
-    private final EntranceDAO entranceDAO = EntranceDAO.getInstance();
+
 
     private HouseDAO() {
 
@@ -27,73 +31,33 @@ public class HouseDAO implements DAO<House> {
     }
 
     @Override
-    public boolean create(@NotNull final House house) {
-        boolean result = false;
-        try (PreparedStatement statement = DataBaseConnection.getConnection()
-                .prepareStatement(HouseSQL.INSERT.QUERY)) {
-            statement.setInt(1, house.getHouseNumber());
-            statement.setInt(2, house.getEntrancesCount());
+    public void create(@NotNull final House house) {
+        SessionFactory factory = null;
+        factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        session.beginTransaction();
+        session.save(house);
+        session.getTransaction().commit();
 
-            ResultSet resultSet = statement.executeQuery();
-            result = resultSet.next();
-            int houseId = resultSet.getInt(1);
-            house.setId(houseId);
-            for (Entrance entrance : house.getEntrances()) {
-                entrance.setHouseId(houseId);
-                entranceDAO.create(entrance);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     public House read(final int id) {
-        final House resultHouse = new House();
-
-        try (PreparedStatement statement = DataBaseConnection.getConnection().
-                prepareStatement(HouseSQL.GET.QUERY)) {
-            statement.setInt(1, id);
-            final ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                resultHouse.setId(rs.getInt("id"));
-                resultHouse.setHouseNumber(rs.getInt("houseNumber"));
-                resultHouse.setEntrancesCount(rs.getInt("entrancesCount"));
-            }
-            resultHouse.getEntrances().addAll(entranceDAO.readAllFromHouse(resultHouse.getId()));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try (final Session session = HibernateUtil.getSession()) {
+            return session.get(House.class, id);
         }
-        return resultHouse;
     }
 
-    public List<House> readAllExisting() {
-        final List<House> result = new ArrayList<>();
-        House house;
-
-        try (PreparedStatement statement = DataBaseConnection.getConnection().
-                prepareStatement(HouseSQL.GET_ALL_EXISTING.QUERY)) {
-            final ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                house = new House();
-                house.setId(rs.getInt("id"));
-                house.setHouseNumber(rs.getInt("houseNumber"));
-                house.setEntrancesCount(rs.getInt("entrancesCount"));
-                house.getEntrances().addAll(entranceDAO.readAllFromHouse(house.getId()));
-                result.add(house);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+    /*public List<House> readAllExisting() {
+        try (final Session session = HibernateUtil.getSession()) {
+            final List<House> result = session.createQuery("SELECT * FROM houses").list();
+            return result;
         }
-        return result;
-    }
+    }*/
 
 
     @Override
-    public boolean update(@NotNull final House house) {
-        boolean result = false;
+    public void update(@NotNull final House house) {
+       /* boolean result = false;
 
         try (PreparedStatement statement = DataBaseConnection.getConnection().
                 prepareStatement(HouseSQL.UPDATE.QUERY)) {
@@ -104,12 +68,12 @@ public class HouseDAO implements DAO<House> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return result;*/
     }
 
     @Override
-    public boolean delete(@NotNull final House house) {
-        boolean result = false;
+    public void delete(@NotNull final House house) {
+        /*boolean result = false;
 
         try (PreparedStatement statement = DataBaseConnection.getConnection().
                 prepareStatement(HouseSQL.DELETE.QUERY)) {
@@ -121,12 +85,12 @@ public class HouseDAO implements DAO<House> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return result;*/
     }
 
     @Override
-    public boolean deleteAll() {
-        boolean result = false;
+    public void deleteAll() {
+        /*boolean result = false;
         try (PreparedStatement statement = DataBaseConnection.getConnection().
                 prepareStatement(HouseSQL.DELETE_ALL.QUERY)) {
             result = statement.executeQuery().next();
@@ -134,7 +98,7 @@ public class HouseDAO implements DAO<House> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return result;*/
     }
 
     public static int getHousesCount() {

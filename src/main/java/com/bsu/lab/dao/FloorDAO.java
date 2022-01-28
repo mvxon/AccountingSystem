@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.dao;
 
 
@@ -151,3 +152,4 @@ public class FloorDAO implements DAO<Floor> {
         }
     }
 }
+*/

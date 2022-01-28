@@ -5,19 +5,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Floor {
+    @Id
+    @GeneratedValue
     private int id;
-    private int entranceId;
+
     private int floorNumber;
     private static int floorNumberCounter;
-    private final List<Flat> flats = new ArrayList<>();
     private int flatsCount = 0;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "floor_id")
+    private List<Flat> flats = new ArrayList<>();
 
 
     public void setFloorNumber() {

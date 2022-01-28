@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.dao;
 
 
@@ -156,3 +157,4 @@ public class FlatDAO implements DAO<Flat> {
         }
     }
 }
+*/

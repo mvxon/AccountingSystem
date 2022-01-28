@@ -1,4 +1,4 @@
-package com.bsu.lab.util.input.creator;
+package com.bsu.lab.util.input.service;
 
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 

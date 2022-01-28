@@ -16,7 +16,7 @@ import java.util.List;
 public class ConsoleControlForHousesAccounting {
     public void start() throws SQLException {
         List<House> arrayOfHouses = new ArrayList<>();
-        LoadHousesFromDatabaseAction.execute(arrayOfHouses);
+/*        LoadHousesFromDatabaseAction.execute(arrayOfHouses);*/
         int mainAction;
         do {
             mainAction = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_MAIN_ACTION);
