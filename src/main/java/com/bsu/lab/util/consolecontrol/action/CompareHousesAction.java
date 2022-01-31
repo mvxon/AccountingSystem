@@ -2,35 +2,36 @@ package com.bsu.lab.util.consolecontrol.action;
 
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.model.House;
-import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
-import com.bsu.lab.util.input.consolecontrol.action.InputForHouseCompareNumbers;
+import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
+import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
+import com.bsu.lab.util.input.consolecontrol.action.comparing.InputForHouseCompareNumbers;
 import com.bsu.lab.util.comparer.HousesComparer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
 public class CompareHousesAction {
-    public static void execute(@NotNull List<House> arrayOfHouses) {
-        if (NoAvailableHousesCheck.check()) return;
+    public static void execute(@NotNull Set<House> setOfHouses) {
+        if (AvailabilityOfHousesCheck.check()) return;
 
-        if (arrayOfHouses.size() < 2) {
+        if (setOfHouses.size() < 2) {
             System.out.println("Недостаточно домов в списке для сравнения. Добавьте еще дома");
             return;
         }
 
-        InputForHouseCompareNumbers.input(arrayOfHouses);
+        InputForHouseCompareNumbers.input(setOfHouses);
         int houseCompareNumber1 = InputForHouseCompareNumbers.getFirstHouseCompareNumber();
         int houseCompareNumber2 = InputForHouseCompareNumbers.getSecondHouseCompareNumber();
 
-        House houseForCompare1 = arrayOfHouses.get(houseCompareNumber1 - 1);
-        House houseForCompare2 = arrayOfHouses.get(houseCompareNumber2 - 1);
+        House houseForCompare1 = GetHouseFromSetByNumber.get(setOfHouses, houseCompareNumber1);
+        House houseForCompare2 = GetHouseFromSetByNumber.get(setOfHouses, houseCompareNumber2);
 
         System.out.print(GeneralConstants.SEPARATION + "\nДом 1" + houseForCompare1);
 
         System.out.print("Дом 2" + houseForCompare2);
 
 
-        if (houseForCompare1.equals(houseForCompare2)) {
+        if (houseForCompare1.compareTo(houseForCompare2) == 0) {
             System.out.println("Дома одинаковы!");
         } else {
             HousesComparer housesDifferingParameters =

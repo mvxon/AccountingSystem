@@ -1,9 +1,11 @@
 package com.bsu.lab.dao;
 
+import java.util.List;
+
 public interface DAO<Entity> {
     void create(Entity model);
 
-    Entity read(int id);
+    List<Entity> read();
 
     void update(Entity model);
 

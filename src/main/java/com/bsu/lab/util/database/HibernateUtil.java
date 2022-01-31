@@ -1,4 +1,4 @@
-package com.bsu.lab.util;
+package com.bsu.lab.util.database;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -20,5 +20,8 @@ public class HibernateUtil {
 
     public static Session getSession() throws HibernateException {
         return sessionFactory.openSession();
+    }
+    public static void closeConnection(){
+        sessionFactory.close();
     }
 }

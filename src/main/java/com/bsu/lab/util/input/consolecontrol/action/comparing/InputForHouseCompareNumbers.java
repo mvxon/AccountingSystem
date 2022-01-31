@@ -1,24 +1,24 @@
-package com.bsu.lab.util.input.consolecontrol.action;
+package com.bsu.lab.util.input.consolecontrol.action.comparing;
 
 import com.bsu.lab.model.House;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 
-import java.util.List;
+import java.util.Set;
 
 
 public class InputForHouseCompareNumbers {
     private static int firstHouseCompareNumber = 0;
     private static int secondHouseCompareNumber = 0;
 
-    public static void input(List<House> arrayOfHouses) {
+    public static void input(Set<House> setOfHouses) {
         System.out.println("Выберите первый дом для сравнения: ");
-        firstHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+        firstHouseCompareNumber = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
 
         System.out.println("Выберите второй дом для сравнения: ");
-        secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+        secondHouseCompareNumber = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
         while (secondHouseCompareNumber == firstHouseCompareNumber ) {
             System.out.println("Дом с таким номером уже добавлен к сравнению");
-            secondHouseCompareNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses);
+            secondHouseCompareNumber = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
         }
     }
 

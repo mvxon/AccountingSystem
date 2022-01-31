@@ -4,27 +4,30 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
+import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
 import com.bsu.lab.util.comparer.FlatsComparer;
 import com.bsu.lab.constant.GeneralConstants;
-import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
-import com.bsu.lab.util.input.consolecontrol.action.InputForFlatCompareNumbers;
+import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
+import com.bsu.lab.util.input.consolecontrol.action.comparing.InputForFlatCompareNumbers;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
 public class CompareFlatsAction {
-    public static void execute(@NotNull List<House> arrayOfHouses) {
-        if (NoAvailableHousesCheck.check()) return;
+    public static void execute(@NotNull Set<House> setOfHouses) {
+        if (AvailabilityOfHousesCheck.check()) return;
 
-        if (arrayOfHouses.size() == 1 && HouseService.getFlatsCount(arrayOfHouses.get(0)) == 1) {
+        if (setOfHouses.size() == 1 && HouseService.getFlatsCount(setOfHouses.iterator().next()) == 1) {
             System.out.println("Недостаточно квартир для сравнения. Добавьте еще дома");
             return;
         }
 
-        InputForFlatCompareNumbers.input(arrayOfHouses);
-        House houseForCompare1 = arrayOfHouses.get(InputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare() - 1);
+        InputForFlatCompareNumbers.input(setOfHouses);
+        House houseForCompare1 = GetHouseFromSetByNumber.get(setOfHouses,
+                InputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare());
         Flat flatForCompare1 = HouseService.getFlat(houseForCompare1, InputForFlatCompareNumbers.getFirstFlatCompareNumber());
-        House houseForCompare2 = arrayOfHouses.get(InputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare() - 1);
+        House houseForCompare2 = GetHouseFromSetByNumber.get(setOfHouses,
+                InputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare());
         Flat flatForCompare2 = HouseService.getFlat(houseForCompare2, InputForFlatCompareNumbers.getSecondFlatCompareNumber());
 
         System.out.println(GeneralConstants.SEPARATION);

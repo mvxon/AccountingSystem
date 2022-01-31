@@ -5,11 +5,11 @@ import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
 public class AddHouseAction {
-    public static void execute(@NotNull List<House> arrayOfHouses){
+    public static void execute(@NotNull Set<House> setOfHouses){
         House house = HouseService.createHouse();
-        arrayOfHouses.add(house);
+        setOfHouses.add(house);
     }
 }

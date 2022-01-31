@@ -1,32 +1,31 @@
 package com.bsu.lab.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
-public class Entrance {
+@Table(name = "entrances")
+public class Entrance implements Comparable<Entrance> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private static int entranceNumberCounter;
     private int entranceNumber;
     private int floorsCount = 0;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "entrance_id")
-    private List<Floor> floors = new ArrayList<>();
+    private Set<Floor> floors = new LinkedHashSet<>();
 
     public Entrance() {
-        Floor.NullifyFloorNumberCounter();
+        Floor.nullifyFloorNumberCounter();
     }
 
     public void setEntranceNumber() {
@@ -35,22 +34,41 @@ public class Entrance {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entrance entrance = (Entrance) o;
+        return entranceNumber == entrance.entranceNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(entranceNumber);
+    }
+
     // copy constructor
     public Entrance(@NotNull Entrance entrance) {
         this.entranceNumber = entranceNumberCounter;
         entranceNumberCounter++;
-        Floor.NullifyFloorNumberCounter();
+        Floor.nullifyFloorNumberCounter();
         this.floorsCount = entrance.floorsCount;
-        for (int i = 0; i < this.floorsCount; i++) {
-            this.floors.add(new Floor(entrance.floors.get(0)));
+        for (Floor floor : entrance.floors) {
+            this.floors.add(new Floor(floor));
         }
     }
 
 
-    public static void NullifyEntranceNumberCounter() {
-        entranceNumberCounter = 0;
+    public static void nullifyEntranceNumberCounter() {
+        entranceNumberCounter = 1;
     }
 
+    @Override
+    public int compareTo(@NotNull Entrance o) {
+        if (floorsCount > o.floorsCount) return 1;
+        if (floorsCount < o.floorsCount) return -1;
+        return 0;
+    }
 }
 
 

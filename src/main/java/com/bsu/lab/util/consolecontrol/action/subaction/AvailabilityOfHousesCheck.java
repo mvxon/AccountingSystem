@@ -1,15 +1,14 @@
 package com.bsu.lab.util.consolecontrol.action.subaction;
 
-import com.bsu.lab.model.House;
+import com.bsu.lab.dao.HouseDAO;
 
-import java.util.List;
 
 public class AvailabilityOfHousesCheck {
-    public static boolean check(List<House> arrayOfHouses){
-        if (arrayOfHouses.isEmpty()) {
+    public static boolean check() {
+        if (HouseDAO.getHousesCount() == 0){
             System.out.println("Домов нет");
-            return false;
+            return true;
         }
-        return true;
+        else return false;
     }
 }

@@ -4,12 +4,20 @@ import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.model.House;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LoadHousesFromDatabaseAction {
     private static final HouseDAO houseDAO = HouseDAO.getInstance();
 
-   /* public static void execute(@NotNull List<House> arrayOfHouses) {
-        arrayOfHouses.addAll(houseDAO.readAllExisting());
-    }*/
+    public static void execute(@NotNull Set<House> setOfHouses) {
+        if (HouseDAO.getHousesCount() != 0) {
+            setOfHouses.addAll(houseDAO.read());
+            House.getHouseNumbers()
+                    .addAll(setOfHouses.stream()
+                    .map(House::getHouseNumber).
+                    collect(Collectors.toList()));
+        }
+    }
 }

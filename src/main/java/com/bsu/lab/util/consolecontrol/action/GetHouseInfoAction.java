@@ -4,25 +4,26 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.consolecontrol.action.subaction.NoAvailableHousesCheck;
+import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
+import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.constant.ConstantsForConsoleControl;
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.util.input.consolecontrol.action.InputForFlatNumber;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
 public class GetHouseInfoAction {
-    public static void execute(@NotNull List<House> arrayOfHouses) {
-        if (NoAvailableHousesCheck.check()) return;
+    public static void execute(@NotNull Set<House> setOfHouses) {
+        if (AvailabilityOfHousesCheck.check()) return;
 
-        int houseNumber = SecuredNumbersScanner.EnteringInfoCheckForHouseNumber(arrayOfHouses); // house number entering
-        House houseForAdditionalAction = arrayOfHouses.get(houseNumber - 1); // house for additional action
+        int houseNumber = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses); // house number entering
+        House houseForAdditionalAction = GetHouseFromSetByNumber.get(setOfHouses, houseNumber); // house for additional action
         int additionalAction;
         do {
             additionalAction =
-                    SecuredNumbersScanner.EnteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_ADDITIONAL_ACTION);
+                    SecuredNumbersScanner.enteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_ADDITIONAL_ACTION);
             System.out.println(GeneralConstants.SEPARATION);
             switch (additionalAction) {
                 case 1: // printing all information about house

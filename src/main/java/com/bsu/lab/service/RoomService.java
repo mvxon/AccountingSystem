@@ -17,7 +17,7 @@ public class RoomService {
     public static @NotNull Room createRoom() {
         Room room = new Room();
         room.setRoomNumber();
-        double roomSquare = InputForRoomSquare.input(room.getRoomNumber() + 1);
+        double roomSquare = InputForRoomSquare.input(room.getRoomNumber());
         room.setRoomSquare(roomSquare);
         return room;
     }

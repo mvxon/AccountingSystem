@@ -1,52 +1,52 @@
 package com.bsu.lab.model;
 
-import com.bsu.lab.service.FlatService;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 @Entity
 @Getter
 @Setter
-public class Flat {
+@Table(name = "flats")
+public class Flat implements Comparable<Flat> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int residentsCount;
     private int roomsCount = 0;
     private int flatNumber;
     private static int flatNumberCounter;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "flat_id")
-    private List<Room> rooms = new ArrayList<>();
+    private Set<Room> rooms = new LinkedHashSet<>();
 
     public Flat() {
         Room.nullifyRoomNumberCounter();
     }
 
     public void setFlatNumber() {
-        this.flatNumber = flatNumberCounter + 1;
+        this.flatNumber = flatNumberCounter;
         flatNumberCounter++;
     }
 
     public Flat(@NotNull Flat flat) { // copy constructor for Flat
-        this.flatNumber = flatNumberCounter + 1;
+        this.flatNumber = flatNumberCounter;
         flatNumberCounter++;
         Room.nullifyRoomNumberCounter();
         this.roomsCount = flat.roomsCount;
         this.residentsCount = (int) (Math.random() * (this.roomsCount - 1 + 1) + 1);
-        for (int i = 0; i < this.roomsCount; i++) {
-            this.rooms.add(new Room(flat.rooms.get(i)));
+        for (Room room : flat.rooms) {
+            this.rooms.add(new Room(room));
         }
     }
 
     public static void nullifyFlatNumberCounter() {
-        flatNumberCounter = 0;
+        flatNumberCounter = 1;
     }
 
 
@@ -55,14 +55,18 @@ public class Flat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flat flat = (Flat) o;
-        return Double.compare(FlatService.findFlatSquare(flat), FlatService.findFlatSquare(this)) == 0
-                && roomsCount == flat.roomsCount;
+        return flatNumber == flat.flatNumber;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(flatNumber, roomsCount);
+        return Objects.hash(flatNumber);
     }
 
-
+    @Override
+    public int compareTo(@NotNull Flat o) {
+        if (roomsCount > o.roomsCount) return 1;
+        if (roomsCount < o.roomsCount) return -1;
+        return 0;
+    }
 }

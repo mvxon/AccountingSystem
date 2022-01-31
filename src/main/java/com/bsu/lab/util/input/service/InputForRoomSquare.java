@@ -9,11 +9,11 @@ public class InputForRoomSquare {
     public static double input(int roomNumber) {
         String question = "Введите площадь " + roomNumber + "-ой комнаты(м^2)(от " + MIN_SQUARE + "м^2 до "
                 + MAX_SQUARE + "м^2): ";
-        double roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
+        double roomSquare = (SecuredNumbersScanner.enteringInfoCheck(question));
 
         while (roomSquare < MIN_SQUARE || roomSquare > MAX_SQUARE) {
             System.out.println("Введено неверное значение...Повторите ввод");
-            roomSquare = (SecuredNumbersScanner.EnteringInfoCheck(question));
+            roomSquare = (SecuredNumbersScanner.enteringInfoCheck(question));
         }
         return roomSquare;
     }

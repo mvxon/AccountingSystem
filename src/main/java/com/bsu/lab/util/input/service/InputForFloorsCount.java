@@ -8,10 +8,10 @@ public class InputForFloorsCount {
     private final static int MIN_FLOORS_COUNT = 1;
 
     public static int input() {
-        int floorsCount = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLOORS_COUNT);
+        int floorsCount = SecuredNumbersScanner.enteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLOORS_COUNT);
         while (floorsCount < MIN_FLOORS_COUNT || floorsCount > MAX_FLOORS_COUNT) {
             System.out.println(ConstantsForHouseCreating.INVALID_INPUT_ERROR);
-            floorsCount = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLOORS_COUNT);
+            floorsCount = SecuredNumbersScanner.enteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLOORS_COUNT);
         }
         return floorsCount;
     }

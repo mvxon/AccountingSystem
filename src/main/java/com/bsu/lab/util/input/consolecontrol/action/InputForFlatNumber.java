@@ -14,11 +14,11 @@ public class InputForFlatNumber {
         } else {
             flatNumberQuestion = "Введите номер нужной квартиры(1): ";
         }
-        flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
+        flatNumber = SecuredNumbersScanner.enteringInfoCheck(flatNumberQuestion);
         while (flatNumber > HouseService.getFlatsCount(house) || flatNumber <= 0) {
 
             System.out.println("Введен номер несуществующей квартиры...Повторите ввод");
-            flatNumber = SecuredNumbersScanner.EnteringInfoCheck(flatNumberQuestion);
+            flatNumber = SecuredNumbersScanner.enteringInfoCheck(flatNumberQuestion);
         }
         return flatNumber;
     }

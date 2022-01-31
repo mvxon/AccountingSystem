@@ -8,10 +8,10 @@ public class InputForFlatsCount {
     private final static int MIN_FLATS_COUNT = 1;
 
     public static int input() {
-        int flatsCount = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLATS_PER_FLOOR);
+        int flatsCount = SecuredNumbersScanner.enteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLATS_PER_FLOOR);
         while (flatsCount < MIN_FLATS_COUNT || flatsCount > MAX_FLATS_COUNT) {
             System.out.println("Введено неверное значение...Повторите ввод");
-            flatsCount = SecuredNumbersScanner.EnteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLATS_PER_FLOOR);
+            flatsCount = SecuredNumbersScanner.enteringInfoCheck(ConstantsForHouseCreating.QUESTION_FOR_FLATS_PER_FLOOR);
         }
         return flatsCount;
     }

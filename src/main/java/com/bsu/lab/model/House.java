@@ -1,58 +1,78 @@
 package com.bsu.lab.model;
 
 import com.bsu.lab.constant.GeneralConstants;
-import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.service.HouseService;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 @Entity
 @Getter
 @Setter
-public class House {
+@Table(name = "houses")
+public class House implements Comparable<House> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int houseNumber;
+    private static SortedSet<Integer> houseNumbers = new TreeSet<Integer>();
     private int entrancesCount = 0;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
-    private List<Entrance> entrances = new ArrayList<>();
+    private Set<Entrance> entrances = new LinkedHashSet<>();
 
     public House() {
-        Entrance.NullifyEntranceNumberCounter();
+        Entrance.nullifyEntranceNumberCounter();
         Flat.nullifyFlatNumberCounter();
     }
 
-    public void setHouseNumber() {
-        this.houseNumber = HouseDAO.getHousesCount() + 1;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        House house = (House) o;
+        return houseNumber == house.houseNumber;
     }
 
     @Override
-    public boolean equals(@NotNull Object o) {
-        if (o == null || this.getClass() != o.getClass()) return false;
-        House house = (House) o;
-        return this.entrances.get(0).getFloorsCount() == house.entrances.get(0).getFloorsCount()
-                && this.entrances.get(0).getFloors().get(0).getFlatsCount() ==
-                house.entrances.get(0).getFloors().get(0).getFlatsCount()
-                && HouseService.findTotalHouseSquare(this) == HouseService.findTotalHouseSquare(house);
+    public int hashCode() {
+        return Objects.hash(houseNumber);
     }
 
     public String toString() {
-        return "\n" + GeneralConstants.SEPARATION +
+        String result = "\n" + GeneralConstants.SEPARATION +
                 "\nНомер дома: " + (this.houseNumber) +
-                "\nКоличество подъездов: " + (this.entrancesCount) +
-                "\nКоличество этажей: " + (this.entrances.get(0).getFloorsCount()) +
-                "\nКоличество квартир на одном этаже: " + this.entrances.get(0).getFloors().get(0).getFlatsCount() +
-                "\nОбщее количество квартир: " + HouseService.getFlatsCount(this) +
-                "\nОбщая площадь дома: " + (HouseService.findTotalHouseSquare(this)) +
-                "\nОбщее количество жильцов: " + (HouseService.findTotalHouseResidentsCount(this)) +
-                "\n" + GeneralConstants.SEPARATION + "\n";
+                "\nКоличество подъездов: " + (this.entrancesCount);
+        if (!this.entrances.isEmpty()) {
+            result +=
+                    "\nКоличество этажей: " + (this.entrances.iterator().next().getFloorsCount()) +
+                            "\nКоличество квартир на одном этаже: "
+                            + this.entrances.iterator().next().getFloors().iterator().next().getFlatsCount() +
+                            "\nОбщее количество квартир: " + HouseService.getFlatsCount(this) +
+                            "\nОбщая площадь дома: " + (HouseService.findTotalHouseSquare(this)) +
+                            "\nОбщее количество жильцов: " + (HouseService.findTotalHouseResidentsCount(this)) +
+                            "\n" + GeneralConstants.SEPARATION + "\n";
+        }
+        return result;
     }
 
+    public static SortedSet<Integer> getHouseNumbers() {
+        return houseNumbers;
+    }
 
+    @Override
+    public int compareTo(@NotNull House o) {
+        House house = (House) o;
+        if (entrancesCount > house.entrancesCount) {
+            return 1;
+        }
+        if (entrancesCount < house.entrancesCount) {
+            return -1;
+        }
+        return 0;
+    }
 }
