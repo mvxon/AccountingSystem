@@ -24,6 +24,7 @@ public class Floor implements Comparable<Floor> {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id")
+    @OrderBy("id")
     private Set<Flat> flats = new LinkedHashSet<>();
 
 

@@ -27,8 +27,9 @@ public class FloorService {
     }
 
     public static void addFlat(@NotNull Floor floor, @NotNull Flat flat) {
-        floor.getFlats().add(flat);
-        floor.setFlatsCount(floor.getFlatsCount() + 1);
+        if (floor.getFlats().add(flat)) {
+            floor.setFlatsCount(floor.getFlatsCount() + 1);
+        }
     }
 
 

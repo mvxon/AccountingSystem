@@ -2,6 +2,7 @@ package com.bsu.lab.util.database;
 
 import com.bsu.lab.dao.HouseDAO;
 import com.bsu.lab.model.House;
+import com.bsu.lab.service.HouseService;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -14,10 +15,11 @@ public class LoadHousesFromDatabaseAction {
     public static void execute(@NotNull Set<House> setOfHouses) {
         if (HouseDAO.getHousesCount() != 0) {
             setOfHouses.addAll(houseDAO.read());
-            House.getHouseNumbers()
-                    .addAll(setOfHouses.stream()
-                    .map(House::getHouseNumber).
-                    collect(Collectors.toList()));
+            HouseService.getUsedHouseNumbers()
+                    .addAll(setOfHouses
+                            .stream()
+                            .map(House::getHouseNumber)
+                            .collect(Collectors.toList()));
         }
     }
 }

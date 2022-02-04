@@ -4,7 +4,6 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
 import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.constant.ConstantsForConsoleControl;
@@ -19,7 +18,8 @@ public class GetHouseInfoAction {
         if (AvailabilityOfHousesCheck.check()) return;
 
         int houseNumber = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses); // house number entering
-        House houseForAdditionalAction = GetHouseFromSetByNumber.get(setOfHouses, houseNumber); // house for additional action
+        // house for additional action
+        House houseForAdditionalAction = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses, houseNumber);
         int additionalAction;
         do {
             additionalAction =
@@ -31,7 +31,7 @@ public class GetHouseInfoAction {
                     break;
                 case 2: // print information about flat by number in this house
                     int flatNumber = InputForFlatNumber.input(houseForAdditionalAction);
-                    Flat flatForCheckInfo = HouseService.getFlat(houseForAdditionalAction, flatNumber);
+                    Flat flatForCheckInfo = HouseService.getFlatByNumber(houseForAdditionalAction, flatNumber);
                     System.out.println(FlatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
                     break;
                 case 3: // exit to menu

@@ -23,6 +23,7 @@ public class Flat implements Comparable<Flat> {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "flat_id")
+    @OrderBy("id")
     private Set<Room> rooms = new LinkedHashSet<>();
 
     public Flat() {

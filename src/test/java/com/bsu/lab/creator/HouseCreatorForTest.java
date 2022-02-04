@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class HouseCreatorForTest {
     public static @NotNull House createHouseForTest() {
         House house = new House();
+        house.setHouseNumber(101);
 
         Entrance entrance = new Entrance();
         entrance.setEntranceNumber();
@@ -22,14 +23,17 @@ public class HouseCreatorForTest {
         flat.setResidentsCount(5);
 
         Room room1 = new Room();
+        room1.setRoomNumber();
         room1.setRoomSquare(1);
         FlatService.addRoom(flat, room1);
 
         Room room2 = new Room();
+        room2.setRoomNumber();
         room2.setRoomSquare(2);
         FlatService.addRoom(flat, room2);
 
         Room room3 = new Room();
+        room3.setRoomNumber();
         room3.setRoomSquare(3);
         FlatService.addRoom(flat, room3);
 

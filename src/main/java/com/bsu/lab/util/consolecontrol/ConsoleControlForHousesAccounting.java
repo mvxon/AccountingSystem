@@ -15,27 +15,27 @@ import java.util.*;
 
 public class ConsoleControlForHousesAccounting {
     public void start() {
-        Set<House> arrayOfHouses = new HashSet<>();
-        LoadHousesFromDatabaseAction.execute(arrayOfHouses);
+        Set<House> setOfHouses = new HashSet<>();
+        LoadHousesFromDatabaseAction.execute(setOfHouses);
         int mainAction;
         do {
             mainAction = SecuredNumbersScanner.enteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_MAIN_ACTION);
             System.out.println(GeneralConstants.SEPARATION);
             switch (mainAction) {
                 case 1: // add house
-                    AddHouseAction.execute(arrayOfHouses);// house adding
+                    AddHouseAction.execute(setOfHouses);// house adding
                     break;
                 case 2: // get info about existing house
-                    GetHouseInfoAction.execute(arrayOfHouses);
+                    GetHouseInfoAction.execute(setOfHouses);
                     break;
                 case 3: // remove house
-                    RemoveHouseAction.execute(arrayOfHouses);
+                    RemoveHouseAction.execute(setOfHouses);
                     break;
                 case 4: // compare houses
-                    CompareHousesAction.execute(arrayOfHouses);
+                    CompareHousesAction.execute(setOfHouses);
                     break;
                 case 5: // compare flats
-                    CompareFlatsAction.execute(arrayOfHouses);
+                    CompareFlatsAction.execute(setOfHouses);
                     break;
                 case 6: // exit
                     HibernateUtil.closeConnection();

@@ -12,7 +12,6 @@ import java.util.List;
 public class HouseDAO implements DAO<House> {
     private static HouseDAO houseDAO;
 
-
     private HouseDAO() {
 
     }

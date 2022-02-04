@@ -2,7 +2,7 @@ package com.bsu.lab.util.consolecontrol.action;
 
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.model.House;
-import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
+import com.bsu.lab.service.HouseService;
 import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
 import com.bsu.lab.util.input.consolecontrol.action.comparing.InputForHouseCompareNumbers;
 import com.bsu.lab.util.comparer.HousesComparer;
@@ -23,8 +23,8 @@ public class CompareHousesAction {
         int houseCompareNumber1 = InputForHouseCompareNumbers.getFirstHouseCompareNumber();
         int houseCompareNumber2 = InputForHouseCompareNumbers.getSecondHouseCompareNumber();
 
-        House houseForCompare1 = GetHouseFromSetByNumber.get(setOfHouses, houseCompareNumber1);
-        House houseForCompare2 = GetHouseFromSetByNumber.get(setOfHouses, houseCompareNumber2);
+        House houseForCompare1 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses, houseCompareNumber1);
+        House houseForCompare2 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses, houseCompareNumber2);
 
         System.out.print(GeneralConstants.SEPARATION + "\nДом 1" + houseForCompare1);
 

@@ -1,7 +1,6 @@
 package com.bsu.lab.service;
 
 
-import com.bsu.lab.model.Entrance;
 import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.model.Room;
@@ -62,8 +61,9 @@ public class FlatService {
     }
 
     public static void addRoom(@NotNull Flat flat, @NotNull Room room) {
-        flat.getRooms().add(room);
-        flat.setRoomsCount(flat.getRoomsCount() + 1);
+        if (flat.getRooms().add(room)) {
+            flat.setRoomsCount(flat.getRoomsCount() + 1);
+        }
     }
 
 

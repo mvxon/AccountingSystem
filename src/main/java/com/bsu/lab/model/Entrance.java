@@ -22,6 +22,7 @@ public class Entrance implements Comparable<Entrance> {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "entrance_id")
+    @OrderBy("id")
     private Set<Floor> floors = new LinkedHashSet<>();
 
     public Entrance() {

@@ -18,12 +18,17 @@ public class House implements Comparable<House> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, unique = true)
     private int houseNumber;
-    private static SortedSet<Integer> houseNumbers = new TreeSet<Integer>();
+
     private int entrancesCount = 0;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
+    @OrderBy("id")
     private Set<Entrance> entrances = new LinkedHashSet<>();
+
 
     public House() {
         Entrance.nullifyEntranceNumberCounter();
@@ -58,10 +63,6 @@ public class House implements Comparable<House> {
                             "\n" + GeneralConstants.SEPARATION + "\n";
         }
         return result;
-    }
-
-    public static SortedSet<Integer> getHouseNumbers() {
-        return houseNumbers;
     }
 
     @Override

@@ -10,9 +10,11 @@ public class FlatCreatorForTest {
         Flat flat = new Flat();
 
         Room room1 = new Room();
+        room1.setRoomNumber();
         room1.setRoomSquare(10);
 
         Room room2 = new Room();
+        room2.setRoomNumber();
         room2.setRoomSquare(20);
 
         FlatService.addRoom(flat, room1);

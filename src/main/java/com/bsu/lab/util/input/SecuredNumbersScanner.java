@@ -1,9 +1,9 @@
 package com.bsu.lab.util.input;
 
 import com.bsu.lab.model.House;
+import com.bsu.lab.service.HouseService;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -35,14 +35,12 @@ public class SecuredNumbersScanner {
         boolean numberFormatHouseCompareNumber = false;
 
         while (!numberFormatHouseCompareNumber) {
-            if (setOfHouses.size() != 1) {
-                String houseNumbers = "";
-                for (Integer houseNumber : House.getHouseNumbers()) {
-                    houseNumbers += houseNumber + ", ";
-                }
-                System.out.print("Введите номер нужного дома" + "(" + houseNumbers + "\b\b): ");
-            } else
-                System.out.print("Введите номер нужного дома(" + setOfHouses.iterator().next().getHouseNumber() + "): ");
+            String houseNumbers = "";
+            for (Integer houseNumber : HouseService.getUsedHouseNumbers()) {
+                houseNumbers += houseNumber + ", ";
+            }
+            System.out.print("Введите номер нужного дома" + "(" + houseNumbers + "\b\b): ");
+
             try {
                 numberFormatHouseCompareNumber = true;
                 result = Integer.parseInt(numbersScanner.nextLine());
@@ -50,7 +48,7 @@ public class SecuredNumbersScanner {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;
             }
-            if (!House.getHouseNumbers().contains(result)) {
+            if (!HouseService.getUsedHouseNumbers().contains(result)) {
                 System.out.println("Введен номер несуществующего дома");
                 numberFormatHouseCompareNumber = false;
                 continue;

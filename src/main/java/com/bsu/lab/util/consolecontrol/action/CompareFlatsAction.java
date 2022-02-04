@@ -4,7 +4,6 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.FlatService;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
 import com.bsu.lab.util.comparer.FlatsComparer;
 import com.bsu.lab.constant.GeneralConstants;
 import com.bsu.lab.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
@@ -23,12 +22,12 @@ public class CompareFlatsAction {
         }
 
         InputForFlatCompareNumbers.input(setOfHouses);
-        House houseForCompare1 = GetHouseFromSetByNumber.get(setOfHouses,
+        House houseForCompare1 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses,
                 InputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare());
-        Flat flatForCompare1 = HouseService.getFlat(houseForCompare1, InputForFlatCompareNumbers.getFirstFlatCompareNumber());
-        House houseForCompare2 = GetHouseFromSetByNumber.get(setOfHouses,
+        Flat flatForCompare1 = HouseService.getFlatByNumber(houseForCompare1, InputForFlatCompareNumbers.getFirstFlatCompareNumber());
+        House houseForCompare2 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses,
                 InputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare());
-        Flat flatForCompare2 = HouseService.getFlat(houseForCompare2, InputForFlatCompareNumbers.getSecondFlatCompareNumber());
+        Flat flatForCompare2 = HouseService.getFlatByNumber(houseForCompare2, InputForFlatCompareNumbers.getSecondFlatCompareNumber());
 
         System.out.println(GeneralConstants.SEPARATION);
         System.out.print("Квартира 1" + FlatService.flatInfoToString(houseForCompare1, flatForCompare1));

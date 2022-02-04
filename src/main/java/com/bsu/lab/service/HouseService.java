@@ -9,15 +9,21 @@ import com.bsu.lab.model.Flat;
 import com.bsu.lab.util.input.service.InputForEntrancesCount;
 import com.bsu.lab.util.input.service.InputForHouseNumber;
 import lombok.NonNull;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-@Setter
+
 public class HouseService {
     private static HouseService houseService;
-    private static final HouseDAO dao = HouseDAO.getInstance();
+    private static SortedSet<Integer> usedHouseNumbers = new TreeSet<Integer>();
+    @Autowired
+    private static HouseDAO dao;
 
     public static HouseService getInstance() {
         if (houseService == null) {
@@ -46,7 +52,7 @@ public class HouseService {
     public static double findTotalHouseSquare(@NotNull House house) {
         double result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {
-            result += FlatService.findFlatSquare(HouseService.getFlat(house, i));
+            result += FlatService.findFlatSquare(HouseService.getFlatByNumber(house, i));
         }
         return result;
     }
@@ -54,7 +60,7 @@ public class HouseService {
     public static int findTotalHouseResidentsCount(@NotNull House house) {
         int result = 0;
         for (int i = 1; i < HouseService.getFlatsCount(house) + 1; i++) {
-            result += HouseService.getFlat(house, i).getResidentsCount();
+            result += HouseService.getFlatByNumber(house, i).getResidentsCount();
         }
         return result;
     }
@@ -87,7 +93,7 @@ public class HouseService {
     }
 
 
-    public static Flat getFlat(House house, int flatNumber) {
+    public static Flat getFlatByNumber(House house, int flatNumber) {
         Flat resultFlat = new Flat();
         Entrance entrance = HouseService.getEntranceByFlatNumber(house, flatNumber);
         Floor floor = EntranceService.getFloorByFlatNumber(entrance, flatNumber);
@@ -119,8 +125,9 @@ public class HouseService {
     }
 
     public static void addEntrance(@NotNull House house, @NonNull Entrance entrance) {
-        house.getEntrances().add(entrance);
-        house.setEntrancesCount(house.getEntrancesCount() + 1);
+        if (house.getEntrances().add(entrance)) {
+            house.setEntrancesCount(house.getEntrancesCount() + 1);
+        }
     }
 
 
@@ -131,15 +138,28 @@ public class HouseService {
 
     public static void setUniqueHouseNumber(@NotNull House house) {
         int houseNumber = InputForHouseNumber.input();
-        if (House.getHouseNumbers() != null) {
-            while (House.getHouseNumbers().contains(houseNumber)) {
+        if (usedHouseNumbers != null) {
+            while (usedHouseNumbers.contains(houseNumber)) {
                 System.out.println("Дом с таким номером уже создан. Введите еще раз");
                 houseNumber = InputForHouseNumber.input();
             }
         }
         house.setHouseNumber(houseNumber);
-        House.getHouseNumbers().add(houseNumber);
+        usedHouseNumbers.add(houseNumber);
     }
 
+    public static SortedSet<Integer> getUsedHouseNumbers() {
+        return usedHouseNumbers;
+    }
 
+    public static @NotNull House getHouseByNumberFromSetOfHouses(@NotNull Set<House> setOfHouses, int houseNumber) {
+        if (!setOfHouses.isEmpty()) {
+            for (House house : setOfHouses) {
+                if (house.getHouseNumber() == houseNumber) {
+                    return house;
+                }
+            }
+        }
+        return new House();
+    }
 }

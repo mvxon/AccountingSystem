@@ -11,6 +11,8 @@ public class FloorServiceTest extends TestCase {
         Floor floor = new Floor();
         Flat flat = new Flat();
         FloorService.addFlat(floor, flat);
+        FloorService.addFlat(floor, flat);
+        FloorService.addFlat(floor, flat);
         int expectedFlatsCount = 1;
         int actualFlatsCount = floor.getFlatsCount();
         assertEquals(expectedFlatsCount, actualFlatsCount);

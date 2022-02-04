@@ -2,7 +2,6 @@ package com.bsu.lab.util.input.consolecontrol.action.comparing;
 
 import com.bsu.lab.model.House;
 import com.bsu.lab.service.HouseService;
-import com.bsu.lab.util.getter.GetHouseFromSetByNumber;
 import com.bsu.lab.util.input.SecuredNumbersScanner;
 import com.bsu.lab.constant.ConstantsForFlatsComparison;
 import com.bsu.lab.constant.GeneralConstants;
@@ -19,7 +18,7 @@ public class InputForFlatCompareNumbers {
         System.out.println("Выберите первый дом для сравнения: ");
 
         firstHouseNumberForFlatsCompare = SecuredNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
-        House houseForCompare1 = GetHouseFromSetByNumber.get(setOfHouses, firstHouseNumberForFlatsCompare);
+        House houseForCompare1 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses, firstHouseNumberForFlatsCompare);
 
         String question = "Введите номер нужной квартиры(1-" +
                 HouseService.getFlatsCount(houseForCompare1) + "): ";
@@ -57,7 +56,7 @@ public class InputForFlatCompareNumbers {
             }
         }
 
-        House houseForCompare2 = GetHouseFromSetByNumber.get(setOfHouses, secondHouseNumberForFlatsCompare);
+        House houseForCompare2 = HouseService.getHouseByNumberFromSetOfHouses(setOfHouses, secondHouseNumberForFlatsCompare);
         question = "Введите номер нужной квартиры(1-" + HouseService.getFlatsCount(houseForCompare2) + "): ";
         secondFlatCompareNumber = SecuredNumbersScanner.enteringInfoCheck(question);
 

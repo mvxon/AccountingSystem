@@ -35,9 +35,11 @@ public class EntranceService {
     }
 
     public static void addFloor(@NotNull Entrance entrance, @NotNull Floor floor) {
-        entrance.getFloors().add(floor);
-        entrance.setFloorsCount(entrance.getFloorsCount() + 1);
+        if (entrance.getFloors().add(floor)) {
+            entrance.setFloorsCount(entrance.getFloorsCount() + 1);
+        }
     }
+
     public static Floor getFloorByFlatNumber(@NotNull Entrance entrance, int flatNumber) {
         Floor resultFloor = new Floor();
         int floorsCount = entrance.getFloorsCount();
