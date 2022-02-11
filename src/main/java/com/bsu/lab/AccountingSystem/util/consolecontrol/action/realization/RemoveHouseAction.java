@@ -1,9 +1,9 @@
-package com.bsu.lab.AccountingSystem.util.consolecontrol.action;
+package com.bsu.lab.AccountingSystem.util.consolecontrol.action.realization;
 
 import com.bsu.lab.AccountingSystem.model.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
-import com.bsu.lab.AccountingSystem.util.consolecontrol.action.subaction.AvailabilityOfHousesCheck;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.input.SecuredNumbersScanner;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

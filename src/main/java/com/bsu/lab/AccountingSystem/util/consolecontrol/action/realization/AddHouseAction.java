@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.util.consolecontrol.action;
+package com.bsu.lab.AccountingSystem.util.consolecontrol.action.realization;
 
 
 import com.bsu.lab.AccountingSystem.model.House;

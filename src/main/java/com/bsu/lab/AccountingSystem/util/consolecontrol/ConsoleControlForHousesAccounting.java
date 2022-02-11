@@ -1,12 +1,11 @@
 
 package com.bsu.lab.AccountingSystem.util.consolecontrol;
 
-import com.bsu.lab.AccountingSystem.constant.ConstantsForConsoleControl;
-import com.bsu.lab.AccountingSystem.constant.GeneralConstants;
 import com.bsu.lab.AccountingSystem.model.House;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.action.*;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.action.realization.*;
 import com.bsu.lab.AccountingSystem.util.database.LoadHousesFromDatabaseAction;
-import com.bsu.lab.AccountingSystem.util.input.SecuredNumbersScanner;
+import com.bsu.lab.AccountingSystem.util.input.consolecontrol.action.InputForActionSelection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ConsoleControlForHousesAccounting {
     private final RemoveHouseAction removeHouseAction;
     private final CompareHousesAction compareHousesAction;
     private final CompareFlatsAction compareFlatsAction;
-    private final SecuredNumbersScanner securedNumbersScanner;
+    private final InputForActionSelection inputForActionSelection;
 
     @Autowired
     public ConsoleControlForHousesAccounting(
@@ -32,46 +31,43 @@ public class ConsoleControlForHousesAccounting {
             RemoveHouseAction removeHouseAction,
             CompareHousesAction compareHousesAction,
             CompareFlatsAction compareFlatsAction,
-            SecuredNumbersScanner securedNumbersScanner) {
+            InputForActionSelection inputForActionSelection) {
         this.addHouseAction = addHouseAction;
         this.loadHousesFromDatabaseAction = loadHousesFromDatabaseAction;
         this.getHouseInfoAction = getHouseInfoAction;
         this.removeHouseAction = removeHouseAction;
         this.compareHousesAction = compareHousesAction;
         this.compareFlatsAction = compareFlatsAction;
-        this.securedNumbersScanner = securedNumbersScanner;
+        this.inputForActionSelection = inputForActionSelection;
     }
 
     public void start() {
         Set<House> setOfHouses = new HashSet<>();
         loadHousesFromDatabaseAction.execute(setOfHouses);
-        int mainAction;
-        do {
-            mainAction = securedNumbersScanner.enteringInfoCheck(ConstantsForConsoleControl.QUESTION_OF_MAIN_ACTION);
-            System.out.println(GeneralConstants.SEPARATION);
+        MainAction mainAction = null;
+        while (mainAction != MainAction.EXIT) {
+            mainAction = inputForActionSelection.inputForMainAction();
             switch (mainAction) {
-                case 1: // add house
-                    addHouseAction.execute(setOfHouses);// house adding
+
+                case ADD_HOUSE:
+                    addHouseAction.execute(setOfHouses);
                     break;
-                case 2: // get info about existing house
+                case GET_HOUSE_INFO:
                     getHouseInfoAction.execute(setOfHouses);
                     break;
-                case 3: // remove house
+                case REMOVE_HOUSE:
                     removeHouseAction.execute(setOfHouses);
                     break;
-                case 4: // compare houses
+                case COMPARE_HOUSES:
                     compareHousesAction.execute(setOfHouses);
                     break;
-                case 5: // compare flats
+                case COMPARE_FLATS:
                     compareFlatsAction.execute(setOfHouses);
                     break;
-                case 6: // exit
-                    break;
-                default:
-                    System.out.println("Введено неверное значение. Повторите попытку");
+                case EXIT:
                     break;
             }
-        } while (mainAction != 6);
+        }
     }
 
 }

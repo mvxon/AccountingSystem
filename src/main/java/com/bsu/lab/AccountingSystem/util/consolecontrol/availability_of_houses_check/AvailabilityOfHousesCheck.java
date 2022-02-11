@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.util.consolecontrol.action.subaction;
+package com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check;
 
 
 import com.bsu.lab.AccountingSystem.model.House;
