@@ -1,21 +1,21 @@
 package com.bsu.lab.AccountingSystem.util.input;
 
-import com.bsu.lab.AccountingSystem.model.House;
+import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
-import java.util.Set;
 
 @Service
 public class SecuredNumbersScanner {
     private final HouseService houseService;
+    private final HouseRepository houseRepository;
 
     @Autowired
-    public SecuredNumbersScanner(HouseService houseService) {
+    public SecuredNumbersScanner(HouseService houseService, HouseRepository houseRepository) {
         this.houseService = houseService;
+        this.houseRepository = houseRepository;
     }
 
     public int enteringInfoCheck(String question) {
@@ -38,14 +38,14 @@ public class SecuredNumbersScanner {
         return result;
     }
 
-    public int enteringInfoCheckForHouseNumber(@NotNull Set<House> setOfHouses) {
+    public int enteringInfoCheckForHouseNumber() {
         int result = 0;
         Scanner numbersScanner = new Scanner(System.in);
         boolean numberFormatHouseCompareNumber = false;
 
         while (!numberFormatHouseCompareNumber) {
             String houseNumbers = "";
-            for (Integer houseNumber : houseService.getUsedHouseNumbers()) {
+            for (Integer houseNumber : houseRepository.findUsedHouseNumbers()) {
                 houseNumbers += houseNumber + ", ";
             }
             System.out.print("Введите номер нужного дома" + "(" + houseNumbers + "\b\b): ");
@@ -57,7 +57,7 @@ public class SecuredNumbersScanner {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;
             }
-            if (!houseService.getUsedHouseNumbers().contains(result)) {
+            if (!houseRepository.findUsedHouseNumbers().contains(result)) {
                 System.out.println("Введен номер несуществующего дома");
                 numberFormatHouseCompareNumber = false;
                 continue;

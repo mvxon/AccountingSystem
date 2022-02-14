@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.application;
+package com.bsu.lab.AccountingSystem;
 
 import com.bsu.lab.AccountingSystem.util.consolecontrol.ConsoleControlForHousesAccounting;
 import org.springframework.beans.factory.annotation.Autowired;

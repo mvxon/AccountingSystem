@@ -18,15 +18,15 @@ public class InputForHouseCompareNumbers {
         this.securedNumbersScanner = securedNumbersScanner;
     }
 
-    public void input(Set<House> setOfHouses) {
+    public void input() {
         System.out.println("Выберите первый дом для сравнения: ");
-        firstHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
+        firstHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber();
 
         System.out.println("Выберите второй дом для сравнения: ");
-        secondHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
+        secondHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber();
         while (secondHouseCompareNumber == firstHouseCompareNumber ) {
             System.out.println("Дом с таким номером уже добавлен к сравнению");
-            secondHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber(setOfHouses);
+            secondHouseCompareNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber();
         }
     }
 

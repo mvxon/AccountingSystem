@@ -24,7 +24,6 @@ import java.util.TreeSet;
 @Service
 public class HouseService {
 
-    private static SortedSet<Integer> usedHouseNumbers = new TreeSet<Integer>();
     private final HouseRepository houseRepository;
     private final EntranceService entranceService;
     private final FlatService flatService;
@@ -168,28 +167,15 @@ public class HouseService {
 
     public void setUniqueHouseNumber(@NotNull House house) {
         int houseNumber = inputForHouseNumber.input();
-        if (usedHouseNumbers != null) {
+        Set usedHouseNumbers = new TreeSet(houseRepository.findUsedHouseNumbers());
+        if (houseRepository.count() != 0) {
             while (usedHouseNumbers.contains(houseNumber)) {
                 System.out.println("Дом с таким номером уже создан. Введите еще раз");
                 houseNumber = inputForHouseNumber.input();
             }
         }
         house.setHouseNumber(houseNumber);
-        usedHouseNumbers.add(houseNumber);
     }
 
-    public SortedSet<Integer> getUsedHouseNumbers() {
-        return usedHouseNumbers;
-    }
 
-    public @NotNull House getHouseByNumberFromSetOfHouses(@NotNull Set<House> setOfHouses, int houseNumber) {
-        if (!setOfHouses.isEmpty()) {
-            for (House house : setOfHouses) {
-                if (house.getHouseNumber() == houseNumber) {
-                    return house;
-                }
-            }
-        }
-        return new House();
-    }
 }
