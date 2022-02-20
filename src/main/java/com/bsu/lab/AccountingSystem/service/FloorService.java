@@ -9,23 +9,24 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class FloorService {
-    private final InputForFlatsCount inputForFlatsCount;
     private final FlatService flatService;
 
     @Autowired
-    public FloorService(InputForFlatsCount inputForFlatsCount, FlatService flatService) {
-        this.inputForFlatsCount = inputForFlatsCount;
+    public FloorService(FlatService flatService) {
         this.flatService = flatService;
     }
 
-    public @NotNull Floor createFloor() {
+    public @NotNull Floor createFloor(@NotNull List<ArrayList<Double>> squareOfRoomsOfFlats) {
         Floor floor = new Floor();
         floor.setFloorNumber();
-        int flatsCount = inputForFlatsCount.input();
+        int flatsCount = squareOfRoomsOfFlats.size();
         for (int i = 0; i < flatsCount; i++) {
-            this.addFlat(floor, flatService.createFlat()); // flats creating
+            this.addFlat(floor, flatService.createFlat( squareOfRoomsOfFlats.get(i))); // flats creating
         }
         return floor;
     }

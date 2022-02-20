@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 @Service
@@ -27,37 +24,37 @@ public class HouseService {
     private final HouseRepository houseRepository;
     private final EntranceService entranceService;
     private final FlatService flatService;
-    private final InputForEntrancesCount inputForEntrancesCount;
     private final InputForHouseNumber inputForHouseNumber;
 
     @Autowired
     public HouseService(HouseRepository houseRepository,
                         @Lazy EntranceService entranceService,
                         @Lazy FlatService flatService,
-                        @Lazy InputForEntrancesCount inputForEntrancesCount,
                         @Lazy InputForHouseNumber inputForHouseNumber) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
         this.flatService = flatService;
-        this.inputForEntrancesCount = inputForEntrancesCount;
         this.inputForHouseNumber = inputForHouseNumber;
     }
 
 
-    public @NotNull House createHouse() {
+    public @NotNull House createHouse(int houseNumber,
+                                      int entrancesCount,
+                                      int floorsCount,
+                                      List<ArrayList<Double>> squareOfRoomsOfFlats
+    ) {
         House house = new House();
-        this.setUniqueHouseNumber(house);
-        int entrancesCount = inputForEntrancesCount.input();
+        house.setHouseNumber(houseNumber);
         while (house.getEntrancesCount() < entrancesCount) {
             if (house.getEntrancesCount() == 0) {
-                this.addEntrance(house, entranceService.createEntrance()); // creating first entrance
+                this.addEntrance(house, entranceService.createEntrance(floorsCount, squareOfRoomsOfFlats));
+                // creating first entrance
             } else {
                 // copying first entrance by copy constructor
                 this.addEntrance(house, new Entrance(house.getEntrances().iterator().next()));
             }
         }
-        houseRepository.save(house);
-        System.out.println("Дом номер " + house.getHouseNumber() + " успешно добавлен!");
+
         return house;
     }
 
@@ -110,9 +107,8 @@ public class HouseService {
                 "\nКоличество подъездов: " + (house.getEntrancesCount());
         if (!house.getEntrances().isEmpty()) {
             result +=
-                    "\nКоличество этажей: " + (house.getEntrances().iterator().next().getFloorsCount()) +
-                            "\nКоличество квартир на одном этаже: "
-                            + house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount() +
+                    "\nКоличество этажей: " + this.getFloorsCount(house) +
+                            "\nКоличество квартир на одном этаже: " + this.getFlatsPerFloor(house) +
                             "\nОбщее количество квартир: " + this.getFlatsCount(house) +
                             "\nОбщая площадь дома: " + (this.findTotalHouseSquare(house)) +
                             "\nОбщее количество жильцов: " + (this.findTotalHouseResidentsCount(house)) +
@@ -165,7 +161,7 @@ public class HouseService {
         return floorsCount;
     }
 
-    public void setUniqueHouseNumber(@NotNull House house) {
+    public int generateUniqueHouseNumber() {
         int houseNumber = inputForHouseNumber.input();
         Set usedHouseNumbers = new TreeSet(houseRepository.findUsedHouseNumbers());
         if (houseRepository.count() != 0) {
@@ -174,7 +170,10 @@ public class HouseService {
                 houseNumber = inputForHouseNumber.input();
             }
         }
-        house.setHouseNumber(houseNumber);
+        return houseNumber;
+    }
+    public int getFlatsPerFloor(@NotNull House house){
+        return  house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
     }
 
 

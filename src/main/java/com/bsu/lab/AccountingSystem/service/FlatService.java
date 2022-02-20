@@ -5,28 +5,27 @@ import com.bsu.lab.AccountingSystem.constant.GeneralConstants;
 import com.bsu.lab.AccountingSystem.model.Flat;
 import com.bsu.lab.AccountingSystem.model.House;
 import com.bsu.lab.AccountingSystem.model.Room;
-import com.bsu.lab.AccountingSystem.util.input.service.InputForRoomsCount;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class FlatService {
     private final HouseService houseService;
     private final EntranceService entranceService;
     private final RoomService roomService;
-    private final InputForRoomsCount inputForRoomsCount;
 
     @Autowired
     public FlatService(
             HouseService houseService,
             EntranceService entranceService,
-            RoomService roomService,
-            InputForRoomsCount inputForRoomsCount) {
+            RoomService roomService
+    ) {
         this.houseService = houseService;
         this.entranceService = entranceService;
         this.roomService = roomService;
-        this.inputForRoomsCount = inputForRoomsCount;
     }
 
     public double findFlatSquare(@NotNull Flat flat) {
@@ -37,14 +36,14 @@ public class FlatService {
         return result;
     }
 
-    public @NotNull Flat createFlat() {
+    public @NotNull Flat createFlat(@NotNull List<Double> squareOfRoomsOfFlat) {
         Flat flat = new Flat();
         flat.setFlatNumber();
-        int roomsCount = inputForRoomsCount.input(flat.getFlatNumber());
+        int roomsCount =  squareOfRoomsOfFlat.size();
         flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
-        System.out.println("Укажите площадь каждой комнаты: ");
+
         for (int i = 0; i < roomsCount; i++) {
-            this.addRoom(flat, roomService.createRoom()); // rooms creating
+            this.addRoom(flat, roomService.createRoom( squareOfRoomsOfFlat.get(i))); // rooms creating
         }
         return flat;
     }

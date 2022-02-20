@@ -10,27 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 @Service
 public class EntranceService {
-    private final InputForFloorsCount inputForFloorsCount;
     private final FloorService floorService;
 
     @Autowired
-    public EntranceService(InputForFloorsCount inputForFloorsCount, @Lazy FloorService floorService) {
-        this.inputForFloorsCount = inputForFloorsCount;
+    public EntranceService(@Lazy FloorService floorService) {
         this.floorService = floorService;
     }
 
-    public @NonNull Entrance createEntrance() {
+    public @NonNull Entrance createEntrance(int floorsCount, List<ArrayList<Double>> squareOfRoomsOfFlats) {
         Entrance entrance = new Entrance();
         entrance.setEntranceNumber();
-        int floorsCount = inputForFloorsCount.input();
         for (int i = 0; i < floorsCount; i++) {
             if (i == 0) {
-                this.addFloor(entrance, floorService.createFloor()); // first floor creating
+                this.addFloor(entrance, floorService.createFloor(squareOfRoomsOfFlats)); // first floor creating
             } else {
                 // copying first floor by copy constructor
                 this.addFloor(entrance, new Floor(entrance.getFloors().iterator().next()));
