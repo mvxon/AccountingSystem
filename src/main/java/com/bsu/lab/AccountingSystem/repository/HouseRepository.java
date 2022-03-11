@@ -1,6 +1,6 @@
 package com.bsu.lab.AccountingSystem.repository;
 
-import com.bsu.lab.AccountingSystem.model.House;
+import com.bsu.lab.AccountingSystem.entities.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show house info</title>
+</head>
+<body>
+<a th:href="@{../house/{hNumber}(hNumber = ${houseNumber})}">Просмотреть всю информацию о доме</a>
+<br>
+<a th:href="@{../flats_list/{hNumber}(hNumber = ${houseNumber})}">
+    Просмотреть информацию об отдельной квартире по номеру</a>
+</body>
+</html>

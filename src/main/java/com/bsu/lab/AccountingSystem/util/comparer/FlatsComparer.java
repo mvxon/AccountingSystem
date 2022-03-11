@@ -1,8 +1,8 @@
 package com.bsu.lab.AccountingSystem.util.comparer;
 
-import com.bsu.lab.AccountingSystem.constant.GeneralConstants;
-import com.bsu.lab.AccountingSystem.model.Flat;
-import com.bsu.lab.AccountingSystem.service.FlatService;
+import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
+import com.bsu.lab.AccountingSystem.entities.Flat;
+import com.bsu.lab.AccountingSystem.services.FlatService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New person</title>
+    <script src="1.js" defer></script>
+</head>
+<body>
+
+    <label for="entrancesCount">Количество подъездов:</label>
+    <input type="text" id="entrancesCount" name="entrances_count"/>
+    <br/>
+    <br/>
+    <label for="floorsCount">Количество этажей:</label>
+    <input type="text" id="floorsCount" name="floors_count">
+    <br/>
+    <br/>
+    <label for="flatsPerFloor">Количество квартир на одном этаже:</label>
+    <input type="text" id="flatsPerFloor" name="flats_per_floor">
+    <br/>
+    <button onclick="myFunction()" id = "vvod">Ввод</button>
+
+<form th:method="POST" id = "maininfo" style="visibility: hidden" th:action="@{/people} " th:object="${house}">
+  <p id="input1"> </p>
+
+    <input type="submit" value="Create!"/>
+</form>
+
+
+
+</body>
+</html>

@@ -1,9 +1,9 @@
 
 package com.bsu.lab.AccountingSystem.util.consolecontrol;
 
-import com.bsu.lab.AccountingSystem.util.consolecontrol.action.*;
-import com.bsu.lab.AccountingSystem.util.consolecontrol.action.realization.*;
-import com.bsu.lab.AccountingSystem.util.input.consolecontrol.action.InputForActionSelection;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.*;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization.*;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.InputForActionSelection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,13 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("com.bsu.lab.AccountingSystem.repository")
-@EntityScan("com.bsu.lab.AccountingSystem")
 public class AccountingSystemApplication implements CommandLineRunner {
 
 
@@ -23,7 +19,7 @@ public class AccountingSystemApplication implements CommandLineRunner {
     @Autowired
     private ConsoleControlForHousesAccounting control;
 
-    @Override
+   @Override
     public void run(String... args) throws Exception {
         control.start();
     }

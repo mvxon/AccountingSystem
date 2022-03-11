@@ -1,8 +1,8 @@
 package com.bsu.lab.AccountingSystem.util.comparer;
 
-import com.bsu.lab.AccountingSystem.constant.GeneralConstants;
-import com.bsu.lab.AccountingSystem.model.House;
-import com.bsu.lab.AccountingSystem.service.HouseService;
+import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
+import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.services.HouseService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

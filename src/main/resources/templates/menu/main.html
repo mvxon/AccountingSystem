@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Главное меню</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+Номера домов:
+<div th:each="house : ${houses}">
+    <a th:href="@{../actions/show/additional_menu/{houseNumber}(houseNumber = ${house.getHouseNumber()})}" th:text="${house.getHouseNumber()}"></a>
+</div>
+
+</body>
+</html>
