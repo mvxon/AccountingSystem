@@ -1,10 +1,10 @@
-package com.bsu.lab.AccountingSystem.services.test;
+package com.bsu.lab.AccountingSystem.service.test;
 
-import com.bsu.lab.AccountingSystem.entities.*;
-import com.bsu.lab.AccountingSystem.services.EntranceService;
-import com.bsu.lab.AccountingSystem.services.FlatService;
-import com.bsu.lab.AccountingSystem.services.FloorService;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.domain.*;
+import com.bsu.lab.AccountingSystem.service.EntranceService;
+import com.bsu.lab.AccountingSystem.service.FlatService;
+import com.bsu.lab.AccountingSystem.service.FloorService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,8 +1,8 @@
-package com.bsu.lab.AccountingSystem.services.test;
+package com.bsu.lab.AccountingSystem.service.test;
 
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.Floor;
-import com.bsu.lab.AccountingSystem.services.FloorService;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.Floor;
+import com.bsu.lab.AccountingSystem.service.FloorService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,19 +1,19 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.entities.Entrance;
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.Floor;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.Entrance;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.Floor;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.InputForHouseNumber;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -25,16 +25,16 @@ public class HouseServiceImpl implements HouseService {
     private final FlatService flatService;
     private final InputForHouseNumber inputForHouseNumber;
 
-    @Autowired
     public HouseServiceImpl(HouseRepository houseRepository,
-                            @Lazy EntranceService entranceService,
+                            EntranceService entranceService,
                             @Lazy FlatService flatService,
-                            @Lazy InputForHouseNumber inputForHouseNumber) {
+                            InputForHouseNumber inputForHouseNumber) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
         this.flatService = flatService;
         this.inputForHouseNumber = inputForHouseNumber;
     }
+
 
     @Override
     public @NotNull House createHouse(int houseNumber,
@@ -60,8 +60,8 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public double findTotalHouseSquare(@NotNull House house) {
         double result = 0;
-        for (int i = 1; i < this.getFlatsCount(house) + 1; i++) {
-            result += flatService.findFlatSquare(this.getFlatByNumber(house, i));
+        for (int i = 1; i < getFlatsCount(house) + 1; i++) {
+            result += flatService.findFlatSquare(getFlatByNumber(house, i));
         }
         return result;
     }
@@ -69,8 +69,8 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public int findTotalHouseResidentsCount(@NotNull House house) {
         int result = 0;
-        for (int i = 1; i < this.getFlatsCount(house) + 1; i++) {
-            result += this.getFlatByNumber(house, i).getResidentsCount();
+        for (int i = 1; i < getFlatsCount(house) + 1; i++) {
+            result += getFlatByNumber(house, i).getResidentsCount();
         }
         return result;
     }
@@ -110,11 +110,11 @@ public class HouseServiceImpl implements HouseService {
                 "\nКоличество подъездов: " + (house.getEntrancesCount());
         if (!house.getEntrances().isEmpty()) {
             result +=
-                    "\nКоличество этажей: " + this.getFloorsCount(house) +
-                            "\nКоличество квартир на одном этаже: " + this.getFlatsPerFloor(house) +
-                            "\nОбщее количество квартир: " + this.getFlatsCount(house) +
-                            "\nОбщая площадь дома: " + (this.findTotalHouseSquare(house)) +
-                            "\nОбщее количество жильцов: " + (this.findTotalHouseResidentsCount(house)) +
+                    "\nКоличество этажей: " + getFloorsCount(house) +
+                            "\nКоличество квартир на одном этаже: " + getFlatsPerFloor(house) +
+                            "\nОбщее количество квартир: " + getFlatsCount(house) +
+                            "\nОбщая площадь дома: " + (findTotalHouseSquare(house)) +
+                            "\nОбщее количество жильцов: " + (findTotalHouseResidentsCount(house)) +
                             "\n" + GeneralConstants.SEPARATION + "\n";
         }
         return result;
@@ -128,7 +128,7 @@ public class HouseServiceImpl implements HouseService {
         Floor floor = entranceService.getFloorByFlatNumber(entrance, flatNumber);
 
         int entranceNumber = entrance.getEntranceNumber() - 1;
-        int floorsCount = this.getFloorsCount(house);
+        int floorsCount = getFloorsCount(house);
         int flatsPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
         int floorNumber = floor.getFloorNumber() - 1;
         int totalFlatsCount = floorNumber * flatsPerFloor;
@@ -177,6 +177,35 @@ public class HouseServiceImpl implements HouseService {
             }
         }
         return houseNumber;
+    }
+
+    @Override
+    public void deleteHouseByHouseNumber(int houseNumber) {
+        houseRepository.deleteHouseByHouseNumber(houseNumber);
+    }
+
+
+    @Override
+    public House getHouseByHouseNumber(int houseNumber) {
+        return houseRepository.findByHouseNumber(houseNumber);
+    }
+
+
+    @Override
+    public TreeSet<Integer> findUsedHouseNumbers() {
+        return houseRepository.findUsedHouseNumbers();
+    }
+
+
+    @Override
+    public Long getHousesCount() {
+        return houseRepository.count();
+    }
+
+
+    @Override
+    public List<House> getAllHouses() {
+        return houseRepository.findAll();
     }
 
     @Override

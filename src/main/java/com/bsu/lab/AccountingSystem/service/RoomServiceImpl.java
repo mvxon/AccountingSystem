@@ -1,6 +1,6 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
-import com.bsu.lab.AccountingSystem.entities.Room;
+import com.bsu.lab.AccountingSystem.domain.Room;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
 
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

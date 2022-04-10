@@ -1,8 +1,8 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
 
-import com.bsu.lab.AccountingSystem.entities.Entrance;
-import com.bsu.lab.AccountingSystem.entities.Floor;
+import com.bsu.lab.AccountingSystem.domain.Entrance;
+import com.bsu.lab.AccountingSystem.domain.Floor;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

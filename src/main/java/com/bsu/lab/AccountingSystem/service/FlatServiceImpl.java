@@ -1,13 +1,14 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.House;
-import com.bsu.lab.AccountingSystem.entities.Room;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.Room;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class FlatServiceImpl implements FlatService {
 
     @Autowired
     public FlatServiceImpl(
-            HouseService houseService,
+            @Lazy HouseService houseService,
             EntranceService entranceService,
             RoomService roomService
     ) {

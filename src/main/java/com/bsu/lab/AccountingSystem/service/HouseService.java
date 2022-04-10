@@ -1,14 +1,15 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
-import com.bsu.lab.AccountingSystem.entities.Entrance;
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.Entrance;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public interface HouseService {
 
@@ -40,4 +41,13 @@ public interface HouseService {
 
     int generateUniqueHouseNumber();
 
+    void deleteHouseByHouseNumber(int houseNumber);
+
+    House getHouseByHouseNumber(int houseNumber);
+
+    TreeSet<Integer> findUsedHouseNumbers();
+
+    Long getHousesCount();
+
+    List<House> getAllHouses();
 }

@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.entities;
+package com.bsu.lab.AccountingSystem.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,18 +17,13 @@ public class House implements Comparable<House> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(nullable = false, unique = true)
     private int houseNumber;
-
     private int entrancesCount = 0;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     @OrderBy("id")
     private Set<Entrance> entrances = new LinkedHashSet<>();
-
-
 
     public House() {
         Entrance.nullifyEntranceNumberCounter();
@@ -52,12 +47,6 @@ public class House implements Comparable<House> {
     @Override
     public int compareTo(@NotNull House o) {
         House house = (House) o;
-        if (entrancesCount > house.entrancesCount) {
-            return 1;
-        }
-        if (entrancesCount < house.entrancesCount) {
-            return -1;
-        }
-        return 0;
+        return Integer.compare(entrancesCount, house.entrancesCount);
     }
 }

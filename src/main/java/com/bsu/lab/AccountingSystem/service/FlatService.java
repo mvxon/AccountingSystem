@@ -1,13 +1,14 @@
-package com.bsu.lab.AccountingSystem.services;
+package com.bsu.lab.AccountingSystem.service;
 
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.House;
-import com.bsu.lab.AccountingSystem.entities.Room;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.Room;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public interface FlatService {
+
     double findFlatSquare(@NotNull Flat flat);
 
     @NotNull Flat createFlat(@NotNull List<Double> squareOfRoomsOfFlat);

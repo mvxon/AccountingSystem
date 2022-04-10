@@ -1,8 +1,8 @@
 package com.bsu.lab.AccountingSystem.controllers;
 
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

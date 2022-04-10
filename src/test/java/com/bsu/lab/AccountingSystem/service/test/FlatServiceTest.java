@@ -1,8 +1,8 @@
-package com.bsu.lab.AccountingSystem.services.test;
+package com.bsu.lab.AccountingSystem.service.test;
 
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.Room;
-import com.bsu.lab.AccountingSystem.services.FlatService;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.Room;
+import com.bsu.lab.AccountingSystem.service.FlatService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

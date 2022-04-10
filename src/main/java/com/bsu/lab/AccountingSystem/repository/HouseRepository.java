@@ -1,6 +1,6 @@
 package com.bsu.lab.AccountingSystem.repository;
 
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +12,7 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 
     @Query("select houseNumber from House")
     TreeSet<Integer> findUsedHouseNumbers();
+
 
     House findByHouseNumber(int houseNumber);
 

@@ -1,7 +1,7 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.inputs;
 
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +10,10 @@ import java.util.Scanner;
 @Service
 public class SecuredNumbersScanner {
     private final HouseService houseService;
-    private final HouseRepository houseRepository;
 
     @Autowired
-    public SecuredNumbersScanner(HouseService houseService, HouseRepository houseRepository) {
+    public SecuredNumbersScanner(HouseService houseService) {
         this.houseService = houseService;
-        this.houseRepository = houseRepository;
     }
 
     public int enteringInfoCheck(String question) {
@@ -45,7 +43,7 @@ public class SecuredNumbersScanner {
 
         while (!numberFormatHouseCompareNumber) {
             String houseNumbers = "";
-            for (Integer houseNumber : houseRepository.findUsedHouseNumbers()) {
+            for (Integer houseNumber : houseService.findUsedHouseNumbers()) {
                 houseNumbers += houseNumber + ", ";
             }
             System.out.print("Введите номер нужного дома" + "(" + houseNumbers + "\b\b): ");
@@ -57,10 +55,9 @@ public class SecuredNumbersScanner {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;
             }
-            if (!houseRepository.findUsedHouseNumbers().contains(result)) {
+            if (!houseService.findUsedHouseNumbers().contains(result)) {
                 System.out.println("Введен номер несуществующего дома");
                 numberFormatHouseCompareNumber = false;
-                continue;
             }
         }
         return result;

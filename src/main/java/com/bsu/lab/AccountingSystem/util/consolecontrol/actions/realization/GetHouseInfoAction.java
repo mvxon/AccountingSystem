@@ -1,10 +1,10 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.FlatService;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.FlatService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.AdditionalAction;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.SecuredNumbersScanner;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetHouseInfoAction {
     private final HouseService houseService;
-    private final HouseRepository houseRepository;
     private final FlatService flatService;
     private final InputForFlatNumber inputForFlatNumber;
     private final SecuredNumbersScanner securedNumbersScanner;
@@ -26,14 +25,13 @@ public class GetHouseInfoAction {
     @Autowired
     public GetHouseInfoAction(
             HouseService houseService,
-            HouseRepository houseRepository, FlatService flatService,
+            FlatService flatService,
             InputForFlatNumber inputForFlatNumber,
             SecuredNumbersScanner securedNumbersScanner,
             InputForActionSelection inputForActionSelection,
             AvailabilityOfHousesCheck availabilityOfHousesCheck
     ) {
         this.houseService = houseService;
-        this.houseRepository = houseRepository;
         this.flatService = flatService;
         this.inputForFlatNumber = inputForFlatNumber;
         this.securedNumbersScanner = securedNumbersScanner;
@@ -46,7 +44,7 @@ public class GetHouseInfoAction {
         if (availabilityOfHousesCheck.check()) return;
 
         int houseNumber = securedNumbersScanner.enteringInfoCheckForHouseNumber();
-        House houseForAdditionalAction = houseRepository.findByHouseNumber(houseNumber);
+        House houseForAdditionalAction = houseService.getHouseByHouseNumber(houseNumber);
 
         AdditionalAction additionalAction = null;
         while (additionalAction != AdditionalAction.EXIT_TO_MAIN_MENU) {

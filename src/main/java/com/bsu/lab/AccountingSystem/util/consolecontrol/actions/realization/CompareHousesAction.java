@@ -1,9 +1,9 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.comparer.HousesComparer;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.comparing.InputForHouseCompareNumbers;
@@ -15,24 +15,22 @@ public class CompareHousesAction {
     private final HouseService houseService;
     private final InputForHouseCompareNumbers inputForHouseCompareNumbers;
     private final AvailabilityOfHousesCheck availabilityOfHousesCheck;
-    private final HouseRepository houseRepository;
 
     @Autowired
     public CompareHousesAction(
             HouseService houseService,
             InputForHouseCompareNumbers inputForHouseCompareNumbers,
-            AvailabilityOfHousesCheck availabilityOfHousesCheck,
-            HouseRepository houseRepository) {
+            AvailabilityOfHousesCheck availabilityOfHousesCheck) {
         this.houseService = houseService;
         this.inputForHouseCompareNumbers = inputForHouseCompareNumbers;
         this.availabilityOfHousesCheck = availabilityOfHousesCheck;
-        this.houseRepository = houseRepository;
+
     }
 
     public void execute() {
         if (availabilityOfHousesCheck.check()) return;
 
-        if (houseRepository.count() < 2) {
+        if (houseService.getHousesCount() < 2) {
             System.out.println("Недостаточно домов в списке для сравнения. Добавьте еще дома");
             return;
         }
@@ -41,8 +39,8 @@ public class CompareHousesAction {
         int houseCompareNumber1 = inputForHouseCompareNumbers.getFirstHouseCompareNumber();
         int houseCompareNumber2 = inputForHouseCompareNumbers.getSecondHouseCompareNumber();
 
-        House houseForCompare1 = houseRepository.findByHouseNumber(houseCompareNumber1);
-        House houseForCompare2 = houseRepository.findByHouseNumber(houseCompareNumber2);
+        House houseForCompare1 = houseService.getHouseByHouseNumber(houseCompareNumber1);
+        House houseForCompare2 = houseService.getHouseByHouseNumber(houseCompareNumber2);
 
         System.out.print(GeneralConstants.SEPARATION + "\nДом 1" + houseService.allHouseInfoToString(houseForCompare1));
 

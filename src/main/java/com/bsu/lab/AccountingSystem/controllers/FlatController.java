@@ -1,13 +1,13 @@
 package com.bsu.lab.AccountingSystem.controllers;
 
-import com.bsu.lab.AccountingSystem.entities.Entrance;
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.Floor;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.Entrance;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.Floor;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.EntranceService;
-import com.bsu.lab.AccountingSystem.services.FlatService;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.EntranceService;
+import com.bsu.lab.AccountingSystem.service.FlatService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

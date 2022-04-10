@@ -4,11 +4,13 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.*;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization.*;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.InputForActionSelection;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class ConsoleControlForHousesAccounting {
     private final InputForActionSelection inputForActionSelection;
     private final AddHouseAction addHouseAction;
@@ -17,21 +19,6 @@ public class ConsoleControlForHousesAccounting {
     private final CompareHousesAction compareHousesAction;
     private final CompareFlatsAction compareFlatsAction;
 
-    @Autowired
-    public ConsoleControlForHousesAccounting(
-            AddHouseAction addHouseAction,
-            GetHouseInfoAction getHouseInfoAction,
-            RemoveHouseAction removeHouseAction,
-            CompareHousesAction compareHousesAction,
-            CompareFlatsAction compareFlatsAction,
-            InputForActionSelection inputForActionSelection) {
-        this.addHouseAction = addHouseAction;
-        this.getHouseInfoAction = getHouseInfoAction;
-        this.removeHouseAction = removeHouseAction;
-        this.compareHousesAction = compareHousesAction;
-        this.compareFlatsAction = compareFlatsAction;
-        this.inputForActionSelection = inputForActionSelection;
-    }
 
     public void start() {
         MainAction mainAction = null;

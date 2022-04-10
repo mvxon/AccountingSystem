@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.entities;
+package com.bsu.lab.AccountingSystem.domain;
 
 
 import lombok.Getter;
@@ -51,9 +51,7 @@ public class Room implements Comparable<Room> {
 
     @Override
     public int compareTo(@NotNull Room o) {
-        if (roomSquare > o.roomSquare) return 1;
-        if (roomSquare < o.roomSquare) return -1;
-        return 0;
+        return Double.compare(roomSquare, o.roomSquare);
     }
 }
 

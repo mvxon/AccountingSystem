@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.entities;
+package com.bsu.lab.AccountingSystem.domain;
 
 
 import lombok.Getter;
@@ -68,8 +68,6 @@ public class Flat implements Comparable<Flat> {
 
     @Override
     public int compareTo(@NotNull Flat o) {
-        if (roomsCount > o.roomsCount) return 1;
-        if (roomsCount < o.roomsCount) return -1;
-        return 0;
+        return Integer.compare(roomsCount, o.roomsCount);
     }
 }

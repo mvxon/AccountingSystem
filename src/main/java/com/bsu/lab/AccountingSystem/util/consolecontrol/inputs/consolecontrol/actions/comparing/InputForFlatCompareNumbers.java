@@ -2,9 +2,9 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.a
 
 import com.bsu.lab.AccountingSystem.constants.ConstantsForFlatsComparison;
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.SecuredNumbersScanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +17,19 @@ public class InputForFlatCompareNumbers {
     private static int secondFlatCompareNumber = 0; // number of the second comparing flat
     private final HouseService houseService;
     private final SecuredNumbersScanner securedNumbersScanner;
-    private final HouseRepository houseRepository;
 
     @Autowired
     public InputForFlatCompareNumbers(HouseService houseService,
-                                      SecuredNumbersScanner securedNumbersScanner,
-                                      HouseRepository houseRepository) {
+                                      SecuredNumbersScanner securedNumbersScanner) {
         this.houseService = houseService;
         this.securedNumbersScanner = securedNumbersScanner;
-        this.houseRepository = houseRepository;
     }
 
     public void input() {
         System.out.println("Выберите первый дом для сравнения: ");
 
         firstHouseNumberForFlatsCompare = securedNumbersScanner.enteringInfoCheckForHouseNumber();
-        House houseForCompare1 = houseRepository.findByHouseNumber(firstHouseNumberForFlatsCompare);
+        House houseForCompare1 = houseService.getHouseByHouseNumber(firstHouseNumberForFlatsCompare);
 
         String question = "Введите номер нужной квартиры(1-" +
                 houseService.getFlatsCount(houseForCompare1) + "): ";
@@ -70,7 +67,7 @@ public class InputForFlatCompareNumbers {
             }
         }
 
-        House houseForCompare2 = houseRepository.findByHouseNumber(secondHouseNumberForFlatsCompare);
+        House houseForCompare2 = houseService.getHouseByHouseNumber(secondHouseNumberForFlatsCompare);
         question = "Введите номер нужной квартиры(1-" + houseService.getFlatsCount(houseForCompare2) + "): ";
         secondFlatCompareNumber = securedNumbersScanner.enteringInfoCheck(question);
 

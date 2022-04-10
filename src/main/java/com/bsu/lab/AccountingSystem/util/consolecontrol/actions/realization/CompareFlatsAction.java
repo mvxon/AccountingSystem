@@ -1,11 +1,11 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.entities.Flat;
-import com.bsu.lab.AccountingSystem.entities.House;
+import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.repository.HouseRepository;
-import com.bsu.lab.AccountingSystem.services.FlatService;
-import com.bsu.lab.AccountingSystem.services.HouseService;
+import com.bsu.lab.AccountingSystem.service.FlatService;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.comparer.FlatsComparer;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.comparing.InputForFlatCompareNumbers;
@@ -18,38 +18,36 @@ public class CompareFlatsAction {
     private final InputForFlatCompareNumbers inputForFlatCompareNumbers;
     private final FlatService flatService;
     private final AvailabilityOfHousesCheck availabilityOfHousesCheck;
-    private final HouseRepository houseRepository;
 
     @Autowired
     public CompareFlatsAction(
             HouseService houseService,
             InputForFlatCompareNumbers inputForFlatCompareNumbers,
             FlatService flatService,
-            AvailabilityOfHousesCheck availabilityOfHousesCheck,
-            HouseRepository houseRepository) {
+            AvailabilityOfHousesCheck availabilityOfHousesCheck
+    ) {
         this.houseService = houseService;
         this.inputForFlatCompareNumbers = inputForFlatCompareNumbers;
         this.flatService = flatService;
         this.availabilityOfHousesCheck = availabilityOfHousesCheck;
-        this.houseRepository = houseRepository;
     }
 
     public void execute() {
         if (availabilityOfHousesCheck.check()) return;
 
-        if (houseRepository.count() == 1 && houseService.getFlatsCount(houseRepository.findAll().get(0)) == 1) {
+        if (houseService.getHousesCount() == 1 && houseService.getFlatsCount(houseService.getAllHouses().get(0)) == 1) {
             System.out.println("Недостаточно квартир для сравнения. Добавьте еще дома");
             return;
         }
 
         inputForFlatCompareNumbers.input();
-        House houseForCompare1 = houseRepository
-                .findByHouseNumber(inputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare());
+        House houseForCompare1 = houseService
+                .getHouseByHouseNumber(inputForFlatCompareNumbers.getFirstHouseNumberForFlatsCompare());
         Flat flatForCompare1 = houseService.getFlatByNumber(houseForCompare1,
                 inputForFlatCompareNumbers.getFirstFlatCompareNumber());
 
-        House houseForCompare2 = houseRepository
-                .findByHouseNumber(inputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare());
+        House houseForCompare2 = houseService
+                .getHouseByHouseNumber(inputForFlatCompareNumbers.getSecondHouseNumberForFlatsCompare());
         Flat flatForCompare2 = houseService.getFlatByNumber(houseForCompare2,
                 inputForFlatCompareNumbers.getSecondFlatCompareNumber());
 
