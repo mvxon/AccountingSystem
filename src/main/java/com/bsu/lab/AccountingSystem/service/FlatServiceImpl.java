@@ -4,30 +4,38 @@ package com.bsu.lab.AccountingSystem.service;
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Room;
 
+import com.bsu.lab.AccountingSystem.dao.FlatRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 public class FlatServiceImpl implements FlatService {
     private final HouseService houseService;
+    private final ResidentService residentService;
     private final EntranceService entranceService;
     private final RoomService roomService;
+    private final FlatRepository flatRepository;
 
     @Autowired
     public FlatServiceImpl(
             @Lazy HouseService houseService,
+            ResidentService residentService,
             EntranceService entranceService,
-            RoomService roomService
-    ) {
+            RoomService roomService,
+            FlatRepository flatRepository) {
         this.houseService = houseService;
+        this.residentService = residentService;
         this.entranceService = entranceService;
         this.roomService = roomService;
+        this.flatRepository = flatRepository;
     }
 
     @Override
@@ -80,6 +88,30 @@ public class FlatServiceImpl implements FlatService {
         if (flat.getRooms().add(room)) {
             flat.setRoomsCount(flat.getRoomsCount() + 1);
         }
+    }
+
+    @Override
+    @Transactional
+    public void deleteResident(Flat flat, Long residentId) {
+        Set<Resident> residents = flat.getResidents();
+        Set<Resident> newResidentsSet = new HashSet<>();
+        boolean flag = false;
+        for (Resident resident : residents) {
+            if (Objects.equals(resident.getId(), residentId) && !flag) {
+                flag = true;
+                residentService.moveOutFromFlat(resident);
+                continue;
+            }
+            newResidentsSet.add(resident);
+        }
+        flat.setResidents(newResidentsSet);
+        flatRepository.save(flat);
+    }
+
+    @Override
+    @Transactional
+    public Flat getFlatByResident(String username) {
+        return residentService.findByName(username).getFlat();
     }
 
 

@@ -3,7 +3,6 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.a
 import com.bsu.lab.AccountingSystem.constants.ConstantsForFlatsComparison;
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.SecuredNumbersScanner;
 import org.springframework.beans.factory.annotation.Autowired;

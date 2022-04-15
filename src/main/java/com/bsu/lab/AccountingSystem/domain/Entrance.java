@@ -10,14 +10,15 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(indexes = @Index(columnList = "entranceNumber"))
+@Table(name = "entrances",
+        indexes = @Index(columnList = "entranceNumber"))
 @Getter
 @Setter
 @Entity
 public class Entrance implements Comparable<Entrance> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private static int entranceNumberCounter;
     private int entranceNumber;
     private int floorsCount = 0;

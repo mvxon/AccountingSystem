@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.repository;
+package com.bsu.lab.AccountingSystem.dao;
 
 import com.bsu.lab.AccountingSystem.domain.House;
 import org.springframework.data.jpa.repository.JpaRepository;

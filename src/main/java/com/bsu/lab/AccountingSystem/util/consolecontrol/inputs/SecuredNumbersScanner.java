@@ -1,6 +1,5 @@
 package com.bsu.lab.AccountingSystem.util.consolecontrol.inputs;
 
-import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

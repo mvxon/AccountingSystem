@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -10,14 +11,14 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(indexes = @Index(columnList = "flatNumber"))
+@Table(name = "flats",
+        indexes = @Index(columnList = "flatNumber"))
 @Entity
-@Getter
-@Setter
+@Data
 public class Flat implements Comparable<Flat> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private int residentsCount;
     private int roomsCount = 0;
     private int flatNumber;
@@ -27,6 +28,10 @@ public class Flat implements Comparable<Flat> {
     @JoinColumn(name = "flat_id")
     @OrderBy("id")
     private Set<Room> rooms = new LinkedHashSet<>();
+
+    @OneToMany
+    @JoinColumn(name = "flat_id")
+    private Set<Resident> residents;
 
     public Flat() {
         Room.nullifyRoomNumberCounter();

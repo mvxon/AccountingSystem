@@ -1,7 +1,6 @@
 package com.bsu.lab.AccountingSystem.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -9,14 +8,14 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(indexes = @Index(columnList = "houseNumber"))
+@Table(name = "houses",
+        indexes = @Index(columnList = "houseNumber"))
 @Entity
-@Getter
-@Setter
+@Data
 public class House implements Comparable<House> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false, unique = true)
     private int houseNumber;
     private int entrancesCount = 0;
@@ -24,6 +23,9 @@ public class House implements Comparable<House> {
     @JoinColumn(name = "house_id")
     @OrderBy("id")
     private Set<Entrance> entrances = new LinkedHashSet<>();
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    Address address;
 
     public House() {
         Entrance.nullifyEntranceNumberCounter();
@@ -46,7 +48,6 @@ public class House implements Comparable<House> {
 
     @Override
     public int compareTo(@NotNull House o) {
-        House house = (House) o;
-        return Integer.compare(entrancesCount, house.entrancesCount);
+        return Integer.compare(entrancesCount, o.entrancesCount);
     }
 }

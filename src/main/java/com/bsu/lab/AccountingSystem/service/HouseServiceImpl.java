@@ -6,7 +6,7 @@ import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.repository.HouseRepository;
+import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.InputForHouseNumber;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -126,24 +126,14 @@ public class HouseServiceImpl implements HouseService {
         Flat resultFlat = new Flat();
         Entrance entrance = this.getEntranceByFlatNumber(house, flatNumber);
         Floor floor = entranceService.getFloorByFlatNumber(entrance, flatNumber);
-
-        int entranceNumber = entrance.getEntranceNumber() - 1;
-        int floorsCount = getFloorsCount(house);
-        int flatsPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
-        int floorNumber = floor.getFloorNumber() - 1;
-        int totalFlatsCount = floorNumber * flatsPerFloor;
-
-        int subtrahend = entranceNumber * floorsCount * flatsPerFloor;
-        subtrahend += totalFlatsCount;
-        int result = flatNumber - subtrahend;
-        result--;
-
-        Iterator<Flat> flatIterator = floor.getFlats().iterator();
-        for (int i = 0; i <= result; i++) {
-            resultFlat = flatIterator.next();
+        for (Flat flat : floor.getFlats()) {
+            if (flat.getFlatNumber() == flatNumber) {
+                return flat;
+            }
         }
         return resultFlat;
     }
+
 
     @Override
     public int getFlatsCount(@NotNull House house) {
@@ -180,32 +170,51 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    @Transactional
     public void deleteHouseByHouseNumber(int houseNumber) {
         houseRepository.deleteHouseByHouseNumber(houseNumber);
     }
 
 
     @Override
+    @Transactional
     public House getHouseByHouseNumber(int houseNumber) {
         return houseRepository.findByHouseNumber(houseNumber);
     }
 
 
     @Override
+    @Transactional
     public TreeSet<Integer> findUsedHouseNumbers() {
         return houseRepository.findUsedHouseNumbers();
     }
 
 
     @Override
+    @Transactional
     public Long getHousesCount() {
         return houseRepository.count();
     }
 
 
     @Override
+    @Transactional
     public List<House> getAllHouses() {
         return houseRepository.findAll();
+    }
+
+    @Override
+    public boolean isFlatNumberExists(House house, int flatNumber) {
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    if (flat.getFlatNumber() == flatNumber) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override

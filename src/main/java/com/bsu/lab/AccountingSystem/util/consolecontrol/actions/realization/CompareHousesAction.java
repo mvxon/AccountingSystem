@@ -2,7 +2,6 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.comparer.HousesComparer;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;

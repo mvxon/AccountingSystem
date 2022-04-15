@@ -16,4 +16,10 @@ public interface FlatService {
     @NotNull String flatInfoToString(@NotNull House house, @NotNull Flat flat);
 
     void addRoom(@NotNull Flat flat, @NotNull Room room);
+
+    void deleteResident(Flat flat, Long residentId);
+
+    Flat getFlatByResident(String username);
+
+
 }

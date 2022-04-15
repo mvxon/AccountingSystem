@@ -3,7 +3,6 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.repository.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.FlatService;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.util.comparer.FlatsComparer;

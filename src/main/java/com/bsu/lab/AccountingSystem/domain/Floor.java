@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,20 +12,18 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(indexes = @Index(columnList = "floorNumber"))
+@Table(name = "floors",
+        indexes = @Index(columnList = "floorNumber"))
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Floor implements Comparable<Floor> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Long id;
     private int floorNumber;
     private static int floorNumberCounter;
     private int flatsCount = 0;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id")
     @OrderBy("id")

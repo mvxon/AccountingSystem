@@ -50,4 +50,6 @@ public interface HouseService {
     Long getHousesCount();
 
     List<House> getAllHouses();
+
+    boolean isFlatNumberExists(House house, int flatNumber);
 }

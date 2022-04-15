@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,15 +10,15 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table(indexes = @Index(columnList = "roomNumber"))
+@Table(name = "rooms",
+        indexes = @Index(columnList = "roomNumber"))
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Room implements Comparable<Room> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private int roomNumber;
     private static int roomNumberCounter;
     private double roomSquare;
