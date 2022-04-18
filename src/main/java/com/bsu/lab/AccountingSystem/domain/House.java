@@ -1,6 +1,8 @@
 package com.bsu.lab.AccountingSystem.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -12,6 +14,8 @@ import java.util.Set;
         indexes = @Index(columnList = "houseNumber"))
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class House implements Comparable<House> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +30,6 @@ public class House implements Comparable<House> {
     @OneToOne
     @JoinColumn(name = "address_id")
     Address address;
-
-    public House() {
-        Entrance.nullifyEntranceNumberCounter();
-        Flat.nullifyFlatNumberCounter();
-    }
 
     @Override
     public boolean equals(Object o) {

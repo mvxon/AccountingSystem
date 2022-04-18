@@ -1,10 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -15,27 +12,13 @@ import java.util.Objects;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Room implements Comparable<Room> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int roomNumber;
-    private static int roomNumberCounter;
     private double roomSquare;
-
-    public void setRoomNumber() {
-        this.roomNumber = roomNumberCounter;
-        roomNumberCounter++;
-    }
-
-    Room(@NotNull Room room) {
-        this.roomNumber = room.roomNumber;
-        this.roomSquare = room.roomSquare;
-    }
-
-    public static void nullifyRoomNumberCounter() {
-        roomNumberCounter = 1;
-    }
 
     @Override
     public boolean equals(Object o) {

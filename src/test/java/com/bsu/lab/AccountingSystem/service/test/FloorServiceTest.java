@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.AccountingSystem.service.test;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
@@ -34,3 +35,4 @@ public class FloorServiceTest {
 
     }
 }
+*/

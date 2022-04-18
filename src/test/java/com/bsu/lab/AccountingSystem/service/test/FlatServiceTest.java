@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.AccountingSystem.service.test;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
@@ -27,11 +28,10 @@ public class FlatServiceTest {
 
         Room firstRoom = new Room();
         firstRoom.setRoomSquare(5);
-        firstRoom.setRoomNumber();
+
 
         Room secondRoom = new Room();
         secondRoom.setRoomSquare(25);
-        secondRoom.setRoomNumber();
 
         flatService.addRoom(flat, firstRoom);
         flatService.addRoom(flat, secondRoom);
@@ -52,3 +52,4 @@ public class FlatServiceTest {
         assertEquals(expectedRoomsCount, actualRoomsCount);
     }
 }
+*/

@@ -5,7 +5,7 @@ import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.service.FlatService;
 import com.bsu.lab.AccountingSystem.service.HouseService;
-import com.bsu.lab.AccountingSystem.util.comparer.FlatsComparer;
+import com.bsu.lab.AccountingSystem.util.consolecontrol.comparer.FlatsComparer;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.comparing.InputForFlatCompareNumbers;
 import org.springframework.beans.factory.annotation.Autowired;

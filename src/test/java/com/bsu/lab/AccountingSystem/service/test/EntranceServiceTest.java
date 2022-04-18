@@ -1,3 +1,4 @@
+/*
 package com.bsu.lab.AccountingSystem.service.test;
 
 import com.bsu.lab.AccountingSystem.domain.*;
@@ -36,42 +37,7 @@ class EntranceServiceTest {
 
     @Before
     public void createHouse() {
-        houseForTest = new House();
-        Entrance entrance = new Entrance();
-        entrance.setEntranceNumber();
-
-        Floor floor = new Floor();
-        floor.setFloorNumber();
-
-        Flat flat = new Flat();
-        flat.setFlatNumber();
-        flat.setResidentsCount(5);
-
-        Room room1 = new Room();
-        room1.setRoomSquare(1);
-        room1.setRoomNumber();
-        flatService.addRoom(flat, room1);
-
-        Room room2 = new Room();
-        room2.setRoomSquare(2);
-        room2.setRoomNumber();
-        flatService.addRoom(flat, room2);
-
-        Room room3 = new Room();
-        room3.setRoomSquare(3);
-        room3.setRoomNumber();
-        flatService.addRoom(flat, room3);
-
-        floorService.addFlat(floor, flat);
-        floorService.addFlat(floor, new Flat(flat));
-
-        entranceService.addFloor(entrance, floor);
-        for (int i = 0; i < 4; i++) {
-            entranceService.addFloor(entrance, new Floor(floor));
-        }
-
-        houseService.addEntrance(houseForTest, entrance);
-        houseService.addEntrance(houseForTest, new Entrance(entrance));
+        houseForTest = houseService.createHouse(90, 2, 5, )
     }
 
     @Test
@@ -118,3 +84,4 @@ class EntranceServiceTest {
         assertEquals(expected, actual);
     }
 }
+*/

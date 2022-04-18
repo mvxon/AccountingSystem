@@ -4,9 +4,9 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.service.HouseService;
+import com.bsu.lab.AccountingSystem.service.HouseServiceImpl;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class AddHouseAction {
     private final InputForRoomSquare inputForRoomSquare;
 
     @Autowired
-    public AddHouseAction(@Lazy HouseService houseService,
+    public AddHouseAction(HouseService houseService,
                           HouseRepository houseRepository,
                           InputForEntrancesCount inputForEntrancesCount,
                           InputForFloorsCount inputForFloorsCount,
@@ -55,9 +55,10 @@ public class AddHouseAction {
             }
             squareOfRoomsOfFlats.add(squareOfRoomsOfOneFlat);
         }
-        House house = houseService.createHouse(houseNumber, entrancesCount, floorsCount, squareOfRoomsOfFlats);
-
+        House house;
+        house = houseService.createHouse(houseNumber, entrancesCount, floorsCount, squareOfRoomsOfFlats);
         houseRepository.save(house);
-        System.out.println("Дом номер " + house.getHouseNumber() + " успешно добавлен!");
+        System.out.println("Дом номер " + houseNumber + " успешно добавлен!");
+        houseService.allHouseInfoToString(house);
     }
 }

@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.util.comparer;
+package com.bsu.lab.AccountingSystem.util.consolecontrol.comparer;
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.Flat;

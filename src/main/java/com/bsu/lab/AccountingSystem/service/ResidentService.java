@@ -16,7 +16,7 @@ public interface ResidentService extends UserDetailsService {
 
     List<ResidentDTO> getAll();
 
-    Resident findByName(String name);
+    Resident getByName(String name);
 
     void updateProfile(ResidentDTO residentDTO);
 
@@ -27,4 +27,6 @@ public interface ResidentService extends UserDetailsService {
     void setResidentAccepted(Long residentId);
 
     void deleteResident(Long residentId);
+
+    Resident getById(Long residentId);
 }

@@ -1,10 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -17,37 +14,18 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Floor implements Comparable<Floor> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int floorNumber;
-    private static int floorNumberCounter;
     private int flatsCount = 0;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id")
     @OrderBy("id")
     private Set<Flat> flats = new LinkedHashSet<>();
 
-
-    public void setFloorNumber() {
-        this.floorNumber = floorNumberCounter;
-        floorNumberCounter++;
-    }
-
-    // copy constructor
-    public Floor(@NotNull Floor floor) {
-        this.floorNumber = floorNumberCounter;
-        this.flatsCount = floor.flatsCount;
-        floorNumberCounter++;
-        for (Flat flat : floor.flats) {
-            this.flats.add(new Flat(flat));
-        }
-    }
-
-    public static void nullifyFloorNumberCounter() {
-        floorNumberCounter = 1;
-    }
 
     @Override
     public boolean equals(Object o) {

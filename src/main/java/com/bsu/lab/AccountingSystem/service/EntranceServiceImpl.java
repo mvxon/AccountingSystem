@@ -2,6 +2,7 @@ package com.bsu.lab.AccountingSystem.service;
 
 
 import com.bsu.lab.AccountingSystem.domain.Entrance;
+import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,16 +28,30 @@ public class EntranceServiceImpl implements EntranceService {
     @Override
     public @NonNull Entrance createEntrance(int floorsCount, List<ArrayList<Double>> squareOfRoomsOfFlats) {
         Entrance entrance = new Entrance();
-        entrance.setEntranceNumber();
-        for (int i = 0; i < floorsCount; i++) {
-            if (i == 0) {
-                this.addFloor(entrance, floorService.createFloor(squareOfRoomsOfFlats)); // first floor creating
+        int floorNumberCounter = 0;
+        while (entrance.getFloorsCount() < floorsCount) {
+            Floor floor;
+            if (entrance.getFloorsCount() == 0) {
+                floor = floorService.createFloor(squareOfRoomsOfFlats);
             } else {
-                // copying first floor by copy constructor
-                this.addFloor(entrance, new Floor(entrance.getFloors().iterator().next()));
+                floor = floorService.copyFloor(entrance.getFloors().iterator().next());
             }
+            floor.setFloorNumber(++floorNumberCounter);
+            addFloor(entrance, floor);
         }
         return entrance;
+    }
+
+    @Override
+    public @NotNull Entrance copyEntrance(Entrance entrance) {
+        Entrance copy = new Entrance();
+        int floorNumberCounter = 0;
+        for (Floor floor : entrance.getFloors()) {
+            Floor floorCopy = floorService.copyFloor(floor);
+            floorCopy.setFloorNumber(++floorNumberCounter);
+            addFloor(copy, floorCopy);
+        }
+        return copy;
     }
 
     @Override
@@ -47,20 +63,12 @@ public class EntranceServiceImpl implements EntranceService {
 
     @Override
     public Floor getFloorByFlatNumber(@NotNull Entrance entrance, int flatNumber) {
-        Floor resultFloor = new Floor();
-        int floorsCount = entrance.getFloorsCount();
-        int flatsPerFloor = entrance.getFloors().iterator().next().getFlatsCount();
-        int entranceNumber = entrance.getEntranceNumber() - 1;
-        int temp = flatNumber - entranceNumber * floorsCount * flatsPerFloor;
-
-        while (temp % flatsPerFloor != 0) {
-            temp++;
+        for (Floor floor : entrance.getFloors()) {
+            for (Flat flat : floor.getFlats()) {
+                if (flat.getFlatNumber() == flatNumber) return floor;
+            }
         }
-        Iterator<Floor> floorIterator = entrance.getFloors().iterator();
-        for (int i = 0; i <= (temp / flatsPerFloor) - 1; i++) {
-            resultFloor = floorIterator.next();
-        }
-        return resultFloor;
+        return new Floor();
     }
 
     @Override

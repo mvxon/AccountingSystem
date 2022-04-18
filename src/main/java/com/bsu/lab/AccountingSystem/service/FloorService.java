@@ -11,5 +11,7 @@ public interface FloorService {
 
     @NotNull Floor createFloor(@NotNull List<ArrayList<Double>> squareOfRoomsOfFlats);
 
+    Floor copyFloor(Floor floor);
+
     void addFlat(@NotNull Floor floor, @NotNull Flat flat);
 }

@@ -1,8 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -12,31 +11,21 @@ import java.util.Set;
 
 @Table(name = "entrances",
         indexes = @Index(columnList = "entranceNumber"))
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Entrance implements Comparable<Entrance> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private static int entranceNumberCounter;
     private int entranceNumber;
     private int floorsCount = 0;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "entrance_id")
     @OrderBy("id")
     private Set<Floor> floors = new LinkedHashSet<>();
 
-    public Entrance() {
-        Floor.nullifyFloorNumberCounter();
-    }
-
-    public void setEntranceNumber() {
-        this.entranceNumber = entranceNumberCounter;
-        entranceNumberCounter++;
-
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -51,21 +40,6 @@ public class Entrance implements Comparable<Entrance> {
         return Objects.hash(entranceNumber);
     }
 
-    // copy constructor
-    public Entrance(@NotNull Entrance entrance) {
-        this.entranceNumber = entranceNumberCounter;
-        entranceNumberCounter++;
-        Floor.nullifyFloorNumberCounter();
-        this.floorsCount = entrance.floorsCount;
-        for (Floor floor : entrance.floors) {
-            this.floors.add(new Floor(floor));
-        }
-    }
-
-
-    public static void nullifyEntranceNumberCounter() {
-        entranceNumberCounter = 1;
-    }
 
     @Override
     public int compareTo(@NotNull Entrance o) {

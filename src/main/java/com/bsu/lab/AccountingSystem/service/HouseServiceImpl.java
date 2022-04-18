@@ -2,10 +2,7 @@ package com.bsu.lab.AccountingSystem.service;
 
 
 import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
-import com.bsu.lab.AccountingSystem.domain.Entrance;
-import com.bsu.lab.AccountingSystem.domain.Flat;
-import com.bsu.lab.AccountingSystem.domain.Floor;
-import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.*;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.InputForHouseNumber;
 import lombok.NonNull;
@@ -22,16 +19,13 @@ public class HouseServiceImpl implements HouseService {
 
     private final HouseRepository houseRepository;
     private final EntranceService entranceService;
-    private final FlatService flatService;
     private final InputForHouseNumber inputForHouseNumber;
 
     public HouseServiceImpl(HouseRepository houseRepository,
                             EntranceService entranceService,
-                            @Lazy FlatService flatService,
                             InputForHouseNumber inputForHouseNumber) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
-        this.flatService = flatService;
         this.inputForHouseNumber = inputForHouseNumber;
     }
 
@@ -44,24 +38,44 @@ public class HouseServiceImpl implements HouseService {
     ) {
         House house = new House();
         house.setHouseNumber(houseNumber);
+        int entrancesCounter = 0;
         while (house.getEntrancesCount() < entrancesCount) {
+            Entrance entrance;
             if (house.getEntrancesCount() == 0) {
-                this.addEntrance(house, entranceService.createEntrance(floorsCount, squareOfRoomsOfFlats));
-                // creating first entrance
+                entrance = entranceService.createEntrance(floorsCount, squareOfRoomsOfFlats);
             } else {
-                // copying first entrance by copy constructor
-                this.addEntrance(house, new Entrance(house.getEntrances().iterator().next()));
+                entrance = entranceService.copyEntrance(house.getEntrances().iterator().next());
+            }
+            entrance.setEntranceNumber(++entrancesCounter);
+            addEntrance(house, entrance);
+        }
+        numerateHouseFlats(house);
+        return house;
+    }
+
+    private void numerateHouseFlats(@NotNull House house) {
+        int flatNumber = 1;
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    flat.setFlatNumber(flatNumber);
+                    flatNumber++;
+                }
             }
         }
-
-        return house;
     }
 
     @Override
     public double findTotalHouseSquare(@NotNull House house) {
         double result = 0;
-        for (int i = 1; i < getFlatsCount(house) + 1; i++) {
-            result += flatService.findFlatSquare(getFlatByNumber(house, i));
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    for (Room room : flat.getRooms()) {
+                        result += room.getRoomSquare();
+                    }
+                }
+            }
         }
         return result;
     }
@@ -69,38 +83,28 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public int findTotalHouseResidentsCount(@NotNull House house) {
         int result = 0;
-        for (int i = 1; i < getFlatsCount(house) + 1; i++) {
-            result += getFlatByNumber(house, i).getResidentsCount();
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    result += flat.getResidentsCount();
+                }
+            }
         }
         return result;
     }
 
     @Override
     public Entrance getEntranceByFlatNumber(@NotNull House house, int flatNumber) {
-        int result = 0;
-        Entrance resultEntrance = new Entrance();
-        if (flatNumber == 0) return resultEntrance;
-
-        int leftBorder = 0;
-        int rightBorder = this.getFloorsCount(house)
-                * house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
-        int counter = 0;
-        while (counter < house.getEntrancesCount()) {
-            if (flatNumber > leftBorder && flatNumber <= rightBorder) {
-                result = counter;
-                break;
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    if (flat.getFlatNumber() == flatNumber) {
+                        return entrance;
+                    }
+                }
             }
-            leftBorder += house.getEntrances().iterator().next().getFloorsCount() *
-                    house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
-            rightBorder += house.getEntrances().iterator().next().getFloorsCount()
-                    * house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
-            counter++;
         }
-        Iterator<Entrance> entranceIterator = house.getEntrances().iterator();
-        for (int i = 0; i <= result; i++) {
-            resultEntrance = entranceIterator.next();
-        }
-        return resultEntrance;
+        return new Entrance();
     }
 
     @Override
@@ -123,15 +127,16 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public Flat getFlatByNumber(House house, int flatNumber) {
-        Flat resultFlat = new Flat();
-        Entrance entrance = this.getEntranceByFlatNumber(house, flatNumber);
-        Floor floor = entranceService.getFloorByFlatNumber(entrance, flatNumber);
-        for (Flat flat : floor.getFlats()) {
-            if (flat.getFlatNumber() == flatNumber) {
-                return flat;
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    if (flat.getFlatNumber() == flatNumber) {
+                        return flat;
+                    }
+                }
             }
         }
-        return resultFlat;
+        return new Flat();
     }
 
 

@@ -1,9 +1,7 @@
 package com.bsu.lab.AccountingSystem.domain;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -15,6 +13,8 @@ import java.util.Set;
         indexes = @Index(columnList = "flatNumber"))
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Flat implements Comparable<Flat> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,40 +22,13 @@ public class Flat implements Comparable<Flat> {
     private int residentsCount;
     private int roomsCount = 0;
     private int flatNumber;
-    private static int flatNumberCounter;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "flat_id")
     @OrderBy("id")
     private Set<Room> rooms = new LinkedHashSet<>();
-
     @OneToMany
     @JoinColumn(name = "flat_id")
     private Set<Resident> residents;
-
-    public Flat() {
-        Room.nullifyRoomNumberCounter();
-    }
-
-    public void setFlatNumber() {
-        this.flatNumber = flatNumberCounter;
-        flatNumberCounter++;
-    }
-
-    public Flat(@NotNull Flat flat) { // copy constructor for Flat
-        this.flatNumber = flatNumberCounter;
-        flatNumberCounter++;
-        Room.nullifyRoomNumberCounter();
-        this.roomsCount = flat.roomsCount;
-        this.residentsCount = (int) (Math.random() * (this.roomsCount - 1 + 1) + 1);
-        for (Room room : flat.rooms) {
-            this.rooms.add(new Room(room));
-        }
-    }
-
-    public static void nullifyFlatNumberCounter() {
-        flatNumberCounter = 1;
-    }
 
 
     @Override

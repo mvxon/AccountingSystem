@@ -1,11 +1,11 @@
 package com.bsu.lab.AccountingSystem.service;
 
+import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Role;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
-import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.dao.ResidentRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +21,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class ResidentsServiceImpl implements ResidentService {
+public class ResidentServiceImpl implements ResidentService {
     private final ResidentRepository residentRepository;
-    private final HouseRepository houseRepository;
     private final PasswordEncoder passwordEncoder;
     private final HouseService houseService;
+    private final FlatService flatService;
+
+    public ResidentServiceImpl(ResidentRepository residentRepository,
+                               PasswordEncoder passwordEncoder,
+                               HouseService houseService,
+                               @Lazy FlatService flatService) {
+        this.residentRepository = residentRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.houseService = houseService;
+        this.flatService = flatService;
+    }
 
     @Override
     public boolean save(ResidentDTO residentDTO) {
@@ -35,7 +44,7 @@ public class ResidentsServiceImpl implements ResidentService {
         }
         boolean isHouseNumberExists = false;
         boolean isFlatNumberExists = false;
-        for (Integer houseNumber : houseRepository.findUsedHouseNumbers()) {
+        for (Integer houseNumber : houseService.findUsedHouseNumbers()) {
             if (Objects.equals(houseNumber, residentDTO.getHouseNumber())) {
                 isHouseNumberExists = true;
                 break;
@@ -77,7 +86,7 @@ public class ResidentsServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident findByName(String name) {
+    public Resident getByName(String name) {
         return residentRepository.findByName(name);
     }
 
@@ -127,6 +136,8 @@ public class ResidentsServiceImpl implements ResidentService {
     public void setResidentAccepted(Long residentId) {
         Resident resident = residentRepository.findById(residentId);
         resident.setAccepted(true);
+        Flat flat = resident.getFlat();
+        flatService.addResident(flat, resident);
         residentRepository.save(resident);
     }
 
@@ -134,6 +145,11 @@ public class ResidentsServiceImpl implements ResidentService {
     public void deleteResident(Long residentId) {
         Resident resident = residentRepository.findById(residentId);
         residentRepository.delete(resident);
+    }
+
+    @Override
+    public Resident getById(Long residentId) {
+        return residentRepository.findById(residentId);
     }
 
     private ResidentDTO toDto(Resident resident) {

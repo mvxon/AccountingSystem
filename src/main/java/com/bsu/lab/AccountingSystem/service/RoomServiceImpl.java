@@ -10,8 +10,15 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public @NotNull Room createRoom(double roomSquare) {
         Room room = new Room();
-        room.setRoomNumber();
         room.setRoomSquare(roomSquare);
         return room;
+    }
+
+    @Override
+    public Room copyRoom(Room room) {
+        Room copy = new Room();
+        copy.setRoomSquare(room.getRoomSquare());
+        copy.setRoomNumber(room.getRoomNumber());
+        return copy;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FlatServiceImpl implements FlatService {
@@ -48,14 +49,26 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
+    public Flat copyFlat(Flat flat) {
+        Flat copy = new Flat();
+        int roomNumberCounter = 0;
+        for (Room room : flat.getRooms()) {
+            Room roomCopy = roomService.copyRoom(room);
+            roomCopy.setRoomNumber(++roomNumberCounter);
+            copy.getRooms().add(roomCopy);
+        }
+        return copy;
+    }
+
+    @Override
     public @NotNull Flat createFlat(@NotNull List<Double> squareOfRoomsOfFlat) {
         Flat flat = new Flat();
-        flat.setFlatNumber();
         int roomsCount = squareOfRoomsOfFlat.size();
         flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
-
         for (int i = 0; i < roomsCount; i++) {
-            this.addRoom(flat, roomService.createRoom(squareOfRoomsOfFlat.get(i))); // rooms creating
+            Room room = roomService.createRoom(squareOfRoomsOfFlat.get(i));
+            room.setRoomNumber(i + 1);
+            this.addRoom(flat, room); // rooms creating
         }
         return flat;
     }
@@ -109,9 +122,18 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    @Transactional
     public Flat getFlatByResident(String username) {
-        return residentService.findByName(username).getFlat();
+        return residentService.getByName(username).getFlat();
+    }
+
+    @Override
+    public boolean addResident(Flat flat, Resident resident) {
+
+        if (flat.getResidents().add(resident)) {
+            flatRepository.save(flat);
+            return true;
+        }
+        return false;
     }
 
 

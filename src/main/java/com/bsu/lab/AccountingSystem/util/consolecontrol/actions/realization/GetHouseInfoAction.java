@@ -10,6 +10,7 @@ import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.SecuredNumbersSca
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.InputForActionSelection;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.actions.InputForFlatNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +25,7 @@ public class GetHouseInfoAction {
     @Autowired
     public GetHouseInfoAction(
             HouseService houseService,
-            FlatService flatService,
+            @Lazy FlatService flatService,
             InputForFlatNumber inputForFlatNumber,
             SecuredNumbersScanner securedNumbersScanner,
             InputForActionSelection inputForActionSelection,
@@ -55,7 +56,8 @@ public class GetHouseInfoAction {
                 case PRINT_INFO_ABOUT_FLAT:
                     int flatNumber = inputForFlatNumber.input(houseForAdditionalAction);
                     Flat flatForCheckInfo = houseService.getFlatByNumber(houseForAdditionalAction, flatNumber);
-                    System.out.println(flatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo));
+                    String flatInfo = flatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo);
+                    System.out.println(flatInfo);
                     break;
                 case EXIT_TO_MAIN_MENU:
                     break;
