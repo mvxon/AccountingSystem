@@ -12,10 +12,10 @@
         <tr>
           <td> Menu -></td>
           <td><a th:href="@{/}">Home</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/houses}">Houses</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/manager/residents}">Users</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')"><a th:href="@{/manager/requests}">Requests</a></td>
-          <td sec:authorize="isAuthenticated()"><a th:href="@{/bucket}">Info</a></td>
+          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/houses}">Houses</a></td>
+          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/residents}">Users</a></td>
+          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/requests}">Requests</a></td>
+          <td sec:authorize="isAuthenticated()"><a th:href="@{/my_flat}">My flat</a></td>
         </tr>
       </table>
   </tr>
@@ -31,8 +31,8 @@
     </div>
     <div sec:authorize="!isAuthenticated()">
       <div>
-        Hello, Guest, please <a th:href="@{/login}">login</a>
-        or <a th:href="@{/residents/new}">register</a>
+        Hello, Guest, please <a th:href="@{/login}">sign in</a>
+        or <a th:href="@{/residents/new}">sign up</a>
       </div>
     </div>
   </td>

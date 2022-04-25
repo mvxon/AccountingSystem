@@ -25,16 +25,14 @@ public class ResidentServiceImpl implements ResidentService {
     private final ResidentRepository residentRepository;
     private final PasswordEncoder passwordEncoder;
     private final HouseService houseService;
-    private final FlatService flatService;
 
     public ResidentServiceImpl(ResidentRepository residentRepository,
                                PasswordEncoder passwordEncoder,
-                               HouseService houseService,
-                               @Lazy FlatService flatService) {
+                               HouseService houseService
+    ) {
         this.residentRepository = residentRepository;
         this.passwordEncoder = passwordEncoder;
         this.houseService = houseService;
-        this.flatService = flatService;
     }
 
     @Override
@@ -43,7 +41,7 @@ public class ResidentServiceImpl implements ResidentService {
             throw new RuntimeException("Password is not equals");
         }
         boolean isHouseNumberExists = false;
-        boolean isFlatNumberExists = false;
+        boolean isFlatNumberExists;
         for (Integer houseNumber : houseService.findUsedHouseNumbers()) {
             if (Objects.equals(houseNumber, residentDTO.getHouseNumber())) {
                 isHouseNumberExists = true;
@@ -60,12 +58,11 @@ public class ResidentServiceImpl implements ResidentService {
         } else {
             throw new RuntimeException("House with number " + residentDTO.getHouseNumber() + " not exists");
         }
-
         Resident resident = Resident.builder()
                 .name(residentDTO.getUsername())
                 .password(passwordEncoder.encode(residentDTO.getPassword()))
                 .email(residentDTO.getEmail())
-                .role(Role.CLIENT)
+                .role(Role.RESIDENT)
                 .flat(houseService.getFlatByNumber(houseService.
                         getHouseByHouseNumber(residentDTO.getHouseNumber()), residentDTO.getFlatNumber()))
                 .build();
@@ -86,12 +83,11 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident getByName(String name) {
+    public Resident getResidentByName(String name) {
         return residentRepository.findByName(name);
     }
 
     @Override
-    @Transactional
     public void updateProfile(ResidentDTO residentDTO) {
         Resident savedUser = residentRepository.findByName(residentDTO.getUsername());
         if (savedUser == null) {
@@ -115,7 +111,6 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    @Transactional
     public void moveOutFromFlat(Resident resident) {
         if (resident.getFlat() == null) {
             throw new RuntimeException("There is no flats");
@@ -132,12 +127,9 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    @Transactional
     public void setResidentAccepted(Long residentId) {
         Resident resident = residentRepository.findById(residentId);
         resident.setAccepted(true);
-        Flat flat = resident.getFlat();
-        flatService.addResident(flat, resident);
         residentRepository.save(resident);
     }
 
@@ -163,7 +155,6 @@ public class ResidentServiceImpl implements ResidentService {
 
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Resident resident = residentRepository.findByName(username);
         if (resident == null) {

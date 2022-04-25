@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.dto;
 
 import com.bsu.lab.AccountingSystem.domain.Address;
+import com.bsu.lab.AccountingSystem.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResidentDTO {
     private Long residentId;
+    private Long flatId;
     private String username;
     private String password;
     private String matchingPassword;
@@ -21,5 +23,6 @@ public class ResidentDTO {
     private String city;
     private String street;
     private boolean accepted;
+    private Role role;
 
 }

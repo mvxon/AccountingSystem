@@ -7,6 +7,7 @@ import com.bsu.lab.AccountingSystem.domain.Room;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FlatService {
 
@@ -25,5 +26,11 @@ public interface FlatService {
     Flat getFlatByResident(String username);
 
     boolean addResident(Flat flat, Resident resident);
+
+    void save(Flat flat);
+
+    Set<Resident> getFlatResidents(Flat flat);
+
+    Flat getFlatById(Long id);
 
 }

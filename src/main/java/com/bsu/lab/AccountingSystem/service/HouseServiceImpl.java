@@ -19,18 +19,22 @@ public class HouseServiceImpl implements HouseService {
 
     private final HouseRepository houseRepository;
     private final EntranceService entranceService;
+    private final FloorService floorService;
     private final InputForHouseNumber inputForHouseNumber;
 
     public HouseServiceImpl(HouseRepository houseRepository,
-                            EntranceService entranceService,
+                            @Lazy EntranceService entranceService,
+                            @Lazy FloorService floorService,
                             InputForHouseNumber inputForHouseNumber) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
+        this.floorService = floorService;
         this.inputForHouseNumber = inputForHouseNumber;
     }
 
 
     @Override
+    @Transactional
     public @NotNull House createHouse(int houseNumber,
                                       int entrancesCount,
                                       int floorsCount,
@@ -50,6 +54,7 @@ public class HouseServiceImpl implements HouseService {
             addEntrance(house, entrance);
         }
         numerateHouseFlats(house);
+        houseRepository.save(house);
         return house;
     }
 
@@ -175,35 +180,30 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    @Transactional
     public void deleteHouseByHouseNumber(int houseNumber) {
         houseRepository.deleteHouseByHouseNumber(houseNumber);
     }
 
 
     @Override
-    @Transactional
     public House getHouseByHouseNumber(int houseNumber) {
         return houseRepository.findByHouseNumber(houseNumber);
     }
 
 
     @Override
-    @Transactional
     public TreeSet<Integer> findUsedHouseNumbers() {
         return houseRepository.findUsedHouseNumbers();
     }
 
 
     @Override
-    @Transactional
     public Long getHousesCount() {
         return houseRepository.count();
     }
 
 
     @Override
-    @Transactional
     public List<House> getAllHouses() {
         return houseRepository.findAll();
     }
@@ -220,6 +220,14 @@ public class HouseServiceImpl implements HouseService {
             }
         }
         return false;
+    }
+
+    @Override
+    public House getHouseByFlat(Flat flat) {
+        return houseRepository
+                .getByEntrancesContains(entranceService
+                        .getEntranceByFloor(floorService
+                                .getFloorByFlat(flat)));
     }
 
     @Override

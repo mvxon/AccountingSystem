@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
+import com.bsu.lab.AccountingSystem.dao.EntranceRepository;
 import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
@@ -11,18 +12,19 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class EntranceServiceImpl implements EntranceService {
     private final FloorService floorService;
+    private final EntranceRepository entranceRepository;
 
     @Autowired
-    public EntranceServiceImpl(@Lazy FloorService floorService) {
+    public EntranceServiceImpl(@Lazy FloorService floorService,
+                               EntranceRepository entranceRepository) {
         this.floorService = floorService;
+        this.entranceRepository = entranceRepository;
     }
 
     @Override
@@ -76,5 +78,10 @@ public class EntranceServiceImpl implements EntranceService {
         int flatsPerFloor = entrance.getFloors().iterator().next().getFlatsCount();
         int floorsCount = entrance.getFloorsCount();
         return flatsPerFloor * floorsCount;
+    }
+
+    @Override
+    public Entrance getEntranceByFloor(Floor floor) {
+        return entranceRepository.getByFloorsContains(floor);
     }
 }

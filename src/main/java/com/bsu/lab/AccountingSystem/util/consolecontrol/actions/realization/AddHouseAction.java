@@ -57,8 +57,6 @@ public class AddHouseAction {
         }
         House house;
         house = houseService.createHouse(houseNumber, entrancesCount, floorsCount, squareOfRoomsOfFlats);
-        houseRepository.save(house);
         System.out.println("Дом номер " + houseNumber + " успешно добавлен!");
-        houseService.allHouseInfoToString(house);
     }
 }

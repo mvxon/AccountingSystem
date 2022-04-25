@@ -14,4 +14,6 @@ public interface FloorService {
     Floor copyFloor(Floor floor);
 
     void addFlat(@NotNull Floor floor, @NotNull Flat flat);
+
+    Floor getFloorByFlat(Flat flat);
 }

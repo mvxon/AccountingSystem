@@ -5,21 +5,18 @@
     <title>Residents list</title>
 </head>
 <body>
-<div th:insert = "~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<table border="1">
+<table border="1" align="center">
     <tr>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Flat number</td>
+        <td>Link</td>
     </tr>
-    <tr th:each = "resident : ${residents}">
-       <td th:text = "${resident.username}">Testname</td>
-        <td th:text = "${resident.email}">Testmail</td>
-        <td th:text = "${resident.flatNumber}">Testmail</td>
+    <tr th:each="resident : ${residents}">
+        <td><a th:href="@{/residents/profile/{username}(username = ${resident.username})}"><span
+                th:text="${resident.username}"></span></a></td>
     </tr>
 
 </table>
-<a th:href="@{/residents/requests}">Requests</a>
+<a th:action="@{/residents/requests}">Requests</a>
 </body>
 </html>

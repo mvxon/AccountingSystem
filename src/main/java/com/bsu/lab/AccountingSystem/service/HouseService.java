@@ -53,4 +53,5 @@ public interface HouseService {
 
     boolean isFlatNumberExists(House house, int flatNumber);
 
+    House getHouseByFlat(Flat flat);
 }

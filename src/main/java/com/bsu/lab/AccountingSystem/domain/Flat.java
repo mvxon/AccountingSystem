@@ -2,6 +2,7 @@ package com.bsu.lab.AccountingSystem.domain;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -26,10 +27,9 @@ public class Flat implements Comparable<Flat> {
     @JoinColumn(name = "flat_id")
     @OrderBy("id")
     private Set<Room> rooms = new LinkedHashSet<>();
-    @OneToMany
-    @JoinColumn(name = "flat_id")
+    @OneToMany(mappedBy = "flat", fetch = FetchType.EAGER)
+    @Where(clause = "accepted = true")
     private Set<Resident> residents;
-
 
     @Override
     public boolean equals(Object o) {

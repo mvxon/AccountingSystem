@@ -2,11 +2,13 @@ package com.bsu.lab.AccountingSystem.controllers;
 
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
+import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.service.ResidentService;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,13 +19,15 @@ import java.util.Objects;
 @RequestMapping("/residents")
 public class ResidentController {
     private final ResidentService residentService;
+    private final HouseService houseService;
 
 
-    public ResidentController(ResidentService residentService) {
+    public ResidentController(ResidentService residentService,
+                              HouseService houseService
+    ) {
         this.residentService = residentService;
+        this.houseService = houseService;
     }
-
-
 
 
     @GetMapping("/new")
@@ -43,14 +47,12 @@ public class ResidentController {
     }
 
 
-
-
     @GetMapping("/profile")
     public String profileUser(Model model, Principal principal) {
         if (principal == null) {
             throw new RuntimeException("You are not authorized");
         }
-        Resident resident = residentService.getByName(principal.getName());
+        Resident resident = residentService.getResidentByName(principal.getName());
 
         ResidentDTO userDTO = ResidentDTO.builder()
                 .username(resident.getName())
@@ -74,5 +76,21 @@ public class ResidentController {
         residentService.updateProfile(residentDTO);
         return "redirect:/residents/profile";
     }
+
+    @GetMapping("/profile/{username}")
+    public String checkForeignProfile(@PathVariable String username, Model model) {
+        Resident resident = residentService.getResidentByName(username);
+        ResidentDTO userDTO = ResidentDTO.builder()
+                .username(resident.getName())
+                .email(resident.getEmail())
+                .houseNumber(houseService.getHouseByFlat(resident.getFlat()).getHouseNumber())
+                .flatNumber(resident.getFlat().getFlatNumber())
+                .role(resident.getRole())
+                .flatId(resident.getFlat().getId())
+                .build();
+        model.addAttribute("resident", userDTO);
+        return "foreignProfile";
+    }
+
 }
 

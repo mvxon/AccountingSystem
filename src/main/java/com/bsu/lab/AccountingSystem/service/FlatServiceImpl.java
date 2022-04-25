@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class FlatServiceImpl implements FlatService {
@@ -104,26 +103,14 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    @Transactional
     public void deleteResident(Flat flat, Long residentId) {
-        Set<Resident> residents = flat.getResidents();
-        Set<Resident> newResidentsSet = new HashSet<>();
-        boolean flag = false;
-        for (Resident resident : residents) {
-            if (Objects.equals(resident.getId(), residentId) && !flag) {
-                flag = true;
-                residentService.moveOutFromFlat(resident);
-                continue;
-            }
-            newResidentsSet.add(resident);
-        }
-        flat.setResidents(newResidentsSet);
+        flat.getResidents().remove(residentService.getById(residentId));
         flatRepository.save(flat);
     }
 
     @Override
     public Flat getFlatByResident(String username) {
-        return residentService.getByName(username).getFlat();
+        return residentService.getResidentByName(username).getFlat();
     }
 
     @Override
@@ -134,6 +121,21 @@ public class FlatServiceImpl implements FlatService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void save(Flat flat) {
+        flatRepository.save(flat);
+    }
+
+    @Override
+    public Set<Resident> getFlatResidents(Flat flat) {
+        return flat.getResidents();
+    }
+
+    @Override
+    public Flat getFlatById(Long id) {
+        return flatRepository.findById(id);
     }
 
 

@@ -26,8 +26,7 @@ public class Resident {
     private boolean accepted;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne
-    @JoinColumn(name = "resident_id")
+    @ManyToOne
     private Flat flat;
 
 }

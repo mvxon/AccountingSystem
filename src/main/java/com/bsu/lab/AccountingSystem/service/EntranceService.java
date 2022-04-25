@@ -19,4 +19,6 @@ public interface EntranceService {
     Floor getFloorByFlatNumber(@NotNull Entrance entrance, int flatNumber);
 
     int getFlatsCount(@NotNull Entrance entrance);
+
+    Entrance getEntranceByFloor(Floor floor);
 }

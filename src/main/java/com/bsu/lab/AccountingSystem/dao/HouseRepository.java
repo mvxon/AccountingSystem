@@ -1,5 +1,6 @@
 package com.bsu.lab.AccountingSystem.dao;
 
+import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 
     @Transactional
     void deleteHouseByHouseNumber(int houseNumber);
+
+    House getByEntrancesContains(Entrance entrance);
 
 
 }

@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
+import com.bsu.lab.AccountingSystem.dao.FloorRepository;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
 import org.jetbrains.annotations.NotNull;
@@ -9,15 +10,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FloorServiceImpl implements FloorService {
     private final FlatService flatService;
+    private final FloorRepository floorRepository;
 
     @Autowired
-    public FloorServiceImpl(FlatService flatService) {
+    public FloorServiceImpl(FlatService flatService,
+                            FloorRepository floorRepository) {
         this.flatService = flatService;
+        this.floorRepository = floorRepository;
     }
 
     @Override
@@ -50,6 +53,11 @@ public class FloorServiceImpl implements FloorService {
         if (floor.getFlats().add(flat)) {
             floor.setFlatsCount(floor.getFlatsCount() + 1);
         }
+    }
+
+    @Override
+    public Floor getFloorByFlat(Flat flat) {
+        return floorRepository.getByFlatsContains(flat);
     }
 
 

@@ -6,9 +6,9 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<h1>Resident profile</h1>
+<h1 th:text="${resident.username} + ' profile'" align="center">Resident profile</h1>
 <form th:action="@{/residents/profile}" th:object="${resident}" method="post">
-    <table border="1">
+    <table border="1" align="center">
         <tr>
             <td>Name</td>
             <td><input type="text" th:field="*{username}"></td>

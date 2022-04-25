@@ -2,8 +2,10 @@ package com.bsu.lab.AccountingSystem.util.consolecontrol.actions.realization;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.service.FlatService;
 import com.bsu.lab.AccountingSystem.service.HouseService;
+import com.bsu.lab.AccountingSystem.service.ResidentService;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.actions.AdditionalAction;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.availability_of_houses_check.AvailabilityOfHousesCheck;
 import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.SecuredNumbersScanner;
@@ -12,6 +14,8 @@ import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.consolecontrol.ac
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class GetHouseInfoAction {
@@ -58,6 +62,7 @@ public class GetHouseInfoAction {
                     Flat flatForCheckInfo = houseService.getFlatByNumber(houseForAdditionalAction, flatNumber);
                     String flatInfo = flatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo);
                     System.out.println(flatInfo);
+                    Set<Resident> residents = flatService.getFlatResidents(flatForCheckInfo);
                     break;
                 case EXIT_TO_MAIN_MENU:
                     break;

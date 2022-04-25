@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flat info</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<h1 align="center" th:text="${flat.flatNumber} + ' flat'"></h1>
+<table border="1" align="center">
+    <tr>
+        <td>House number</td>
+        <td th:text="${flat.houseNumber}"></td>
+    </tr>
+    <tr>
+        <td>Entrance number</td>
+        <td th:text="${flat.entranceNumber}"></td>
+    </tr>
+    <tr>
+        <td>Floor number</td>
+        <td th:text="${flat.floorNumber}"></td>
+    </tr>
+    <tr>
+        <td>Flat number</td>
+        <td th:text="${flat.flatNumber}"></td>
+    </tr>
+    <tr>
+        <td>Rooms count</td>
+        <td th:text="${flat.roomsCount}"></td>
+    </tr>
+    <tr>
+        <td>Flat square</td>
+        <td th:text="${flat.flatSquare}"></td>
+    </tr>
+    <tr>
+        <td>Residents count</td>
+        <td th:text="${flat.residents.size()}"></td>
+    </tr>
+
+</table>
+<div align="center">Residents: </div>
+<div align="center" th:each = "resident : ${flat.residents}">
+    <a th:href="@{/residents/profile/{name}(name = ${resident.getName()})}"><span th:text="${resident.getName()}"></span></a>
+</div>
+</body>
+</html>
