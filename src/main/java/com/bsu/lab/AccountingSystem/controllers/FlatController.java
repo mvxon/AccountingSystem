@@ -2,6 +2,7 @@ package com.bsu.lab.AccountingSystem.controllers;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.service.EntranceService;
 import com.bsu.lab.AccountingSystem.service.FlatService;
@@ -17,17 +18,12 @@ import java.security.Principal;
 public class FlatController {
     private final ResidentService residentService;
     private final FlatService flatService;
-    private final HouseService houseService;
-    private final EntranceService entranceService;
 
     public FlatController(ResidentService residentService,
-                          FlatService flatService,
-                          HouseService houseService,
-                          EntranceService entranceService) {
+                          FlatService flatService
+    ) {
         this.residentService = residentService;
         this.flatService = flatService;
-        this.houseService = houseService;
-        this.entranceService = entranceService;
     }
 
     @GetMapping({"/my_flat", "flat/{id}"})
@@ -35,26 +31,20 @@ public class FlatController {
                            Model model,
                            Principal principal) {
         if (principal == null) {
-            throw new RuntimeException("You are not authorized");
+           return "login";
         }
         Flat flat = id == null ?
                 residentService.getResidentByName(principal.getName()).getFlat() : flatService.getFlatById(id);
-
-        House house = houseService.getHouseByFlat(flat);
-        FlatDTO flatDTO = FlatDTO.builder()
-                .flatNumber(flat.getFlatNumber())
-                .flatSquare(flatService.findFlatSquare(flat))
-                .residents(flat.getResidents())
-                .residentsCount(flat.getResidents().size())
-                .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
-                .houseNumber(house.getHouseNumber())
-                .floorNumber(entranceService.getFloorByFlatNumber(houseService
-                                .getEntranceByFlatNumber(house, flat.getFlatNumber()),
-                        flat.getFlatNumber()).getFloorNumber())
-                .roomsCount(flat.getRoomsCount())
-                .build();
-        model.addAttribute("flat", flatDTO);
+        model.addAttribute("flat", flatService.flatToDto(flat));
         return "flatInfo";
+    }
+
+    @GetMapping("/flat/delete/{residentId}")
+    public String deleteResidentFromFlat(@PathVariable Long residentId, Model model) {
+        Resident resident = residentService.getById(residentId);
+        Long flatId = resident.getFlat().getId();
+        residentService.moveOutFromFlat(residentId);
+        return "redirect:/flat/" + flatId;
     }
 
 

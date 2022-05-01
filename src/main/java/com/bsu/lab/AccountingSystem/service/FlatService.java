@@ -4,6 +4,7 @@ import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Room;
+import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,8 +22,6 @@ public interface FlatService {
 
     void addRoom(@NotNull Flat flat, @NotNull Room room);
 
-    void deleteResident(Flat flat, Long residentId);
-
     Flat getFlatByResident(String username);
 
     boolean addResident(Flat flat, Resident resident);
@@ -32,5 +31,7 @@ public interface FlatService {
     Set<Resident> getFlatResidents(Flat flat);
 
     Flat getFlatById(Long id);
+
+    FlatDTO flatToDto(Flat flat);
 
 }

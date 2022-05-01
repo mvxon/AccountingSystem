@@ -22,7 +22,6 @@ public class ResidentDTO {
     private Integer flatNumber;
     private String city;
     private String street;
-    private boolean accepted;
     private Role role;
 
 }

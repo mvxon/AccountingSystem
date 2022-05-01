@@ -2,7 +2,6 @@ package com.bsu.lab.AccountingSystem.controllers;
 
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
-import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.service.ResidentService;
 import org.springframework.stereotype.Controller;
 
@@ -19,14 +18,10 @@ import java.util.Objects;
 @RequestMapping("/residents")
 public class ResidentController {
     private final ResidentService residentService;
-    private final HouseService houseService;
 
 
-    public ResidentController(ResidentService residentService,
-                              HouseService houseService
-    ) {
+    public ResidentController(ResidentService residentService) {
         this.residentService = residentService;
-        this.houseService = houseService;
     }
 
 
@@ -47,22 +42,17 @@ public class ResidentController {
     }
 
 
-    @GetMapping("/profile")
+    @GetMapping("/profile/update")
     public String profileUser(Model model, Principal principal) {
         if (principal == null) {
             throw new RuntimeException("You are not authorized");
         }
         Resident resident = residentService.getResidentByName(principal.getName());
-
-        ResidentDTO userDTO = ResidentDTO.builder()
-                .username(resident.getName())
-                .email(resident.getEmail())
-                .build();
-        model.addAttribute("resident", userDTO);
-        return "profile";
+        model.addAttribute("resident", residentService.residentToDto(resident));
+        return "updateProfile";
     }
 
-    @PostMapping("/profile")
+    @PostMapping("/profile/update")
     public String updateProfileUser(ResidentDTO residentDTO, Model model, Principal principal) {
         if (principal == null && !Objects.equals(principal.getName(), residentDTO.getUsername())) {
             throw new RuntimeException("You are not authorized");
@@ -71,25 +61,19 @@ public class ResidentController {
                 && !residentDTO.getPassword().isEmpty()
                 && Objects.equals(residentDTO.getPassword(), residentDTO.getMatchingPassword())) {
             model.addAttribute("resident", residentDTO);
-            return "profile";
+            return "updateProfile";
         }
         residentService.updateProfile(residentDTO);
         return "redirect:/residents/profile";
     }
 
-    @GetMapping("/profile/{username}")
-    public String checkForeignProfile(@PathVariable String username, Model model) {
-        Resident resident = residentService.getResidentByName(username);
-        ResidentDTO userDTO = ResidentDTO.builder()
-                .username(resident.getName())
-                .email(resident.getEmail())
-                .houseNumber(houseService.getHouseByFlat(resident.getFlat()).getHouseNumber())
-                .flatNumber(resident.getFlat().getFlatNumber())
-                .role(resident.getRole())
-                .flatId(resident.getFlat().getId())
-                .build();
-        model.addAttribute("resident", userDTO);
-        return "foreignProfile";
+    @GetMapping({"/profile/{username}", "/profile"})
+    public String checkProfile(@PathVariable(required = false) String username,
+                               Model model,
+                               Principal principal) {
+        Resident resident = residentService.getResidentByName(username == null ? principal.getName() : username);
+        model.addAttribute("resident", residentService.residentToDto(resident));
+        return "profile";
     }
 
 }

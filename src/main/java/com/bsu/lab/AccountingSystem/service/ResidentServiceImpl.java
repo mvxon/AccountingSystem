@@ -1,11 +1,10 @@
 package com.bsu.lab.AccountingSystem.service;
 
-import com.bsu.lab.AccountingSystem.domain.Flat;
+
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Role;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
 import com.bsu.lab.AccountingSystem.dao.ResidentRepository;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -78,7 +77,7 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public List<ResidentDTO> getAll() {
         return residentRepository.findAll().stream()
-                .map(this::toDto)
+                .map(this::residentToDto)
                 .collect(Collectors.toList());
     }
 
@@ -111,7 +110,8 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void moveOutFromFlat(Resident resident) {
+    public void moveOutFromFlat(Long residentId) {
+        Resident resident = residentRepository.findById(residentId);
         if (resident.getFlat() == null) {
             throw new RuntimeException("There is no flats");
         }
@@ -122,7 +122,7 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public Set<ResidentDTO> getAllUnAcceptedResidents() {
         return residentRepository.findAllByAcceptedIsFalse().stream()
-                .map(this::toDto)
+                .map(this::residentToDto)
                 .collect(Collectors.toSet());
     }
 
@@ -144,15 +144,20 @@ public class ResidentServiceImpl implements ResidentService {
         return residentRepository.findById(residentId);
     }
 
-    private ResidentDTO toDto(Resident resident) {
-        return ResidentDTO.builder()
+    @Override
+    public ResidentDTO residentToDto(Resident resident) {
+        ResidentDTO userDTO = ResidentDTO.builder()
                 .username(resident.getName())
                 .email(resident.getEmail())
-                .flatNumber(resident.getFlat().getFlatNumber())
-                .residentId(resident.getId())
+                .role(resident.getRole())
                 .build();
+        if (resident.getFlat() != null) {
+            userDTO.setFlatId(resident.getFlat().getId());
+            userDTO.setFlatNumber(resident.getFlat().getFlatNumber());
+            userDTO.setHouseNumber(houseService.getHouseByFlat(resident.getFlat()).getHouseNumber());
+        }
+        return userDTO;
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -8,12 +8,12 @@ import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Room;
 
 import com.bsu.lab.AccountingSystem.dao.FlatRepository;
+import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -103,12 +103,6 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public void deleteResident(Flat flat, Long residentId) {
-        flat.getResidents().remove(residentService.getById(residentId));
-        flatRepository.save(flat);
-    }
-
-    @Override
     public Flat getFlatByResident(String username) {
         return residentService.getResidentByName(username).getFlat();
     }
@@ -136,6 +130,23 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public Flat getFlatById(Long id) {
         return flatRepository.findById(id);
+    }
+
+    @Override
+    public FlatDTO flatToDto(Flat flat) {
+        House house = houseService.getHouseByFlat(flat);
+        return FlatDTO.builder()
+                .flatNumber(flat.getFlatNumber())
+                .flatSquare(findFlatSquare(flat))
+                .residents(flat.getResidents())
+                .residentsCount(flat.getResidents().size())
+                .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
+                .houseNumber(house.getHouseNumber())
+                .floorNumber(entranceService.getFloorByFlatNumber(houseService
+                                .getEntranceByFlatNumber(house, flat.getFlatNumber()),
+                        flat.getFlatNumber()).getFloorNumber())
+                .roomsCount(flat.getRoomsCount())
+                .build();
     }
 
 

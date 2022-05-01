@@ -20,7 +20,7 @@ public interface ResidentService extends UserDetailsService {
 
     void updateProfile(ResidentDTO residentDTO);
 
-    void moveOutFromFlat(Resident resident);
+    void moveOutFromFlat(Long residentId);
 
     Set<ResidentDTO> getAllUnAcceptedResidents();
 
@@ -29,5 +29,7 @@ public interface ResidentService extends UserDetailsService {
     void deleteResident(Long residentId);
 
     Resident getById(Long residentId);
+
+    ResidentDTO residentToDto(Resident resident);
 
 }

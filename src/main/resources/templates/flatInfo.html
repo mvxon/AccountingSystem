@@ -38,9 +38,18 @@
     </tr>
 
 </table>
-<div align="center">Residents: </div>
-<div align="center" th:each = "resident : ${flat.residents}">
-    <a th:href="@{/residents/profile/{name}(name = ${resident.getName()})}"><span th:text="${resident.getName()}"></span></a>
-</div>
+<h1 align="center">RESIDENTS</h1>
+<table border="1" align="center">
+    <tr>
+        <td>Username</td>
+        <td>Email</td>
+        <td></td>
+    </tr>
+    <tr th:each="resident : ${flat.residents}">
+        <td th:text="${resident.name}"></td>
+        <td th:text="${resident.email}"></td>
+        <td><a th:href="@{/flat/delete/{id}(id=${resident.id})}">Remove</a></td>
+    </tr>
+</table>
 </body>
 </html>
