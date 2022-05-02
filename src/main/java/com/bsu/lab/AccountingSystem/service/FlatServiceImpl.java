@@ -51,10 +51,12 @@ public class FlatServiceImpl implements FlatService {
     public Flat copyFlat(Flat flat) {
         Flat copy = new Flat();
         int roomNumberCounter = 0;
+        Set<Room> rooms = new HashSet<>();
+        copy.setRooms(rooms);
         for (Room room : flat.getRooms()) {
             Room roomCopy = roomService.copyRoom(room);
             roomCopy.setRoomNumber(++roomNumberCounter);
-            copy.getRooms().add(roomCopy);
+            addRoom(copy, roomCopy);
         }
         return copy;
     }
@@ -62,8 +64,10 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public @NotNull Flat createFlat(@NotNull List<Double> squareOfRoomsOfFlat) {
         Flat flat = new Flat();
+        Set<Room> rooms = new HashSet<>();
+        flat.setRooms(rooms);
         int roomsCount = squareOfRoomsOfFlat.size();
-        flat.setResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
+        flat.setMaxResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
         for (int i = 0; i < roomsCount; i++) {
             Room room = roomService.createRoom(squareOfRoomsOfFlat.get(i));
             room.setRoomNumber(i + 1);
@@ -90,7 +94,7 @@ public class FlatServiceImpl implements FlatService {
             result += "\nПлощадь " + (room.getRoomNumber()) + " комнаты: " + room.getRoomSquare();
         }
         result += "\nОбщая площадь квартиры: " + this.findFlatSquare(flat) +
-                "\nКоличество жильцов: " + flat.getResidentsCount();
+                "\nКоличество жильцов: " + flat.getMaxResidentsCount();
         result += "\n" + GeneralConstants.SEPARATION + "\n";
         return result;
     }
@@ -138,7 +142,7 @@ public class FlatServiceImpl implements FlatService {
         return FlatDTO.builder()
                 .flatNumber(flat.getFlatNumber())
                 .flatSquare(findFlatSquare(flat))
-                .residents(flat.getResidents())
+                .residents(residentService.residentsSetToDto(flat.getResidents()))
                 .residentsCount(flat.getResidents().size())
                 .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
                 .houseNumber(house.getHouseNumber())

@@ -4,12 +4,15 @@ package com.bsu.lab.AccountingSystem.service;
 import com.bsu.lab.AccountingSystem.dao.FloorRepository;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
+import com.bsu.lab.AccountingSystem.domain.Room;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FloorServiceImpl implements FloorService {
@@ -26,6 +29,8 @@ public class FloorServiceImpl implements FloorService {
     @Override
     public @NotNull Floor createFloor(@NotNull List<ArrayList<Double>> squareOfRoomsOfFlats) {
         Floor floor = new Floor();
+        Set<Flat> flats = new HashSet<>();
+        floor.setFlats(flats);
         int flatsCount = squareOfRoomsOfFlats.size();
         for (int i = 0; i < flatsCount; i++) {
             Flat flat = flatService.createFlat(squareOfRoomsOfFlats.get(i));
@@ -39,6 +44,8 @@ public class FloorServiceImpl implements FloorService {
     public Floor copyFloor(Floor floor) {
         Floor copy = new Floor();
         copy.setFlatsCount(floor.getFlatsCount());
+        Set<Flat> flats = new HashSet<>();
+        copy.setFlats(flats);
         int flatNumberCounter = 0;
         for (Flat flat : floor.getFlats()) {
             Flat flatCopy = flatService.copyFlat(flat);

@@ -46,9 +46,9 @@
         <td></td>
     </tr>
     <tr th:each="resident : ${flat.residents}">
-        <td th:text="${resident.name}"></td>
+        <td th:text="${resident.username}"></td>
         <td th:text="${resident.email}"></td>
-        <td><a th:href="@{/flat/delete/{id}(id=${resident.id})}">Remove</a></td>
+        <td><a th:href="@{/flat/delete/{id}(id=${resident.residentId})}">Remove</a></td>
     </tr>
 </table>
 </body>

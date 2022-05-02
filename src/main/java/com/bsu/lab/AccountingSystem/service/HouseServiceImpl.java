@@ -42,6 +42,8 @@ public class HouseServiceImpl implements HouseService {
     ) {
         House house = new House();
         house.setHouseNumber(houseNumber);
+        Set<Entrance> entrances = new HashSet<>();
+        house.setEntrances(entrances);
         int entrancesCounter = 0;
         while (house.getEntrancesCount() < entrancesCount) {
             Entrance entrance;
@@ -91,7 +93,7 @@ public class HouseServiceImpl implements HouseService {
         for (Entrance entrance : house.getEntrances()) {
             for (Floor floor : entrance.getFloors()) {
                 for (Flat flat : floor.getFlats()) {
-                    result += flat.getResidentsCount();
+                    result += flat.getMaxResidentsCount();
                 }
             }
         }
@@ -179,6 +181,7 @@ public class HouseServiceImpl implements HouseService {
         return houseNumber;
     }
 
+
     @Override
     public void deleteHouseByHouseNumber(int houseNumber) {
         houseRepository.deleteHouseByHouseNumber(houseNumber);
@@ -231,12 +234,22 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public boolean isHouseWithNumberExists(int houseNumber) {
+        for (Integer hNumber : findUsedHouseNumbers()) {
+            if (Objects.equals(houseNumber, hNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public int getFlatsPerFloor(@NotNull House house) {
         return house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
     }
 
     @Override
-    public Set<Flat> getFlats(@NotNull House house) {
+    public Set<Flat> getHouseFlats(@NotNull House house) {
         Set<Flat> result = new HashSet<>();
         for (Entrance entrance : house.getEntrances()) {
             for (Floor floor : entrance.getFloors()) {

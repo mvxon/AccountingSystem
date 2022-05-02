@@ -32,4 +32,8 @@ public interface ResidentService extends UserDetailsService {
 
     ResidentDTO residentToDto(Resident resident);
 
+    Set<ResidentDTO> residentsSetToDto(Set<Resident> residents);
+
+    Resident getResidentByEmail(String email);
+
 }

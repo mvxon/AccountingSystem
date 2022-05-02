@@ -3,27 +3,24 @@ package com.bsu.lab.AccountingSystem.controllers;
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
 import com.bsu.lab.AccountingSystem.service.ResidentService;
+import com.bsu.lab.AccountingSystem.validators.ResidentValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/residents")
 public class ResidentController {
     private final ResidentService residentService;
-
-
-    public ResidentController(ResidentService residentService) {
-        this.residentService = residentService;
-    }
-
+    private final ResidentValidator residentValidator;
 
     @GetMapping("/new")
     public String newResident(Model model) {
@@ -32,11 +29,17 @@ public class ResidentController {
     }
 
     @PostMapping("/new")
-    public String saveUser(ResidentDTO residentDTO, Model model) {
+    public String saveUser(@ModelAttribute(name = "resident") @Valid ResidentDTO residentDTO,
+                           BindingResult bindingResult,
+                           Model model
+    ) {
+        residentValidator.validate(residentDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "resident";
+        }
         if (residentService.save(residentDTO)) {
             return "redirect:/login";
         } else {
-            model.addAttribute("resident", residentDTO);
             return "resident";
         }
     }

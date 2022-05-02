@@ -5,7 +5,6 @@ import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,7 +23,7 @@ public class Entrance implements Comparable<Entrance> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "entrance_id")
     @OrderBy("id")
-    private Set<Floor> floors = new LinkedHashSet<>();
+    private Set<Floor> floors;
 
 
     @Override

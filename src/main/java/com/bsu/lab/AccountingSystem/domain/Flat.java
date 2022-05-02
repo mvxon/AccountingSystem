@@ -6,7 +6,6 @@ import org.hibernate.annotations.Where;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,13 +19,13 @@ public class Flat implements Comparable<Flat> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int residentsCount;
+    private int maxResidentsCount;
     private int roomsCount = 0;
     private int flatNumber;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "flat_id")
     @OrderBy("id")
-    private Set<Room> rooms = new LinkedHashSet<>();
+    private Set<Room> rooms;
     @OneToMany(mappedBy = "flat", fetch = FetchType.EAGER)
     @Where(clause = "accepted = true")
     private Set<Resident> residents;

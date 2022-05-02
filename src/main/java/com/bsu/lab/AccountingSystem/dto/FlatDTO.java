@@ -18,7 +18,7 @@ public class FlatDTO {
     Integer floorNumber;
     Integer flatNumber;
     Integer residentsCount;
-    Set<Resident> residents;
+    Set<ResidentDTO> residents;
     Double flatSquare;
     Integer roomsCount;
 

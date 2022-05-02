@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class House implements Comparable<House> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     @OrderBy("id")
-    private Set<Entrance> entrances = new LinkedHashSet<>();
+    private Set<Entrance> entrances;
     @OneToOne
     @JoinColumn(name = "address_id")
     Address address;

@@ -5,6 +5,7 @@ import com.bsu.lab.AccountingSystem.dao.EntranceRepository;
 import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
+import com.bsu.lab.AccountingSystem.domain.Room;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -31,6 +34,8 @@ public class EntranceServiceImpl implements EntranceService {
     public @NonNull Entrance createEntrance(int floorsCount, List<ArrayList<Double>> squareOfRoomsOfFlats) {
         Entrance entrance = new Entrance();
         int floorNumberCounter = 0;
+        Set<Floor> floors = new HashSet<>();
+        entrance.setFloors(floors);
         while (entrance.getFloorsCount() < floorsCount) {
             Floor floor;
             if (entrance.getFloorsCount() == 0) {
@@ -48,6 +53,8 @@ public class EntranceServiceImpl implements EntranceService {
     public @NotNull Entrance copyEntrance(Entrance entrance) {
         Entrance copy = new Entrance();
         int floorNumberCounter = 0;
+        Set<Floor> floors = new HashSet<>();
+        copy.setFloors(floors);
         for (Floor floor : entrance.getFloors()) {
             Floor floorCopy = floorService.copyFloor(floor);
             floorCopy.setFloorNumber(++floorNumberCounter);

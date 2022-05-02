@@ -37,7 +37,7 @@ public interface HouseService {
 
     int getFlatsPerFloor(@NotNull House house);
 
-    Set<Flat> getFlats(@NotNull House house);
+    Set<Flat> getHouseFlats(@NotNull House house);
 
     int generateUniqueHouseNumber();
 
@@ -54,4 +54,6 @@ public interface HouseService {
     boolean isFlatNumberExists(House house, int flatNumber);
 
     House getHouseByFlat(Flat flat);
+
+    boolean isHouseWithNumberExists(int houseNumber);
 }

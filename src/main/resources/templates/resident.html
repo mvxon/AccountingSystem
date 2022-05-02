@@ -6,44 +6,59 @@
     <title>Registration</title>
 </head>
 <body>
-<div th:insert = "~{fragments/menu :: #nav-menu}"></div>
-<form th:align="center" th:action="@{/residents/new}" th:object="${resident}" method = "post">
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:align="center" th:action="@{/residents/new}" th:object="${resident}" method="post">
     <h1>REGISTRATION</h1>
     <table align="center" border="1">
         <tr>
             <td>Name</td>
-            <td><input type="text" th:field="*{username}"></td>
+            <td><input type="text" th:field="*{username}">
+                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>
+            </td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="email" th:field="*{email}"></td>
+            <td><input type="email" th:field="*{email}">
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            </td>
         </tr>
         <tr>
             <td>City</td>
-            <td><input type="text" th:field="*{city}"></td>
+            <td><input type="text" th:field="*{city}">
+                <div style="color: red" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City error</div>
+            </td>
         </tr>
         <tr>
             <td>Street</td>
-            <td><input type="text" th:field="*{street}"></td>
+            <td><input type="text" th:field="*{street}">
+                <div style="color: red" th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Street error</div>
+            </td>
         </tr>
         <tr>
             <td>House number</td>
-            <td><input type="text" th:field="*{houseNumber}"></td>
+            <td><input type="text" th:field="*{houseNumber}">
+                <div style="color: red" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">House number error</div>
+            </td>
         </tr>
         <tr>
             <td>Flat number</td>
-            <td><input type="text" th:field="*{flatNumber}"></td>
+            <td><input type="text" th:field="*{flatNumber}">
+                <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number error</div>
+            </td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" th:field="*{password}"></td>
+            <td><input type="password" th:field="*{password}">
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Pass error</div>
+            </td>
         </tr>
         <tr>
             <td>Matching password</td>
             <td><input type="password" th:field="*{matchingPassword}"></td>
         </tr>
     </table>
-    <button align = "center" type="submit">Sign up</button>
+    <button align="center" type="submit">Sign up</button>
 </form>
 </body>
 </html>

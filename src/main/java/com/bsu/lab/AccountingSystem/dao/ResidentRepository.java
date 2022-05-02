@@ -10,6 +10,7 @@ public interface ResidentRepository extends JpaRepository<Resident, Integer> {
 
     Resident findById(Long id);
 
+    Resident findResidentByEmail(String email);
 
     Set<Resident> findAllByAcceptedIsFalse();
 }

@@ -62,7 +62,6 @@ public class GetHouseInfoAction {
                     Flat flatForCheckInfo = houseService.getFlatByNumber(houseForAdditionalAction, flatNumber);
                     String flatInfo = flatService.flatInfoToString(houseForAdditionalAction, flatForCheckInfo);
                     System.out.println(flatInfo);
-                    Set<Resident> residents = flatService.getFlatResidents(flatForCheckInfo);
                     break;
                 case EXIT_TO_MAIN_MENU:
                     break;
