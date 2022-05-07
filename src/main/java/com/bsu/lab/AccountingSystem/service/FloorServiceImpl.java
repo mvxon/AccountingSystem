@@ -27,7 +27,7 @@ public class FloorServiceImpl implements FloorService {
     }
 
     @Override
-    public @NotNull Floor createFloor(@NotNull List<ArrayList<Double>> squareOfRoomsOfFlats) {
+    public @NotNull Floor createFloor(@NotNull List<List<Double>> squareOfRoomsOfFlats) {
         Floor floor = new Floor();
         Set<Flat> flats = new HashSet<>();
         floor.setFlats(flats);

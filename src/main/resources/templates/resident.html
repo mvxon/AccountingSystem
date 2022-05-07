@@ -14,7 +14,8 @@
         <tr>
             <td>Name</td>
             <td><input type="text" th:field="*{username}">
-                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>
+                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error
+                </div>
             </td>
         </tr>
         <tr>
@@ -38,19 +39,24 @@
         <tr>
             <td>House number</td>
             <td><input type="text" th:field="*{houseNumber}">
-                <div style="color: red" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">House number error</div>
+                <div style="color: red" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">House
+                    number error
+                </div>
             </td>
         </tr>
         <tr>
             <td>Flat number</td>
             <td><input type="text" th:field="*{flatNumber}">
-                <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number error</div>
+                <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number
+                    error
+                </div>
             </td>
         </tr>
         <tr>
             <td>Password</td>
             <td><input type="password" th:field="*{password}">
-                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Pass error</div>
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Pass error
+                </div>
             </td>
         </tr>
         <tr>

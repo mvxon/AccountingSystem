@@ -16,7 +16,7 @@ public interface HouseService {
     @NotNull House createHouse(int houseNumber,
                                int entrancesCount,
                                int floorsCount,
-                               List<ArrayList<Double>> squareOfRoomsOfFlats
+                               List<List<Double>> squareOfRoomsOfFlats
     );
 
     double findTotalHouseSquare(@NotNull House house);

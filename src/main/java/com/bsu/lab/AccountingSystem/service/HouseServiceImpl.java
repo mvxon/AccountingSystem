@@ -1,10 +1,10 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
-import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
+import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.*;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
-import com.bsu.lab.AccountingSystem.util.consolecontrol.inputs.services.InputForHouseNumber;
+import com.bsu.lab.AccountingSystem.consolecontrol.inputs.services.InputForHouseNumber;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
@@ -38,7 +38,7 @@ public class HouseServiceImpl implements HouseService {
     public @NotNull House createHouse(int houseNumber,
                                       int entrancesCount,
                                       int floorsCount,
-                                      List<ArrayList<Double>> squareOfRoomsOfFlats
+                                      List<List<Double>> squareOfRoomsOfFlats
     ) {
         House house = new House();
         house.setHouseNumber(houseNumber);

@@ -31,7 +31,7 @@ public class EntranceServiceImpl implements EntranceService {
     }
 
     @Override
-    public @NonNull Entrance createEntrance(int floorsCount, List<ArrayList<Double>> squareOfRoomsOfFlats) {
+    public @NonNull Entrance createEntrance(int floorsCount, List<List<Double>> squareOfRoomsOfFlats) {
         Entrance entrance = new Entrance();
         int floorNumberCounter = 0;
         Set<Floor> floors = new HashSet<>();

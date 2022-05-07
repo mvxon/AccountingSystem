@@ -1,6 +1,6 @@
 package com.bsu.lab.AccountingSystem;
 
-import com.bsu.lab.AccountingSystem.util.consolecontrol.ConsoleControlForHousesAccounting;
+import com.bsu.lab.AccountingSystem.consolecontrol.ConsoleControlForHousesAccounting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

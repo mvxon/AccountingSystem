@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface EntranceService {
 
-    @NonNull Entrance createEntrance(int floorsCount, List<ArrayList<Double>> squareOfRoomsOfFlats);
+    @NonNull Entrance createEntrance(int floorsCount, List<List<Double>> squareOfRoomsOfFlats);
 
     @NotNull Entrance copyEntrance(Entrance entrance);
 

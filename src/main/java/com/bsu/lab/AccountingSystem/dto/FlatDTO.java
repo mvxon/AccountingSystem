@@ -13,14 +13,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class FlatDTO {
-    Integer houseNumber;
-    Integer entranceNumber;
-    Integer floorNumber;
-    Integer flatNumber;
-    Integer residentsCount;
-    Set<ResidentDTO> residents;
-    Double flatSquare;
-    Integer roomsCount;
+    private Integer houseNumber;
+    private Integer entranceNumber;
+    private Integer floorNumber;
+    private Integer flatNumber;
+    private Integer residentsCount;
+    private Set<ResidentDTO> residents;
+    private Double flatSquare;
+    private Integer roomsCount;
 
 
 }

@@ -1,7 +1,7 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
-import com.bsu.lab.AccountingSystem.constants.GeneralConstants;
+import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.domain.Resident;

@@ -42,7 +42,7 @@ public class ResidentValidator implements Validator {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "",
                     "Required field");
         } else {
-            if (resident.getPassword().length() < 8 || resident.getPassword().length() > 32) {
+            if (resident.getPassword().length() < 3 || resident.getPassword().length() > 32) {
                 errors.rejectValue("password", "",
                         "Length of the password should be between 8 and 32 chars");
             }

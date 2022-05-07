@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FloorService {
 
-    @NotNull Floor createFloor(@NotNull List<ArrayList<Double>> squareOfRoomsOfFlats);
+    @NotNull Floor createFloor(@NotNull List<List<Double>> squareOfRoomsOfFlats);
 
     Floor copyFloor(Floor floor);
 

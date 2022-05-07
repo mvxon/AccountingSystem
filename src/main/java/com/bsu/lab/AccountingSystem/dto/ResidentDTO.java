@@ -2,7 +2,6 @@ package com.bsu.lab.AccountingSystem.dto;
 
 
 import com.bsu.lab.AccountingSystem.domain.Role;
-import com.bsu.lab.AccountingSystem.validation.HouseNumber;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
