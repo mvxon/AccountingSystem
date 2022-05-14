@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/residents", "/houses", "/manager/*", "/flat/*")
+                .antMatchers("/residents", "/houses/**", "/manager/**", "/flat/**")
                 .hasAnyAuthority(Role.ADMIN.name(), Role.CONCIERGE.name())
                 .anyRequest().permitAll()
                 .and()

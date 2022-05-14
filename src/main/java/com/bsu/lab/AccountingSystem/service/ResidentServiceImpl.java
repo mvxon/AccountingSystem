@@ -34,24 +34,8 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public boolean save(ResidentDTO residentDTO) {
-        if (!Objects.equals(residentDTO.getPassword(), residentDTO.getMatchingPassword())) {
-            throw new RuntimeException("Password is not equals");
-        }
-        if (houseService.isHouseWithNumberExists(residentDTO.getHouseNumber())) {
-            boolean isFlatNumberExists = houseService.isFlatNumberExists(houseService.
-                    getHouseByHouseNumber(residentDTO.getHouseNumber()), residentDTO.getFlatNumber());
-            if (!isFlatNumberExists) {
-                throw new RuntimeException("Flat with number " + residentDTO.getHouseNumber() + " not exists in house " +
-                        "number " + residentDTO.getHouseNumber());
-            }
-        } else {
-            throw new RuntimeException("House with number " + residentDTO.getHouseNumber() + " not exists");
-        }
         Flat flat = houseService.getFlatByNumber(houseService.
                 getHouseByHouseNumber(residentDTO.getHouseNumber()), residentDTO.getFlatNumber());
-        if (flat.getMaxResidentsCount() == flat.getResidents().size()) {
-            throw new RuntimeException("This flat is already full of residents");
-        }
         Resident resident = Resident.builder()
                 .name(residentDTO.getUsername())
                 .password(passwordEncoder.encode(residentDTO.getPassword()))

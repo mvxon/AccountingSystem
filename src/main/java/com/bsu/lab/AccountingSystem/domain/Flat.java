@@ -15,12 +15,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Flat implements Comparable<Flat> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int maxResidentsCount;
-    private int roomsCount = 0;
+    private int roomsCount;
     private int flatNumber;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "flat_id")

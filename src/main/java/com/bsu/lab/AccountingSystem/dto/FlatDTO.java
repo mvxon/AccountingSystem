@@ -1,11 +1,12 @@
 package com.bsu.lab.AccountingSystem.dto;
 
-import com.bsu.lab.AccountingSystem.domain.Resident;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,8 +20,9 @@ public class FlatDTO {
     private Integer flatNumber;
     private Integer residentsCount;
     private Set<ResidentDTO> residents;
+    private List<RoomDTO> rooms;
     private Double flatSquare;
-    private Integer roomsCount;
+    private Integer roomsCount = 1;
 
 
 }

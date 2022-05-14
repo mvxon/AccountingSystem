@@ -22,13 +22,13 @@ public class ResidentController {
     private final ResidentService residentService;
     private final ResidentValidator residentValidator;
 
-    @GetMapping("/new")
+    @GetMapping("/registration")
     public String newResident(Model model) {
         model.addAttribute("resident", new ResidentDTO());
         return "resident";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/registration")
     public String saveUser(@ModelAttribute(name = "resident") @Valid ResidentDTO residentDTO,
                            BindingResult bindingResult,
                            Model model

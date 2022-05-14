@@ -5,6 +5,9 @@ import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.*;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.consolecontrol.inputs.services.InputForHouseNumber;
+import com.bsu.lab.AccountingSystem.dto.FlatDTO;
+import com.bsu.lab.AccountingSystem.dto.HouseDTO;
+import com.bsu.lab.AccountingSystem.dto.RoomDTO;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -56,9 +60,11 @@ public class HouseServiceImpl implements HouseService {
             addEntrance(house, entrance);
         }
         numerateHouseFlats(house);
+        house.setStatus(HouseStatus.FINISHED);
         houseRepository.save(house);
         return house;
     }
+
 
     private void numerateHouseFlats(@NotNull House house) {
         int flatNumber = 1;
@@ -241,6 +247,77 @@ public class HouseServiceImpl implements HouseService {
             }
         }
         return false;
+    }
+
+    @Override
+    public void save(HouseDTO houseDTO) {
+        House house = houseRepository.getById(houseDTO.getHouseId());
+        List<List<Double>> squareOfRoomsOfFlats = new ArrayList<>();
+        int flatsCountPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
+        List<Flat> flatsOfOneFloor =
+                new ArrayList<>(house.getEntrances().iterator().next().getFloors().iterator().next().getFlats());
+        for (int i = 0; i < flatsCountPerFloor; i++) {
+            List<Double> squareOfRoomsOfOneFlat = new ArrayList<>();
+            for (int j = 0; j < flatsOfOneFloor.get(i).getRoomsCount(); j++) {
+                squareOfRoomsOfOneFlat.add(houseDTO.getFlatsOfOneFloor().get(i).getRooms().get(j).getRoomSquare());
+            }
+            squareOfRoomsOfFlats.add(squareOfRoomsOfOneFlat);
+        }
+        houseRepository.deleteById(houseDTO.getHouseId());
+        createHouse(house.getHouseNumber(),
+                house.getEntrancesCount(),
+                house.getEntrances().iterator().next().getFloorsCount(),
+                squareOfRoomsOfFlats);
+    }
+
+    @Override
+    public Set<House> getAllUnFinishedHouses() {
+        return houseRepository.findAllUnFinishedHouses();
+    }
+
+    @Override
+    public House firstStepSave(HouseDTO houseDTO) {
+        House house = House.builder()
+                .houseNumber(houseDTO.getHouseNumber())
+                .entrancesCount(houseDTO.getEntrancesCount())
+                .status(HouseStatus.CREATED)
+                .build();
+        Entrance entrance = Entrance.builder()
+                .floorsCount(houseDTO.getFloorsCount())
+                .build();
+        Floor floor = Floor.builder()
+                .flatsCount(houseDTO.getFlatsPerFloor())
+                .build();
+        entrance.setFloors(Collections.singleton(floor));
+        house.setEntrances(Collections.singleton(entrance));
+        houseRepository.save(house);
+        return house;
+    }
+
+    @Override
+    public void secondStepSave(HouseDTO houseDTO) {
+        House house = houseRepository.getById(houseDTO.getHouseId());
+        Set<Flat> flatSet = new LinkedHashSet<>();
+        int flatNumberCounter = 0;
+        for (FlatDTO flat : houseDTO.getFlatsOfOneFloor()) {
+            flatSet.add(Flat.builder()
+                    .flatNumber(flatNumberCounter++)
+                    .roomsCount(flat.getRoomsCount())
+                    .build());
+        }
+        house.getEntrances().iterator().next().getFloors().iterator().next().setFlats(flatSet);
+        house.setStatus(HouseStatus.CONTINUED);
+        houseRepository.save(house);
+    }
+
+    @Override
+    public House getHouseById(Long id) {
+        return houseRepository.getById(id);
+    }
+
+    @Override
+    public void deleteHouse(Long id) {
+        houseRepository.deleteById(id);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.bsu.lab.AccountingSystem.controllers;
 
 import com.bsu.lab.AccountingSystem.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

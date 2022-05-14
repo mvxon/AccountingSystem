@@ -23,14 +23,16 @@ public class House implements Comparable<House> {
     private Long id;
     @Column(nullable = false, unique = true)
     private int houseNumber;
-    private int entrancesCount = 0;
+    private int entrancesCount;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "house_id")
     @OrderBy("id")
     private Set<Entrance> entrances;
     @OneToOne
     @JoinColumn(name = "address_id")
-    Address address;
+    private Address address;
+    @Enumerated(EnumType.STRING)
+    private HouseStatus status;
 
     @Override
     public boolean equals(Object o) {

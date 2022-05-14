@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Continue houses creating</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<h1 align="center">UNFINISHED HOUSES</h1>
+<table border="1" align="center">
+    <tr>
+        <td>House number</td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr th:each="house : ${houses}">
+        <td><a th:text="${house.houseNumber}"></a></td>
+        <td><a th:href="@{/houses/load_unfinished_house/{id}(id = ${house.id})}">Continue>></a></td>
+        <td><a th:href="@{/houses/delete_unfinished_house/{id}(id = ${house.id})}">Delete</a></td>
+    </tr>
+</table>
+<div align="center" STYLE="color: indigo"> <a th:href = "@{/houses/new}">>NEW HOUSE<</a> </div>
+
+</body>
+</html>

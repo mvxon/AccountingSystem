@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>House creating</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:align="center" th:action="@{/houses/flats_filling/{id}(id = ${house.houseId})}" th:object="${house}"
+      method="post">
+    <h1>FLOORS FLATS COUNT SETTING</h1>
+    <div th:each="flat, flatStat : *{flatsOfOneFloor}">
+        <div>
+            <a th:text="'Enter rooms count of ' + ${flatStat.count} +' flat on the floor'"></a>
+            <input type="number" th:field="*{flatsOfOneFloor[__${flatStat.index}__].roomsCount}">
+        </div>
+    </div>
+    <H1 style="color: red" th:if="${#fields.hasErrors('flatsOfOneFloor')}" th:errors="*{flatsOfOneFloor}">error</H1>
+    <button align="center" type="submit">Submit</button>
+</form>
+</body>
+</html>

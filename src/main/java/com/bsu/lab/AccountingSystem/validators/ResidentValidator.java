@@ -1,16 +1,18 @@
 package com.bsu.lab.AccountingSystem.validators;
 
+import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.service.ResidentService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class ResidentValidator implements Validator {
     private final ResidentService residentService;
@@ -70,6 +72,12 @@ public class ResidentValidator implements Validator {
                         errors.rejectValue("flatNumber", "", "Flat number "
                                 + resident.getFlatNumber()
                                 + " does not exists in house number " + resident.getHouseNumber());
+                    }
+                    Flat flat = houseService.getFlatByNumber(houseService.
+                            getHouseByHouseNumber(resident.getHouseNumber()), resident.getFlatNumber());
+                    if (flat.getMaxResidentsCount() == flat.getResidents().size()) {
+                        errors.rejectValue("flatNumber", "",
+                                "This flat is already full of residents");
                     }
                 }
             }

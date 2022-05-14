@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>House creating</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:align="center" th:action="@{/houses/new}" th:object="${house}" method="post">
+    <h1>HOUSE CREATING</h1>
+    <table align="center" border="1">
+        <tr>
+            <td>House number</td>
+            <td><input type="text" th:field="*{houseNumber}">
+                <div style="color: red" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Entrances count</td>
+            <td><input type="text" th:field="*{entrancesCount}">
+                <div style="color: red" th:if="${#fields.hasErrors('entrancesCount')}" th:errors="*{entrancesCount}">
+                    error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Floors count</td>
+            <td><input type="text" th:field="*{floorsCount}">
+                <div style="color: red" th:if="${#fields.hasErrors('floorsCount')}" th:errors="*{floorsCount}">error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Count of flats on one floor</td>
+            <td><input type="text" th:field="*{flatsPerFloor}">
+                <div style="color: red" th:if="${#fields.hasErrors('flatsPerFloor')}" th:errors="*{flatsPerFloor}">
+                    error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td><input type="text" th:field="*{city}">
+                <div style="color: red" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"> error</div>
+            </td>
+        </tr>
+        <tr>
+            <td>Street</td>
+            <td><input type="text" th:field="*{street}">
+                <div style="color: red" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"> error</div>
+            </td>
+        </tr>
+
+    </table>
+    <button align="center" type="submit">Submit</button>
+</form>
+</body>
+</html>

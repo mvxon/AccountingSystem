@@ -14,12 +14,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Floor implements Comparable<Floor> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int floorNumber;
-    private int flatsCount = 0;
+    private int flatsCount;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id")
     @OrderBy("id")

@@ -3,6 +3,7 @@ package com.bsu.lab.AccountingSystem.service;
 import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
+import com.bsu.lab.AccountingSystem.dto.HouseDTO;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,4 +57,16 @@ public interface HouseService {
     House getHouseByFlat(Flat flat);
 
     boolean isHouseWithNumberExists(int houseNumber);
+
+    void save(HouseDTO house);
+
+    Set<House> getAllUnFinishedHouses();
+
+    House firstStepSave(HouseDTO houseDTO);
+
+    void secondStepSave(HouseDTO houseDTO);
+
+    House getHouseById(Long id);
+
+    void deleteHouse(Long id);
 }

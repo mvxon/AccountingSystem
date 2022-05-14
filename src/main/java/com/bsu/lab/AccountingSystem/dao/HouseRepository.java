@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 
@@ -22,5 +24,12 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 
     House getByEntrancesContains(Entrance entrance);
 
+    @Query("from House where status = 'CREATED' or status = 'CONTINUED'")
+    HashSet<House> findAllUnFinishedHouses();
+
+    House getById(Long id);
+
+    @Transactional
+    void deleteById(Long id);
 
 }

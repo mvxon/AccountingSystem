@@ -15,6 +15,7 @@
           <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/houses}">Houses</a></td>
           <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/residents}">Users</a></td>
           <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/requests}">Requests</a></td>
+          <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/houses/unfinished}">New house</a></td>
           <td sec:authorize="isAuthenticated()"><a th:href="@{/my_flat}">My flat</a></td>
         </tr>
       </table>
@@ -32,7 +33,7 @@
     <div sec:authorize="!isAuthenticated()">
       <div>
         Hello, Guest, please <a th:href="@{/login}">sign in</a>
-        or <a th:href="@{/residents/new}">sign up</a>
+        or <a th:href="@{/residents/registration}">sign up</a>
       </div>
     </div>
   </td>
