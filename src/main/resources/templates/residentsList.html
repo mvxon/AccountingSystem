@@ -10,16 +10,18 @@
 <table border="1" align="center">
     <tr>
         <td>Link</td>
+        <td></td>
     </tr>
     <tr th:each="resident : ${residents}">
-        <td><a th:href="@{/residents/profile/{username}(username = ${resident.username})}"><span
+        <td><a th:href="@{/profile/{username}(username = ${resident.username})}"><span
                 th:text="${resident.username}"></span></a></td>
+        <td><a th:href="@{/manager/delete/{id}(id = ${resident.residentId})}">Delete account</a></td>
     </tr>
 
 </table>
 <br>
 <div align="center">
-    <a th:href="@{/residents/requests}">Requests</a>
+    <a th:href="@{/requests}">Requests</a>
 </div>
 </body>
 </html>

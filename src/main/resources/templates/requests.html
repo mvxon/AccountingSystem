@@ -15,7 +15,7 @@
 
     <tr th:each="resident : ${residents}">
         <td><a
-                th:href="@{/residents/profile/{residentName}(residentName=${resident.username})}"><span
+                th:href="@{/profile/{residentName}(residentName=${resident.username})}"><span
                 th:text="${resident.username}"></span></a>
         </td>
         <td><a th:href="@{/manager/accept/{id}(id=${resident.residentId})}">Accept</a></td>

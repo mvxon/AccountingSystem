@@ -2,12 +2,12 @@ package com.bsu.lab.AccountingSystem.controllers;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.domain.HouseStatus;
 import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.dto.HouseDTO;
 import com.bsu.lab.AccountingSystem.dto.RoomDTO;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.validators.FlatValidator;
+import com.bsu.lab.AccountingSystem.validators.HouseValidator;
 import com.bsu.lab.AccountingSystem.validators.RoomValidator;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.bsu.lab.AccountingSystem.domain.HouseStatus.*;
+
 
 @Controller
 @RequestMapping("/houses")
@@ -28,6 +30,7 @@ import java.util.Set;
 public class HouseController {
 
     private final HouseService houseService;
+    private final HouseValidator houseValidator;
     private final FlatValidator flatValidator;
     private final RoomValidator roomValidator;
 
@@ -42,6 +45,7 @@ public class HouseController {
                                          @NotNull BindingResult bindingResult,
                                          Model model
     ) {
+        houseValidator.validate(houseDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "house/house1";
         }
@@ -62,14 +66,14 @@ public class HouseController {
     public String loadUnfinishedHouse(@PathVariable Long id, Model model) {
         HouseDTO houseDTO = new HouseDTO();
         House house = houseService.getHouseById(id);
-        if (house.getStatus() == HouseStatus.FINISHED) {
-            return "redirect:/houses/new";
+        if (house.getStatus() == FINISHED) {
+            model.addAttribute("error", "House already finished");
+            return "error";
         }
-        if (house.getStatus() == HouseStatus.CONTINUED) {
+        if (house.getStatus() == CONTINUED) {
             return "redirect:/houses/load_final_step_creation/" + id;
         }
-        int flatsPerFloor = house.getEntrances().iterator().next()
-                .getFloors().iterator().next().getFlatsCount();
+        int flatsPerFloor = houseService.getFlatsPerFloor(house);
         List<FlatDTO> flatsOfOneFloor = new ArrayList<>();
 
         for (int i = 0; i < flatsPerFloor; i++) {
@@ -115,14 +119,11 @@ public class HouseController {
     public String loadUnfinishedHouseFinalStep(@PathVariable Long id, Model model) {
         HouseDTO houseDTO = new HouseDTO();
         House house = houseService.getHouseById(id);
+        if (house.getStatus() == FINISHED || house.getStatus() == CREATED) {
+            model.addAttribute("error", "House already finished or just created");
+            return "error";
+        }
         houseDTO.setHouseId(house.getId());
-        if (house.getStatus() == HouseStatus.FINISHED) {
-            return "redirect:/houses/new";
-        }
-        if (house.getStatus() == HouseStatus.CREATED) {
-            return "redirect:/houses//load_unfinished_house/" + id;
-        }
-
         Set<Flat> flats = house.getEntrances().iterator().next().getFloors().iterator().next().getFlats();
         List<FlatDTO> flatDTOS = new ArrayList<>();
         for (Flat flat : flats) {
@@ -145,10 +146,17 @@ public class HouseController {
 
     @PostMapping("/final_step/{id}")
     public String houseCreatingFinalStep(@PathVariable Long id, @ModelAttribute(name = "house") HouseDTO houseDTO,
-                                         BindingResult bindingResult
+                                         BindingResult bindingResult,
+                                         Model model
     ) {
-        if (houseService.getHouseById(id).getStatus() == HouseStatus.FINISHED) {
-            return "redirect:/houses/new";
+        House house = houseService.getHouseById(id);
+        if (house == null) {
+            model.addAttribute("error", "House does not exists");
+            return "error";
+        }
+        if (house.getStatus() == FINISHED || house.getStatus() == CREATED) {
+            model.addAttribute("error", "House already finished or just created");
+            return "error";
         }
         roomValidator.validate(houseDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -156,24 +164,40 @@ public class HouseController {
         }
         houseDTO.setHouseId(id);
         houseService.save(houseDTO);
-        return "redirect:/houses/unfinished";
+        return "redirect:/houses/house/" + house.getId();
 
     }
 
     @GetMapping("/unfinished")
     public String unfinishedHouses(Model model) {
-        model.addAttribute("houses", houseService.getAllUnFinishedHouses());
-        return "unfinishedHousesList";
+        Set<House> houses = houseService.getAllUnFinishedHouses();
+        if (houses.size() != 0) {
+            model.addAttribute("houses", houseService.getAllUnFinishedHouses());
+            return "unfinishedHousesList";
+        }
+        return "redirect:/houses/new";
+
     }
 
     @GetMapping("/delete_unfinished_house/{id}")
-    public String deleteHouse(@PathVariable Long id) {
+    public String deleteHouse(@PathVariable Long id, Model model) {
         if (houseService.getHouseById(id) == null) {
-            throw new RuntimeException("House with this number does not exists");
+            model.addAttribute("error", "House does not exists");
+            return "error";
         }
         houseService.deleteHouse(id);
         return "redirect:/houses/unfinished";
 
+    }
+
+    @GetMapping("/house/{id}")
+    public String showHouse(@PathVariable Long id, Model model) {
+        if (houseService.getHouseById(id) == null) {
+            model.addAttribute("error", "House does not exists");
+            return "error";
+        }
+        model.addAttribute("house", houseService.flatToDto(houseService.getHouseById(id)));
+        return "houseInfo";
     }
 
 

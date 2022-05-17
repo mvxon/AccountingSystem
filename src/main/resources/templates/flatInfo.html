@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Flat info</title>
@@ -10,7 +10,12 @@
 <table border="1" align="center">
     <tr>
         <td>House number</td>
-        <td th:text="${flat.houseNumber}"></td>
+        <td>
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a
+                    th:href="@{/houses/house/{id}(id = ${flat.houseId})}"><span
+                    th:text="${flat.houseNumber}"></span></a></div>
+            <div sec:authorize="hasAuthority('RESIDENT')"><a th:text="${flat.houseNumber}"></a></div>
+        </td>
     </tr>
     <tr>
         <td>Entrance number</td>
@@ -38,18 +43,19 @@
     </tr>
 
 </table>
-<h1 align="center">RESIDENTS</h1>
-<table border="1" align="center">
-    <tr>
-        <td>Username</td>
-        <td>Email</td>
-        <td></td>
-    </tr>
-    <tr th:each="resident : ${flat.residents}">
-        <td th:text="${resident.username}"></td>
-        <td th:text="${resident.email}"></td>
-        <td><a th:href="@{/flat/delete/{id}(id=${resident.residentId})}">Remove</a></td>
-    </tr>
-</table>
+<div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')">
+    <h1 align="center">RESIDENTS</h1>
+    <table border="1" align="center">
+        <tr>
+            <td>Username</td>
+            <td></td>
+        </tr>
+        <tr th:each="resident : ${flat.residents}">
+            <td><a th:href="@{/profile/{username}(username = ${resident.username})}"><span
+                    th:text="${resident.username}"></span></a></td>
+            <td><a th:href="@{/flat/delete/{id}(id=${resident.residentId})}">Remove</a></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

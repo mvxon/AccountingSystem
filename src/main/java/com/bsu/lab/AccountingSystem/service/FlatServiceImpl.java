@@ -53,6 +53,7 @@ public class FlatServiceImpl implements FlatService {
         int roomNumberCounter = 0;
         Set<Room> rooms = new HashSet<>();
         copy.setRooms(rooms);
+        copy.setMaxResidentsCount(flat.getMaxResidentsCount());
         for (Room room : flat.getRooms()) {
             Room roomCopy = roomService.copyRoom(room);
             roomCopy.setRoomNumber(++roomNumberCounter);
@@ -67,7 +68,7 @@ public class FlatServiceImpl implements FlatService {
         Set<Room> rooms = new HashSet<>();
         flat.setRooms(rooms);
         int roomsCount = squareOfRoomsOfFlat.size();
-        flat.setMaxResidentsCount((int) (Math.random() * (flat.getRoomsCount() - 1 + 1) + 1));
+        flat.setMaxResidentsCount(roomsCount * 2);
         for (int i = 0; i < roomsCount; i++) {
             Room room = roomService.createRoom(squareOfRoomsOfFlat.get(i));
             room.setRoomNumber(i + 1);
@@ -146,6 +147,8 @@ public class FlatServiceImpl implements FlatService {
                 .residentsCount(flat.getResidents().size())
                 .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
                 .houseNumber(house.getHouseNumber())
+                .houseId(house.getId())
+                .flatId(flat.getId())
                 .floorNumber(entranceService.getFloorByFlatNumber(houseService
                                 .getEntranceByFlatNumber(house, flat.getFlatNumber()),
                         flat.getFlatNumber()).getFloorNumber())

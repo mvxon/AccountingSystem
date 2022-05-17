@@ -2,6 +2,7 @@ package com.bsu.lab.AccountingSystem.service;
 
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
+import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Role;
 import com.bsu.lab.AccountingSystem.dto.ResidentDTO;
@@ -124,6 +125,7 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public ResidentDTO residentToDto(Resident resident) {
+        House house = houseService.getHouseByFlat(resident.getFlat());
         ResidentDTO userDTO = ResidentDTO.builder()
                 .residentId(resident.getId())
                 .username(resident.getName())
@@ -132,8 +134,9 @@ public class ResidentServiceImpl implements ResidentService {
                 .build();
         if (resident.getFlat() != null) {
             userDTO.setFlatId(resident.getFlat().getId());
+            userDTO.setHouseId(house.getId());
             userDTO.setFlatNumber(resident.getFlat().getFlatNumber());
-            userDTO.setHouseNumber(houseService.getHouseByFlat(resident.getFlat()).getHouseNumber());
+            userDTO.setHouseNumber(house.getHouseNumber());
         }
         return userDTO;
     }

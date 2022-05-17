@@ -7,7 +7,6 @@ import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.consolecontrol.inputs.services.InputForHouseNumber;
 import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.dto.HouseDTO;
-import com.bsu.lab.AccountingSystem.dto.RoomDTO;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -61,7 +59,6 @@ public class HouseServiceImpl implements HouseService {
         }
         numerateHouseFlats(house);
         house.setStatus(HouseStatus.FINISHED);
-        houseRepository.save(house);
         return house;
     }
 
@@ -94,7 +91,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public int findTotalHouseResidentsCount(@NotNull House house) {
+    public int findMaximumResidentsCapacity(@NotNull House house) {
         int result = 0;
         for (Entrance entrance : house.getEntrances()) {
             for (Floor floor : entrance.getFloors()) {
@@ -131,7 +128,7 @@ public class HouseServiceImpl implements HouseService {
                             "\nКоличество квартир на одном этаже: " + getFlatsPerFloor(house) +
                             "\nОбщее количество квартир: " + getFlatsCount(house) +
                             "\nОбщая площадь дома: " + (findTotalHouseSquare(house)) +
-                            "\nОбщее количество жильцов: " + (findTotalHouseResidentsCount(house)) +
+                            "\nОбщее количество жильцов: " + (findMaximumResidentsCapacity(house)) +
                             "\n" + GeneralConstants.SEPARATION + "\n";
         }
         return result;
@@ -201,7 +198,7 @@ public class HouseServiceImpl implements HouseService {
 
 
     @Override
-    public TreeSet<Integer> findUsedHouseNumbers() {
+    public TreeSet<Integer> getUsedHouseNumbers() {
         return houseRepository.findUsedHouseNumbers();
     }
 
@@ -241,7 +238,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public boolean isHouseWithNumberExists(int houseNumber) {
-        for (Integer hNumber : findUsedHouseNumbers()) {
+        for (Integer hNumber : getUsedHouseNumbers()) {
             if (Objects.equals(houseNumber, hNumber)) {
                 return true;
             }
@@ -263,11 +260,13 @@ public class HouseServiceImpl implements HouseService {
             }
             squareOfRoomsOfFlats.add(squareOfRoomsOfOneFlat);
         }
-        houseRepository.deleteById(houseDTO.getHouseId());
-        createHouse(house.getHouseNumber(),
+        House resultHouse = createHouse(house.getHouseNumber(),
                 house.getEntrancesCount(),
                 house.getEntrances().iterator().next().getFloorsCount(),
                 squareOfRoomsOfFlats);
+        resultHouse.setId(house.getId());
+        resultHouse.setAddress(house.getAddress());
+        houseRepository.save(resultHouse);
     }
 
     @Override
@@ -281,6 +280,10 @@ public class HouseServiceImpl implements HouseService {
                 .houseNumber(houseDTO.getHouseNumber())
                 .entrancesCount(houseDTO.getEntrancesCount())
                 .status(HouseStatus.CREATED)
+                .address(Address.builder()
+                        .city(houseDTO.getCity())
+                        .street(houseDTO.getStreet())
+                        .build())
                 .build();
         Entrance entrance = Entrance.builder()
                 .floorsCount(houseDTO.getFloorsCount())
@@ -318,6 +321,34 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void deleteHouse(Long id) {
         houseRepository.deleteById(id);
+    }
+
+    @Override
+    public HouseDTO flatToDto(House house) {
+        return HouseDTO.builder()
+                .houseNumber(house.getHouseNumber())
+                .city(house.getAddress().getCity())
+                .street(house.getAddress().getStreet())
+                .entrancesCount(house.getEntrancesCount())
+                .floorsCount(getFloorsCount(house))
+                .flatsPerFloor(getFlatsPerFloor(house))
+                .totalHouseSquare(findTotalHouseSquare(house))
+                .maximumResidentsCapacity(findMaximumResidentsCapacity(house))
+                .totalResidentsCount(findTotalResidentsCount(house))
+                .build();
+    }
+
+    @Override
+    public int findTotalResidentsCount(House house) {
+        int result = 0;
+        for (Entrance entrance : house.getEntrances()) {
+            for (Floor floor : entrance.getFloors()) {
+                for (Flat flat : floor.getFlats()) {
+                    result += flat.getResidents().size();
+                }
+            }
+        }
+        return result;
     }
 
     @Override

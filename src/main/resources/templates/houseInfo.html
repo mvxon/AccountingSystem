@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${house.houseNumber} +' house info'"></title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<h1 align="center">HOUSE INFO</h1>
+<table border="1" align="center">
+    <tr>
+        <td>House number</td>
+        <td th:text="${house.houseNumber}"></td>
+    </tr>
+    <tr>
+        <td>Entrances count</td>
+        <td th:text="${house.entrancesCount}"></td>
+    </tr>
+    <tr>
+        <td>Floors count</td>
+        <td th:text="${house.floorsCount}"></td>
+    </tr>
+    <tr>
+        <td>Flats count on the floor</td>
+        <td th:text="${house.flatsPerFloor}"></td>
+    </tr>
+    <tr>
+        <td>Total house square</td>
+        <td th:text="${house.totalHouseSquare}"></td>
+    </tr>
+    <tr>
+        <td>Maximum residents capacity</td>
+        <td th:text="${house.maximumResidentsCapacity}"></td>
+    </tr>
+    <tr>
+        <td>Total house residents count</td>
+        <td th:text="${house.totalResidentsCount}"></td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td th:text="'City: ' + ${house.city} + ', '+ 'Street: ' + ${house.street}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

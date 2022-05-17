@@ -42,7 +42,7 @@ public class SecuredNumbersScanner {
 
         while (!numberFormatHouseCompareNumber) {
             String houseNumbers = "";
-            for (Integer houseNumber : houseService.findUsedHouseNumbers()) {
+            for (Integer houseNumber : houseService.getUsedHouseNumbers()) {
                 houseNumbers += houseNumber + ", ";
             }
             System.out.print("Введите номер нужного дома" + "(" + houseNumbers + "\b\b): ");
@@ -54,7 +54,7 @@ public class SecuredNumbersScanner {
                 System.out.println("Введено неверное значение");
                 numberFormatHouseCompareNumber = false;
             }
-            if (!houseService.findUsedHouseNumbers().contains(result)) {
+            if (!houseService.getUsedHouseNumbers().contains(result)) {
                 System.out.println("Введен номер несуществующего дома");
                 numberFormatHouseCompareNumber = false;
             }

@@ -22,7 +22,7 @@ public interface HouseService {
 
     double findTotalHouseSquare(@NotNull House house);
 
-    int findTotalHouseResidentsCount(@NotNull House house);
+    int findMaximumResidentsCapacity(@NotNull House house);
 
     Entrance getEntranceByFlatNumber(@NotNull House house, int flatNumber);
 
@@ -46,7 +46,7 @@ public interface HouseService {
 
     House getHouseByHouseNumber(int houseNumber);
 
-    TreeSet<Integer> findUsedHouseNumbers();
+    TreeSet<Integer> getUsedHouseNumbers();
 
     Long getHousesCount();
 
@@ -69,4 +69,8 @@ public interface HouseService {
     House getHouseById(Long id);
 
     void deleteHouse(Long id);
+
+    HouseDTO flatToDto(House house);
+
+    int findTotalResidentsCount(House house);
 }

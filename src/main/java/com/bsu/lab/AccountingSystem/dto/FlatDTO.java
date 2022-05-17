@@ -14,6 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class FlatDTO {
+    private Long houseId;
+    private Long flatId;
     private Integer houseNumber;
     private Integer entranceNumber;
     private Integer floorNumber;

@@ -1,6 +1,6 @@
 package com.bsu.lab.AccountingSystem.dto;
 
-import com.bsu.lab.AccountingSystem.domain.Flat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -40,5 +39,8 @@ public class HouseDTO {
     private String street;
     @NotEmpty(message = "Required field")
     private String city;
+    private Double totalHouseSquare;
+    private Integer totalResidentsCount;
+    private Integer maximumResidentsCapacity;
 
 }

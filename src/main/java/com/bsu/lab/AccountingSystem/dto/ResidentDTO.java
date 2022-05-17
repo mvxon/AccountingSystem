@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
 public class ResidentDTO {
     private Long residentId;
     private Long flatId;
+    private Long houseId;
     private String username;
     private String password;
     private String matchingPassword;

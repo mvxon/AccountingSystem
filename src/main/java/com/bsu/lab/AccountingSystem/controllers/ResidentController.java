@@ -17,7 +17,6 @@ import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/residents")
 public class ResidentController {
     private final ResidentService residentService;
     private final ResidentValidator residentValidator;
@@ -30,8 +29,7 @@ public class ResidentController {
 
     @PostMapping("/registration")
     public String saveUser(@ModelAttribute(name = "resident") @Valid ResidentDTO residentDTO,
-                           BindingResult bindingResult,
-                           Model model
+                           BindingResult bindingResult
     ) {
         residentValidator.validate(residentDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -56,7 +54,8 @@ public class ResidentController {
     }
 
     @PostMapping("/profile/update")
-    public String updateProfileUser(ResidentDTO residentDTO, Model model, Principal principal) {
+    public String updateProfileUser(ResidentDTO residentDTO,
+                                    Model model, Principal principal) {
         if (principal == null && !Objects.equals(principal.getName(), residentDTO.getUsername())) {
             throw new RuntimeException("You are not authorized");
         }
@@ -75,6 +74,9 @@ public class ResidentController {
                                Model model,
                                Principal principal) {
         Resident resident = residentService.getResidentByName(username == null ? principal.getName() : username);
+        if (resident == null) {
+            model.addAttribute("error", "Resident with this name does not exists");
+        }
         model.addAttribute("resident", residentService.residentToDto(resident));
         return "profile";
     }

@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
 <table id="nav-menu" width="100%">
-  <tr>
-    <td align="center">
-      <table>
-        <tr>
-          <td> Menu -></td>
-          <td><a th:href="@{/}">Home</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/houses}">Houses</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/residents}">Users</a></td>
-          <td sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')"><a th:href="@{/manager/requests}">Requests</a></td>
-          <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/houses/unfinished}">New house</a></td>
-          <td sec:authorize="isAuthenticated()"><a th:href="@{/my_flat}">My flat</a></td>
-        </tr>
-      </table>
-  </tr>
-  </td>
-  <td align="right">
-    <div sec:authorize="isAuthenticated()">
-      <div>
-        Hello,<a th:href="@{/residents/profile}"><span sec:authentication="principal.username">Bill</span></a>
-      </div>
-      <div>
-        <a th:href="@{/logout}">Logout</a>
-      </div>
-    </div>
-    <div sec:authorize="!isAuthenticated()">
-      <div>
-        Hello, Guest, please <a th:href="@{/login}">sign in</a>
-        or <a th:href="@{/residents/registration}">sign up</a>
-      </div>
-    </div>
-  </td>
+    <tr>
+        <td align="center">
+            <table>
+                <tr>
+                    <td> Menu -></td>
+                    <td><a th:href="@{/}">Home</a></td>
+                    <td sec:authorize="isAuthenticated()"><a th:href="@{/my_flat}">My flat</a></td>
+                </tr>
+            </table>
+    </tr>
+    <td sec:authorize="hasAuthority('ADMIN')">
+        <div>
+            <a style="color: blueviolet">ADMIN PANEL <br> -------------------</a>
+            <DIV><a th:href="@{/houses}">Houses</a></DIV>
+            <DIV><a th:href="@{/manager/residents}">Users</a></DIV>
+            <DIV><a th:href="@{/manager/requests}">User Requests</a></div>
+            <DIV><a th:href="@{/houses/unfinished}">New house</a></DIV>
+        </div>
+    </td>
+    <td align="right">
+        <div sec:authorize="isAuthenticated()">
+            <div>
+                Hello,<a th:href="@{/profile}"><span sec:authentication="principal.username">Bill</span></a>
+            </div>
+            <div>
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <div>
+                Hello, Guest, please <a th:href="@{/login}">sign in</a>
+                or <a th:href="@{/registration}">sign up</a>
+            </div>
+        </div>
+    </td>
+
 </table>
 </body>
 </html>

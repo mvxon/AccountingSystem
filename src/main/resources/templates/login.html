@@ -6,10 +6,10 @@
     <title>Login page</title>
 </head>
 <body>
-<div th:insert = "~{fragments/menu :: #nav-menu}"></div>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<p th:if ="${loginError}" class="error">Wrong username or password <br>or your account hasn't been verified</p>
-<form th:align="center" th:action="@{/auth}" method = "post">
+
+<form th:align="center" th:action="@{/auth}" method="post">
     <h1>LOGIN</h1>
     <table ALIGN="center" border="1">
         <tr>
@@ -22,6 +22,8 @@
         </tr>
     </table>
     <button type="submit">Log in</button>
+    <p align="center" th:if="${loginError}" class="error">Wrong username or password <br>or your account hasn't been
+        verified</p>
 </form>
 </body>
 </html>

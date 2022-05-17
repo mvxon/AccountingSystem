@@ -28,7 +28,7 @@ public class House implements Comparable<House> {
     @JoinColumn(name = "house_id")
     @OrderBy("id")
     private Set<Entrance> entrances;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
     @Enumerated(EnumType.STRING)
