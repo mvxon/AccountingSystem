@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Houses list</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<table border="1" align="center">
+    <tr>
+        <td>House number</td>
+        <td>City</td>
+        <td>Street</td>
+        <td>Delete house</td>
+    </tr>
+    <tr th:each="house: ${houses}">
+        <td><a th:href="@{/houses/house/{id}(id = ${house.houseId})}"><span th:text="${house.houseNumber}"></span></a>
+        </td>
+        <td th:text="${house.city}"></td>
+        <td th:text="${house.street}"></td>
+        <td><a th:href = "@{/houses/delete/{id}(id = ${house.houseId})}">Delete</a></td>
+    </tr>
+</table>
+
+</body>
+</html>

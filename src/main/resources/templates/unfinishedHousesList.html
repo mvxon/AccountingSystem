@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <h1 align="center">UNFINISHED HOUSES</h1>
-<div th:if = "${houses.size() != 0}">
+<div th:if = "${!houses.isEmpty()}">
 <table border="1" align="center">
     <tr>
         <td>House number</td>

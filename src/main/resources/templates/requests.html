@@ -6,21 +6,24 @@
 </head>
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
-<table border="1" align="center">
-    <tr>
-        <td>Name</td>
-        <td></td>
-        <td></td>
-    </tr>
+<div th:if="${!residents.isEmpty()}">
+    <table border="1" align="center">
+        <tr>
+            <td>Name</td>
+            <td></td>
+            <td></td>
+        </tr>
 
-    <tr th:each="resident : ${residents}">
-        <td><a
-                th:href="@{/profile/{residentName}(residentName=${resident.username})}"><span
-                th:text="${resident.username}"></span></a>
-        </td>
-        <td><a th:href="@{/manager/accept/{id}(id=${resident.residentId})}">Accept</a></td>
-        <td><a th:href="@{/manager/delete/{id}(id=${resident.residentId})}">Delete</a></td>
-    </tr>
-</table>
+        <tr th:each="resident : ${residents}">
+            <td><a
+                    th:href="@{/profile/{residentName}(residentName=${resident.username})}"><span
+                    th:text="${resident.username}"></span></a>
+            </td>
+            <td><a th:href="@{/manager/accept/{id}(id=${resident.residentId})}">Accept</a></td>
+            <td><a th:href="@{/manager/delete/{id}(id=${resident.residentId})}">Delete</a></td>
+        </tr>
+    </table>
+</div>
+<h1 style="color: blue" align="center" th:if = "${residents.isEmpty()}">No requests available</h1>
 </body>
 </html>

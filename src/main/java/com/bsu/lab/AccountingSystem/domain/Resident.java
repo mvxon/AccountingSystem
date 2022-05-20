@@ -18,7 +18,7 @@ public class Resident {
     private static final String SEQ_NAME = "user_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME,  allocationSize = 1)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     @Column(unique = true)
     private String name;
@@ -27,7 +27,7 @@ public class Resident {
     private boolean accepted;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Flat flat;
 
 }

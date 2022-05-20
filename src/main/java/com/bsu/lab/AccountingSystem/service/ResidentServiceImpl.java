@@ -61,8 +61,8 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public Resident getResidentByName(String name) {
-        return residentRepository.findByName(name);
+    public Resident getResidentByName(String username) {
+        return residentRepository.findByName(username);
     }
 
     @Override
@@ -125,29 +125,20 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public ResidentDTO residentToDto(Resident resident) {
-        House house = houseService.getHouseByFlat(resident.getFlat());
+        House house = resident.getFlat() == null ? null : houseService.getHouseByFlat(resident.getFlat());
         ResidentDTO userDTO = ResidentDTO.builder()
                 .residentId(resident.getId())
                 .username(resident.getName())
                 .email(resident.getEmail())
                 .role(resident.getRole())
                 .build();
-        if (resident.getFlat() != null) {
+        if (house != null) {
             userDTO.setFlatId(resident.getFlat().getId());
             userDTO.setHouseId(house.getId());
             userDTO.setFlatNumber(resident.getFlat().getFlatNumber());
             userDTO.setHouseNumber(house.getHouseNumber());
         }
         return userDTO;
-    }
-
-    @Override
-    public Set<ResidentDTO> residentsSetToDto(Set<Resident> residents) {
-        Set<ResidentDTO> residentDTOSet = new HashSet<>();
-        for (Resident resident : residents) {
-            residentDTOSet.add(residentToDto(resident));
-        }
-        return residentDTOSet;
     }
 
     @Override

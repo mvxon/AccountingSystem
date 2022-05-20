@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,15 +24,18 @@ public class HouseServiceImpl implements HouseService {
     private final EntranceService entranceService;
     private final FloorService floorService;
     private final InputForHouseNumber inputForHouseNumber;
+    private final FlatService flatService;
 
     public HouseServiceImpl(HouseRepository houseRepository,
                             @Lazy EntranceService entranceService,
                             @Lazy FloorService floorService,
-                            InputForHouseNumber inputForHouseNumber) {
+                            InputForHouseNumber inputForHouseNumber,
+                            @Lazy FlatService flatService) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
         this.floorService = floorService;
         this.inputForHouseNumber = inputForHouseNumber;
+        this.flatService = flatService;
     }
 
 
@@ -324,8 +328,9 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public HouseDTO flatToDto(House house) {
+    public HouseDTO houseToDto(House house) {
         return HouseDTO.builder()
+                .houseId(house.getId())
                 .houseNumber(house.getHouseNumber())
                 .city(house.getAddress().getCity())
                 .street(house.getAddress().getStreet())
@@ -335,6 +340,9 @@ public class HouseServiceImpl implements HouseService {
                 .totalHouseSquare(findTotalHouseSquare(house))
                 .maximumResidentsCapacity(findMaximumResidentsCapacity(house))
                 .totalResidentsCount(findTotalResidentsCount(house))
+                .flats(getHouseFlats(house).stream()
+                        .map(flatService::flatToDto)
+                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -349,6 +357,11 @@ public class HouseServiceImpl implements HouseService {
             }
         }
         return result;
+    }
+
+    @Override
+    public void save(House house) {
+        houseRepository.save(house);
     }
 
     @Override

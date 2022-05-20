@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FlatServiceImpl implements FlatService {
@@ -108,28 +109,8 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat getFlatByResident(String username) {
-        return residentService.getResidentByName(username).getFlat();
-    }
-
-    @Override
-    public boolean addResident(Flat flat, Resident resident) {
-
-        if (flat.getResidents().add(resident)) {
-            flatRepository.save(flat);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void save(Flat flat) {
         flatRepository.save(flat);
-    }
-
-    @Override
-    public Set<Resident> getFlatResidents(Flat flat) {
-        return flat.getResidents();
     }
 
     @Override
@@ -143,7 +124,9 @@ public class FlatServiceImpl implements FlatService {
         return FlatDTO.builder()
                 .flatNumber(flat.getFlatNumber())
                 .flatSquare(findFlatSquare(flat))
-                .residents(residentService.residentsSetToDto(flat.getResidents()))
+                .residents(flat.getResidents().stream()
+                        .map(residentService::residentToDto)
+                        .collect(Collectors.toSet()))
                 .residentsCount(flat.getResidents().size())
                 .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
                 .houseNumber(house.getHouseNumber())

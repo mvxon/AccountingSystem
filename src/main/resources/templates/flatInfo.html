@@ -43,7 +43,7 @@
     </tr>
 
 </table>
-<div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')">
+<div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')" th:if="${flat.residents.size() != 0}">
     <h1 align="center">RESIDENTS</h1>
     <table border="1" align="center">
         <tr>

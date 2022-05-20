@@ -5,23 +5,30 @@
     <title>Residents list</title>
 </head>
 <body>
+<script>
+    function question() {
+        confirm("Delete user?") ? 0 : location.href = "redirect://localhost:8080/manager/residents";
+    }
+</script>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:if="${!residents.isEmpty()}">
+    <table border="1" align="center">
+        <tr>
+            <td>Link</td>
+            <td></td>
+        </tr>
+        <tr th:each="resident : ${residents}">
+            <td><a th:href="@{/profile/{username}(username = ${resident.username})}"><span
+                    th:text="${resident.username}"></span></a></td>
+            <td><a th:href="@{/manager/delete/{id}(id = ${resident.residentId})}" onclick="question()">Delete
+                account</a></td>
+        </tr>
 
-<table border="1" align="center">
-    <tr>
-        <td>Link</td>
-        <td></td>
-    </tr>
-    <tr th:each="resident : ${residents}">
-        <td><a th:href="@{/profile/{username}(username = ${resident.username})}"><span
-                th:text="${resident.username}"></span></a></td>
-        <td><a th:href="@{/manager/delete/{id}(id = ${resident.residentId})}">Delete account</a></td>
-    </tr>
-
-</table>
-<br>
-<div align="center">
-    <a th:href="@{/requests}">Requests</a>
+    </table>
+    <div align="center">
+        <a th:href="@{/requests}">>requests<</a>
+    </div>
 </div>
+<h1 style="color:blue;" th:if="${residents.isEmpty()}">No users available</h1>
 </body>
 </html>

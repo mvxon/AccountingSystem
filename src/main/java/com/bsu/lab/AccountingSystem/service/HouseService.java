@@ -70,7 +70,9 @@ public interface HouseService {
 
     void deleteHouse(Long id);
 
-    HouseDTO flatToDto(House house);
+    HouseDTO houseToDto(House house);
 
     int findTotalResidentsCount(House house);
+
+    void save(House house);
 }

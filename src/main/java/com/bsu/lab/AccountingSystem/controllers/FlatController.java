@@ -25,8 +25,16 @@ public class FlatController {
         if (principal == null) {
             return "login";
         }
-        Flat flat = id == null ?
-                residentService.getResidentByName(principal.getName()).getFlat() : flatService.getFlatById(id);
+        Flat flat = null;
+        if (id == null) {
+            if (residentService.getResidentByName(principal.getName()).getFlat() == null) {
+                model.addAttribute("error", "You do not have flat");
+                return "error";
+            }
+            flat = residentService.getResidentByName(principal.getName()).getFlat();
+        } else {
+            flat = flatService.getFlatById(id);
+        }
         model.addAttribute("flat", flatService.flatToDto(flat));
         return "flatInfo";
     }

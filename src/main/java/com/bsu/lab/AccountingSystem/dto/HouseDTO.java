@@ -42,5 +42,6 @@ public class HouseDTO {
     private Double totalHouseSquare;
     private Integer totalResidentsCount;
     private Integer maximumResidentsCapacity;
+    private List<FlatDTO> flats;
 
 }

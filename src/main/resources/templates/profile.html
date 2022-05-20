@@ -20,24 +20,29 @@
         <td>Email</td>
         <td th:text="${resident.email}"></td>
     </tr>
-    <tr sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')" th:if="${resident.houseNumber != null}">
+    <tr th:if="${resident.houseNumber != null}">
         <td>House number</td>
-        <td><a th:href="@{/houses/house/{id}(id = ${resident.houseId})}"><span th:text="${resident.houseNumber}"></span></a>
+        <td>
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')">
+                <a th:href="@{/houses/house/{id}(id = ${resident.houseId})}">
+                    <span th:text="${resident.houseNumber}"></span></a></div>
+            <div sec:authorize="hasAuthority('RESIDENT')"
+                 th:if="${#authentication.principal.username} == ${resident.username}">
+                <a th:text="${resident.houseNumber}"></a>
+            </div>
         </td>
     </tr>
-    <tr sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')" th:if="${resident.flatNumber != null}">
+    <tr th:if="${resident.flatNumber != null}">
         <td>Flat number</td>
-        <td><a th:href="@{/flat/{id}(id = ${resident.flatId})}"><span th:text="${resident.flatNumber}"></span></a>
-    </tr>
-    <tr sec:authorize="hasAuthority('RESIDENT')"
-        th:if="${resident.houseNumber != null} and ${#authentication.principal.username} == ${resident.username}">
-        <td>House number</td>
-        <td th:text="${resident.houseNumber}"></td>
-    </tr>
-    <tr sec:authorize="hasAuthority('RESIDENT')"
-        th:if="${resident.flatNumber != null} and ${#authentication.principal.username} == ${resident.username}">
-        <td>Flat number</td>
-        <td th:href="@{/flat/{id}(id = ${resident.flatId})}"><a th:text="${resident.flatNumber}"></a></td>
+        <td>
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'CONCIERGE')">
+                <a th:href="@{/flat/{id}(id = ${resident.flatId})}">
+                    <span th:text="${resident.flatNumber}"></span></a></div>
+            <div sec:authorize="hasAuthority('RESIDENT')"
+                 th:if="${#authentication.principal.username} == ${resident.username}">
+                <a th:text="${resident.flatNumber}"></a>
+            </div>
+        </td>
     </tr>
 
 

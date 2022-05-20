@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.bsu.lab.AccountingSystem.domain.HouseStatus.*;
 
@@ -171,16 +172,15 @@ public class HouseController {
     @GetMapping("/unfinished")
     public String unfinishedHouses(Model model) {
         Set<House> houses = houseService.getAllUnFinishedHouses();
-        if (houses.size() != 0) {
+        if (!houses.isEmpty()) {
             model.addAttribute("houses", houseService.getAllUnFinishedHouses());
             return "unfinishedHousesList";
         }
         return "redirect:/houses/new";
-
     }
 
     @GetMapping("/delete_unfinished_house/{id}")
-    public String deleteHouse(@PathVariable Long id, Model model) {
+    public String deleteUnfinishedHouse(@PathVariable Long id, Model model) {
         if (houseService.getHouseById(id) == null) {
             model.addAttribute("error", "House does not exists");
             return "error";
@@ -196,9 +196,28 @@ public class HouseController {
             model.addAttribute("error", "House does not exists");
             return "error";
         }
-        model.addAttribute("house", houseService.flatToDto(houseService.getHouseById(id)));
+        model.addAttribute("house", houseService.houseToDto(houseService.getHouseById(id)));
         return "houseInfo";
     }
 
+    @GetMapping
+    public String allHousesList(Model model) {
+        List<House> listOfHouses = houseService.getAllHouses();
+        if (listOfHouses.isEmpty()) {
+            model.addAttribute("error", "There is no houses available");
+            return "error";
+        }
+        model.addAttribute("houses",
+                listOfHouses.stream()
+                        .map(houseService::houseToDto)
+                        .collect(Collectors.toList()));
+        return "housesList";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteHouse(@PathVariable Long id) {
+        houseService.deleteHouse(id);
+        return "redirect:/houses";
+    }
 
 }

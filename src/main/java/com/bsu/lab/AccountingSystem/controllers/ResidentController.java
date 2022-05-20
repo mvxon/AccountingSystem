@@ -76,6 +76,7 @@ public class ResidentController {
         Resident resident = residentService.getResidentByName(username == null ? principal.getName() : username);
         if (resident == null) {
             model.addAttribute("error", "Resident with this name does not exists");
+            return "error";
         }
         model.addAttribute("resident", residentService.residentToDto(resident));
         return "profile";

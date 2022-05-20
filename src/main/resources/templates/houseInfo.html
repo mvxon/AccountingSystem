@@ -5,6 +5,18 @@
     <title th:text="${house.houseNumber} +' house info'"></title>
 </head>
 <body>
+<script>
+    function setVisible() {
+        var innerText = document.getElementById("seeOrHideButton").innerText;
+        if (innerText === "See all flats list") {
+            document.getElementById("allFlatsList").style.visibility = "visible";
+            document.getElementById("seeOrHideButton").innerText = "Hide all flats list";
+        } else {
+            document.getElementById("allFlatsList").style.visibility = "hidden";
+            document.getElementById("seeOrHideButton").innerText = "See all flats list";
+        }
+    }
+</script>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <h1 align="center">HOUSE INFO</h1>
 <table border="1" align="center">
@@ -41,6 +53,26 @@
         <td th:text="'City: ' + ${house.city} + ', '+ 'Street: ' + ${house.street}"></td>
     </tr>
 </table>
-
+<br>
+<div align="center">
+    <button id="seeOrHideButton" onclick="setVisible()">See all flats list</button>
+</div>
+<div id="allFlatsList" style="visibility: hidden">
+    <h1 align="center">ALL FLATS LIST</h1>
+    <table border="1" align="center">
+        <tr>
+            <td>Entrance number</td>
+            <td>Floor number</td>
+            <td>Flat number</td>
+            <td>Residents count</td>
+        </tr>
+        <tr th:each="flat : ${house.flats}">
+            <td th:text="${flat.entranceNumber}"></td>
+            <td th:text="${flat.floorNumber}"></td>
+            <td><a th:href="@{/flat/{id}(id = ${flat.flatId})}"><span th:text="${flat.flatNumber}"></span></a></td>
+            <td th:text="${flat.residentsCount}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

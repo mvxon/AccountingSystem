@@ -1,6 +1,7 @@
 package com.bsu.lab.AccountingSystem.consolecontrol.actions.realization;
 
 
+import com.bsu.lab.AccountingSystem.domain.Address;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
 import com.bsu.lab.AccountingSystem.domain.HouseStatus;
@@ -15,7 +16,6 @@ import java.util.List;
 @Service
 public class AddHouseAction {
     private final HouseService houseService;
-    private final HouseRepository houseRepository;
     private final InputForEntrancesCount inputForEntrancesCount;
     private final InputForFloorsCount inputForFloorsCount;
     private final InputForFlatsCount inputForFlatsCount;
@@ -24,14 +24,12 @@ public class AddHouseAction {
 
     @Autowired
     public AddHouseAction(HouseService houseService,
-                          HouseRepository houseRepository,
                           InputForEntrancesCount inputForEntrancesCount,
                           InputForFloorsCount inputForFloorsCount,
                           InputForFlatsCount inputForFlatsCount,
                           InputForRoomsCount inputForRoomsCount,
                           InputForRoomSquare inputForRoomSquare) {
         this.houseService = houseService;
-        this.houseRepository = houseRepository;
         this.inputForEntrancesCount = inputForEntrancesCount;
         this.inputForFloorsCount = inputForFloorsCount;
         this.inputForFlatsCount = inputForFlatsCount;
@@ -57,6 +55,8 @@ public class AddHouseAction {
         }
         House house;
         house = houseService.createHouse(houseNumber, entrancesCount, floorsCount, squareOfRoomsOfFlats);
+        house.setAddress(Address.builder().city("Logoysk").street("Pobedy").build());
+        houseService.save(house);
         System.out.println("Дом номер " + houseNumber + " успешно добавлен!");
     }
 }
