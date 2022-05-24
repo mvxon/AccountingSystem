@@ -21,7 +21,7 @@ public class Entrance implements Comparable<Entrance> {
     private Long id;
     private int entranceNumber;
     private int floorsCount;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "entrance_id")
     @OrderBy("id")
     private Set<Floor> floors;

@@ -23,13 +23,18 @@ public class Flat implements Comparable<Flat> {
     private int maxResidentsCount;
     private int roomsCount;
     private int flatNumber;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "flat_id")
     @OrderBy("id")
     private Set<Room> rooms;
-    @OneToMany(mappedBy = "flat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "flat", fetch = FetchType.LAZY)
     @Where(clause = "accepted = true")
-    private Set<Resident> residents;
+    private Set<User> residents;
+
+    @PreRemove
+    private void preRemove() {
+        residents.forEach(resident -> resident.setFlat(null));
+    }
 
     @Override
     public boolean equals(Object o) {

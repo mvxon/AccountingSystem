@@ -34,7 +34,8 @@ public class CompareFlatsAction {
     public void execute() {
         if (availabilityOfHousesCheck.check()) return;
 
-        if (houseService.getHousesCount() == 1 && houseService.getFlatsCount(houseService.getAllHouses().get(0)) == 1) {
+        if (houseService.getHousesCount() == 1 && houseService.getFlatsCount(houseService.getAllHouses().iterator().next())
+                == 1) {
             System.out.println("Недостаточно квартир для сравнения. Добавьте еще дома");
             return;
         }

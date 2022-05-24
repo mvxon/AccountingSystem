@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requests</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<div th:if="${!users.isEmpty()}">
+    <table border="1" align="center">
+        <tr>
+            <td>Name</td>
+            <td>Accept</td>
+            <td>Delete</td>
+        </tr>
+
+        <tr th:each="user : ${users}">
+            <td><a
+                    th:href="@{/manager/edit_user/{id}(id=${user.userId})}"><span
+                    th:text="${user.username}"></span></a>
+            </td>
+            <td><a th:href="@{/manager/accept/{id}(id=${user.userId})}">Accept</a></td>
+            <td><a th:href="@{/manager/delete/{id}(id=${user.userId})}">Delete</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -50,10 +50,10 @@
             <td>Username</td>
             <td></td>
         </tr>
-        <tr th:each="resident : ${flat.residents}">
-            <td><a th:href="@{/profile/{username}(username = ${resident.username})}"><span
-                    th:text="${resident.username}"></span></a></td>
-            <td><a th:href="@{/flat/delete/{id}(id=${resident.residentId})}">Remove</a></td>
+        <tr th:each="user : ${flat.residents}">
+            <td><a th:href="@{/profile/{username}(username = ${user.username})}"><span
+                    th:text="${user.username}"></span></a></td>
+            <td><a th:href="@{/manager/flat/delete/{id}(id=${user.userId})}">Remove</a></td>
         </tr>
     </table>
 </div>

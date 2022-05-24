@@ -157,7 +157,7 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public int getFlatsCount(@NotNull House house) {
         int entrancesCount = house.getEntrancesCount();
-        int flatsPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
+        int flatsPerFloor = getFlatsPerFloor(house);
         int floorsCount = house.getEntrances().iterator().next().getFloorsCount();
 
         return entrancesCount * flatsPerFloor * floorsCount;
@@ -214,8 +214,8 @@ public class HouseServiceImpl implements HouseService {
 
 
     @Override
-    public List<House> getAllHouses() {
-        return houseRepository.findAll();
+    public Set<House> getAllHouses() {
+        return houseRepository.findAllFinishedHouses();
     }
 
     @Override
@@ -250,28 +250,6 @@ public class HouseServiceImpl implements HouseService {
         return false;
     }
 
-    @Override
-    public void save(HouseDTO houseDTO) {
-        House house = houseRepository.getById(houseDTO.getHouseId());
-        List<List<Double>> squareOfRoomsOfFlats = new ArrayList<>();
-        int flatsCountPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
-        List<Flat> flatsOfOneFloor =
-                new ArrayList<>(house.getEntrances().iterator().next().getFloors().iterator().next().getFlats());
-        for (int i = 0; i < flatsCountPerFloor; i++) {
-            List<Double> squareOfRoomsOfOneFlat = new ArrayList<>();
-            for (int j = 0; j < flatsOfOneFloor.get(i).getRoomsCount(); j++) {
-                squareOfRoomsOfOneFlat.add(houseDTO.getFlatsOfOneFloor().get(i).getRooms().get(j).getRoomSquare());
-            }
-            squareOfRoomsOfFlats.add(squareOfRoomsOfOneFlat);
-        }
-        House resultHouse = createHouse(house.getHouseNumber(),
-                house.getEntrancesCount(),
-                house.getEntrances().iterator().next().getFloorsCount(),
-                squareOfRoomsOfFlats);
-        resultHouse.setId(house.getId());
-        resultHouse.setAddress(house.getAddress());
-        houseRepository.save(resultHouse);
-    }
 
     @Override
     public Set<House> getAllUnFinishedHouses() {
@@ -318,6 +296,29 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public void finalStepSave(HouseDTO houseDTO) {
+        House house = houseRepository.getById(houseDTO.getHouseId());
+        List<List<Double>> squareOfRoomsOfFlats = new ArrayList<>();
+        int flatsCountPerFloor = house.getEntrances().iterator().next().getFloors().iterator().next().getFlatsCount();
+        List<Flat> flatsOfOneFloor =
+                new ArrayList<>(house.getEntrances().iterator().next().getFloors().iterator().next().getFlats());
+        for (int i = 0; i < flatsCountPerFloor; i++) {
+            List<Double> squareOfRoomsOfOneFlat = new ArrayList<>();
+            for (int j = 0; j < flatsOfOneFloor.get(i).getRoomsCount(); j++) {
+                squareOfRoomsOfOneFlat.add(houseDTO.getFlatsOfOneFloor().get(i).getRooms().get(j).getRoomSquare());
+            }
+            squareOfRoomsOfFlats.add(squareOfRoomsOfOneFlat);
+        }
+        House resultHouse = createHouse(house.getHouseNumber(),
+                house.getEntrancesCount(),
+                house.getEntrances().iterator().next().getFloorsCount(),
+                squareOfRoomsOfFlats);
+        resultHouse.setId(house.getId());
+        resultHouse.setAddress(house.getAddress());
+        houseRepository.save(resultHouse);
+    }
+
+    @Override
     public House getHouseById(Long id) {
         return houseRepository.getById(id);
     }
@@ -328,7 +329,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public HouseDTO houseToDto(House house) {
+    public HouseDTO houseToDto(House house) { // full dto for house info page
         return HouseDTO.builder()
                 .houseId(house.getId())
                 .houseNumber(house.getHouseNumber())
@@ -340,11 +341,10 @@ public class HouseServiceImpl implements HouseService {
                 .totalHouseSquare(findTotalHouseSquare(house))
                 .maximumResidentsCapacity(findMaximumResidentsCapacity(house))
                 .totalResidentsCount(findTotalResidentsCount(house))
-                .flats(getHouseFlats(house).stream()
-                        .map(flatService::flatToDto)
-                        .collect(Collectors.toList()))
+                .flats(flatService.listOfFlatsToDto(getHouseFlats(house)))
                 .build();
     }
+
 
     @Override
     public int findTotalResidentsCount(House house) {
@@ -360,8 +360,18 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void save(House house) {
+    public void finalStepSave(House house) {
         houseRepository.save(house);
+    }
+
+    @Override
+    public List<HouseDTO> allExistingHousesToDto() { // not complete dto for list of houses
+        return houseRepository.findAllFinishedHouses().stream().map(house -> HouseDTO.builder()
+                .houseId(house.getId())
+                .houseNumber(house.getHouseNumber())
+                .city(house.getAddress().getCity())
+                .street(house.getAddress().getStreet())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
@@ -370,8 +380,8 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Set<Flat> getHouseFlats(@NotNull House house) {
-        Set<Flat> result = new HashSet<>();
+    public List<Flat> getHouseFlats(@NotNull House house) {
+        List<Flat> result = new ArrayList<>();
         for (Entrance entrance : house.getEntrances()) {
             for (Floor floor : entrance.getFloors()) {
                 result.addAll(floor.getFlats());

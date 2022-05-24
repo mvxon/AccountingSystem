@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.bsu.lab.AccountingSystem.domain.HouseStatus.*;
 
@@ -38,7 +37,7 @@ public class HouseController {
     @GetMapping("/new")
     public String newHouse(@NotNull Model model) {
         model.addAttribute("house", new HouseDTO());
-        return "house/house1";
+        return "manager/house/house1";
     }
 
     @PostMapping("/new")
@@ -48,7 +47,7 @@ public class HouseController {
     ) {
         houseValidator.validate(houseDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "house/house1";
+            return "manager/house/house1";
         }
         houseDTO.setHouseId(houseService.firstStepSave(houseDTO).getId());
         List<FlatDTO> flatsOfOneFloor = new ArrayList<>();
@@ -59,7 +58,7 @@ public class HouseController {
         }
         houseDTO.setFlatsOfOneFloor(flatsOfOneFloor);
         model.addAttribute("house", houseDTO);
-        return "house/house2";
+        return "manager/house/house2";
 
     }
 
@@ -85,7 +84,7 @@ public class HouseController {
         houseDTO.setHouseId(house.getId());
         houseDTO.setFlatsOfOneFloor(flatsOfOneFloor);
         model.addAttribute("house", houseDTO);
-        return "house/house2";
+        return "manager/house/house2";
 
     }
 
@@ -96,7 +95,7 @@ public class HouseController {
     ) {
         flatValidator.validate(houseDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "house/house2";
+            return "manager/house/house2";
         }
         houseDTO.setHouseId(id);
         houseService.secondStepSave(houseDTO);
@@ -112,7 +111,7 @@ public class HouseController {
         }
         houseDTO.setFlatsOfOneFloor(flats);
         model.addAttribute("house", houseDTO);
-        return "house/house3";
+        return "manager/house/house3";
 
     }
 
@@ -141,7 +140,7 @@ public class HouseController {
         }
         houseDTO.setFlatsOfOneFloor(flatDTOS);
         model.addAttribute("house", houseDTO);
-        return "house/house3";
+        return "manager/house/house3";
 
     }
 
@@ -161,10 +160,10 @@ public class HouseController {
         }
         roomValidator.validate(houseDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "house/house3";
+            return "manager/house/house3";
         }
         houseDTO.setHouseId(id);
-        houseService.save(houseDTO);
+        houseService.finalStepSave(houseDTO);
         return "redirect:/houses/house/" + house.getId();
 
     }
@@ -172,11 +171,12 @@ public class HouseController {
     @GetMapping("/unfinished")
     public String unfinishedHouses(Model model) {
         Set<House> houses = houseService.getAllUnFinishedHouses();
-        if (!houses.isEmpty()) {
-            model.addAttribute("houses", houseService.getAllUnFinishedHouses());
-            return "unfinishedHousesList";
+        if (houses.isEmpty()) {
+            return "redirect:/houses/new";
         }
-        return "redirect:/houses/new";
+        model.addAttribute("houses", houseService.getAllUnFinishedHouses());
+        return "manager/unfinishedHousesList";
+
     }
 
     @GetMapping("/delete_unfinished_house/{id}")
@@ -197,21 +197,18 @@ public class HouseController {
             return "error";
         }
         model.addAttribute("house", houseService.houseToDto(houseService.getHouseById(id)));
-        return "houseInfo";
+        return "manager/houseInfo";
     }
 
     @GetMapping
     public String allHousesList(Model model) {
-        List<House> listOfHouses = houseService.getAllHouses();
+        List<HouseDTO> listOfHouses = houseService.allExistingHousesToDto();
         if (listOfHouses.isEmpty()) {
             model.addAttribute("error", "There is no houses available");
             return "error";
         }
-        model.addAttribute("houses",
-                listOfHouses.stream()
-                        .map(houseService::houseToDto)
-                        .collect(Collectors.toList()));
-        return "housesList";
+        model.addAttribute("houses", listOfHouses);
+        return "manager/housesList";
     }
 
     @GetMapping("/delete/{id}")

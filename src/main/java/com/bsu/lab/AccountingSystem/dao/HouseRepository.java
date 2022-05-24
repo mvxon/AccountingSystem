@@ -11,11 +11,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 
-public interface HouseRepository extends JpaRepository<House, Integer> {
+public interface HouseRepository extends JpaRepository<House, Long> {
 
     @Query("select houseNumber from House")
     TreeSet<Integer> findUsedHouseNumbers();
-
 
     House findByHouseNumber(int houseNumber);
 
@@ -27,7 +26,8 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
     @Query("from House where status = 'CREATED' or status = 'CONTINUED'")
     HashSet<House> findAllUnFinishedHouses();
 
-    House getById(Long id);
+    @Query("from House where status = 'FINISHED'")
+    HashSet<House> findAllFinishedHouses();
 
     @Transactional
     void deleteById(Long id);

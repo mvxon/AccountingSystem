@@ -4,12 +4,11 @@ package com.bsu.lab.AccountingSystem.service;
 import com.bsu.lab.AccountingSystem.dao.FloorRepository;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
-import com.bsu.lab.AccountingSystem.domain.Room;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -14,8 +14,8 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResidentDTO {
-    private Long residentId;
+public class UserDTO {
+    private Long userId;
     private Long flatId;
     private Long houseId;
     private String username;
@@ -26,11 +26,10 @@ public class ResidentDTO {
     private String email;
     private Integer houseNumber;
     private Integer flatNumber;
-    @NotEmpty(message = "Required field")
     private String city;
-    @NotEmpty(message = "Required field")
     private String street;
     private Role role;
-
+    private Boolean accepted;
+    private Boolean withFlat;
 
 }

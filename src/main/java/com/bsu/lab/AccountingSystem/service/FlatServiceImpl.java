@@ -4,7 +4,6 @@ package com.bsu.lab.AccountingSystem.service;
 import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.domain.Resident;
 import com.bsu.lab.AccountingSystem.domain.Room;
 
 import com.bsu.lab.AccountingSystem.dao.FlatRepository;
@@ -20,23 +19,26 @@ import java.util.stream.Collectors;
 @Service
 public class FlatServiceImpl implements FlatService {
     private final HouseService houseService;
-    private final ResidentService residentService;
+    private final UserService userService;
     private final EntranceService entranceService;
     private final RoomService roomService;
     private final FlatRepository flatRepository;
+    private final FloorService floorService;
 
     @Autowired
     public FlatServiceImpl(
             @Lazy HouseService houseService,
-            ResidentService residentService,
+            UserService userService,
             EntranceService entranceService,
             RoomService roomService,
-            FlatRepository flatRepository) {
+            FlatRepository flatRepository,
+            @Lazy FloorService floorService) {
         this.houseService = houseService;
-        this.residentService = residentService;
+        this.userService = userService;
         this.entranceService = entranceService;
         this.roomService = roomService;
         this.flatRepository = flatRepository;
+        this.floorService = floorService;
     }
 
     @Override
@@ -115,7 +117,7 @@ public class FlatServiceImpl implements FlatService {
 
     @Override
     public Flat getFlatById(Long id) {
-        return flatRepository.findById(id);
+        return flatRepository.getById(id);
     }
 
     @Override
@@ -125,18 +127,32 @@ public class FlatServiceImpl implements FlatService {
                 .flatNumber(flat.getFlatNumber())
                 .flatSquare(findFlatSquare(flat))
                 .residents(flat.getResidents().stream()
-                        .map(residentService::residentToDto)
+                        .map(userService::userToDto)
                         .collect(Collectors.toSet()))
+                .maxResidentsCount(flat.getMaxResidentsCount())
                 .residentsCount(flat.getResidents().size())
                 .entranceNumber(houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
                 .houseNumber(house.getHouseNumber())
                 .houseId(house.getId())
                 .flatId(flat.getId())
-                .floorNumber(entranceService.getFloorByFlatNumber(houseService
-                                .getEntranceByFlatNumber(house, flat.getFlatNumber()),
-                        flat.getFlatNumber()).getFloorNumber())
+                .floorNumber(floorService.getFloorByFlat(flat).getFloorNumber())
                 .roomsCount(flat.getRoomsCount())
                 .build();
+    }
+
+    @Override
+    public List<FlatDTO> listOfFlatsToDto(List<Flat> flatSet) {
+        House house = houseService.getHouseByFlat(flatSet.iterator().next());
+        return flatSet.stream().map(flat -> FlatDTO.builder()
+                        .flatId(flat.getId())
+                        .flatNumber(flat.getFlatNumber())
+                        .entranceNumber(houseService
+                                .getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber())
+                        .floorNumber(floorService.getFloorByFlat(flat).getFloorNumber())
+                        .residentsCount(flat.getResidents().size())
+                        .maxResidentsCount(flat.getMaxResidentsCount())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 

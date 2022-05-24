@@ -38,7 +38,7 @@ public interface HouseService {
 
     int getFlatsPerFloor(@NotNull House house);
 
-    Set<Flat> getHouseFlats(@NotNull House house);
+    List<Flat> getHouseFlats(@NotNull House house);
 
     int generateUniqueHouseNumber();
 
@@ -50,7 +50,7 @@ public interface HouseService {
 
     Long getHousesCount();
 
-    List<House> getAllHouses();
+    Set<House> getAllHouses();
 
     boolean isFlatNumberExists(House house, int flatNumber);
 
@@ -58,13 +58,13 @@ public interface HouseService {
 
     boolean isHouseWithNumberExists(int houseNumber);
 
-    void save(HouseDTO house);
-
     Set<House> getAllUnFinishedHouses();
 
     House firstStepSave(HouseDTO houseDTO);
 
     void secondStepSave(HouseDTO houseDTO);
+
+    void finalStepSave(HouseDTO house);
 
     House getHouseById(Long id);
 
@@ -74,5 +74,7 @@ public interface HouseService {
 
     int findTotalResidentsCount(House house);
 
-    void save(House house);
+    void finalStepSave(House house);
+
+    List<HouseDTO> allExistingHousesToDto();
 }

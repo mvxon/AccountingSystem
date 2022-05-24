@@ -21,10 +21,10 @@ public class FlatDTO {
     private Integer floorNumber;
     private Integer flatNumber;
     private Integer residentsCount;
-    private Set<ResidentDTO> residents;
+    private Set<UserDTO> residents;
     private List<RoomDTO> rooms;
     private Double flatSquare;
-    private Integer roomsCount = 1;
-
+    private Integer roomsCount;
+    private Integer maxResidentsCount;
 
 }

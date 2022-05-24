@@ -7,6 +7,8 @@ import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
+
 public interface FlatService {
 
     double findFlatSquare(@NotNull Flat flat);
@@ -24,5 +26,7 @@ public interface FlatService {
     Flat getFlatById(Long id);
 
     FlatDTO flatToDto(Flat flat);
+
+    List<FlatDTO> listOfFlatsToDto(List<Flat> flatSet);
 
 }

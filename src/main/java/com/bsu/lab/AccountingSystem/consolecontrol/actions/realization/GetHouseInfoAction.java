@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class GetHouseInfoAction {
     private final HouseService houseService;
@@ -40,6 +42,7 @@ public class GetHouseInfoAction {
     }
 
 
+    @Transactional
     public void execute() {
         if (availabilityOfHousesCheck.check()) return;
 

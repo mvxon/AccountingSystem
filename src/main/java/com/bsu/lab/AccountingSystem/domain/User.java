@@ -13,8 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "residents")
-public class Resident {
+@Table(name = "users")
+public class User {
     private static final String SEQ_NAME = "user_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -29,5 +29,7 @@ public class Resident {
     private Role role;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Flat flat;
-
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "said_address_id")
+    private Address saidAddress;
 }

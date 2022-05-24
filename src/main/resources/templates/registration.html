@@ -8,7 +8,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 
-<form th:align="center" th:action="@{/registration}" th:object="${resident}" method="post">
+<form th:align="center" th:action="@{/registration}" th:object="${user}" method="post">
     <h1>REGISTRATION</h1>
     <table align="center" border="1">
         <tr>
@@ -38,15 +38,15 @@
         </tr>
         <tr>
             <td>House number</td>
-            <td><input type="text" th:field="*{houseNumber}">
-                <div style="color: red" th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">House
-                    number error
-                </div>
+            <td>Available houses:
+                <select th:field="*{houseNumber}">
+                    <option th:each="hNumber : ${houseNumbers}" th:value="${hNumber}" th:text="${hNumber}"></option>
+                </select>
             </td>
         </tr>
         <tr>
             <td>Flat number</td>
-            <td><input type="text" th:field="*{flatNumber}">
+            <td><input type="number" th:field="*{flatNumber}">
                 <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number
                     error
                 </div>
@@ -61,7 +61,11 @@
         </tr>
         <tr>
             <td>Matching password</td>
-            <td><input type="password" th:field="*{matchingPassword}"></td>
+            <td><input type="password" th:field="*{matchingPassword}">
+                <div style="color: red" th:if="${#fields.hasErrors('matchingPassword')}"
+                     th:errors="*{matchingPassword}">Matching pass error
+                </div>
+            </td>
         </tr>
     </table>
     <button align="center" type="submit">Sign up</button>

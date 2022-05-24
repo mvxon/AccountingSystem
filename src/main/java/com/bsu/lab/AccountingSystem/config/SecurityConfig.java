@@ -1,7 +1,7 @@
 package com.bsu.lab.AccountingSystem.config;
 
 import com.bsu.lab.AccountingSystem.domain.Role;
-import com.bsu.lab.AccountingSystem.service.ResidentService;
+import com.bsu.lab.AccountingSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -24,11 +23,11 @@ import javax.persistence.Basic;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private ResidentService residentService;
+    private UserService userService;
 
     @Autowired
-    public void setUserService(@Lazy ResidentService residentService) {
-        this.residentService = residentService;
+    public void setUserService(@Lazy UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Basic
     private AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(residentService);
+        auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -55,7 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/houses/**", "/manager/**", "/flat/**")
                 .hasAnyAuthority(Role.ADMIN.name(), Role.CONCIERGE.name())
-                .anyRequest().permitAll()
+                .antMatchers("/login", "/registration", "/").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

@@ -24,7 +24,7 @@ public class House implements Comparable<House> {
     @Column(nullable = false, unique = true)
     private int houseNumber;
     private int entrancesCount;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     @OrderBy("id")
     private Set<Entrance> entrances;

@@ -14,6 +14,6 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @Builder
 public class RoomDTO {
-    private Double roomSquare = 1.0;
+    private Double roomSquare;
     private Integer roomNumber;
 }

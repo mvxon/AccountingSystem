@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Error 500</title>
+    <title th:text="'505 | ' + ${error}">Error</title>
 </head>
 <body>
 <div th:insert = "~{fragments/menu :: #nav-menu}"></div>
-<p style="color: blue" ALIGN="CENTER">SOMETHING WENT WRONG :C</p>
+<p style="color: blue; font-size: 250%" ALIGN="CENTER">SOMETHING WENT WRONG :C</p>
 <div align="center" th:if = "${!error.isEmpty()}">
-    <p th:text="${error}"></p>
+    <a style="font-size: 150%" th:text="${error}"></a>
 </div>
 
 </body>

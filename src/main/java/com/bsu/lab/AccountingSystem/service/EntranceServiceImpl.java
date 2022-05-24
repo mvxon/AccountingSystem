@@ -5,14 +5,13 @@ import com.bsu.lab.AccountingSystem.dao.EntranceRepository;
 import com.bsu.lab.AccountingSystem.domain.Entrance;
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.Floor;
-import com.bsu.lab.AccountingSystem.domain.Room;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -80,12 +79,6 @@ public class EntranceServiceImpl implements EntranceService {
         return new Floor();
     }
 
-    @Override
-    public int getFlatsCount(@NotNull Entrance entrance) {
-        int flatsPerFloor = entrance.getFloors().iterator().next().getFlatsCount();
-        int floorsCount = entrance.getFloorsCount();
-        return flatsPerFloor * floorsCount;
-    }
 
     @Override
     public Entrance getEntranceByFloor(Floor floor) {

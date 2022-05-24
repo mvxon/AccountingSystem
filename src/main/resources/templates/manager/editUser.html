@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Edit ' + ${user.username} + ' profile'"></title>
+</head>
+<body>
+<script>
+    function setVisible() {
+        document.getElementById("houseNumberNumber").style.visibility = "hidden";
+        document.getElementById("flatNumber").style.visibility = "hidden";
+        /* if (document.getElementById("withFlatCheckBox").checked) {
+             document.getElementById("houseNumberNumber").style.visibility = "visible";
+             document.getElementById("flatNumber").style.visibility = "visible";
+         } else {
+             document.getElementById("houseNumberNumber").style.visibility = "hidden";
+             document.getElementById("flatNumber").style.visibility = "hidden";
+         }*/
+    }
+</script>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+<form th:action="@{/manager/edit_user/{id}(id = ${user.userId})}" th:object="${user}" th:align="center"
+      method="post">
+    <h1>EDIT PROFILE</h1>
+    <table border="1" align="center">
+        <tr>
+            <td>ID</td>
+            <td th:text="*{userId}"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{username}">
+                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+                    error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" th:field="*{email}">
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            </td>
+        </tr>
+        <tr>
+            <td>Role</td>
+            <td>
+                <select th:field="*{role}">
+                    <option th:each="newRole : ${roles}" th:value="${newRole}" th:text="${newRole}"
+                            th:selected="${newRole == role}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr th:if="*{!accepted}">
+            <td>Said address</td>
+            <td th:text="'City: ' + *{city} + ', '+ 'Street: ' + *{street}"></td>
+        </tr>
+        <tr>
+            <td>With flat</td>
+            <td><label for="withFlatCheckBox" onclick="setVisible()"></label><input type="checkbox"
+                                                             id="withFlatCheckBox" th:value="*{withFlat}"
+                                                             th:field="*{withFlat}" th:checked="*{withFlat}"/></td>
+        </tr>
+        <tr id="houseNumber">
+            <td>Living house</td>
+            <td>
+                <select th:field="*{houseNumber}">
+                    <option th:each="hNumber : ${houseNumbers}" th:value="${hNumber}" th:text="${hNumber}"
+                            th:selected="${hNumber == houseNumber}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr id="flatNumber">
+            <td>Flat number</td>
+            <td><input type="number" th:field="*{flatNumber}">
+                <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number
+                    error
+                </div>
+            </td>
+        </tr>
+    </table>
+    <button th:if="*{!accepted}" type="submit">Save and accept</button>
+    <button th:if="*{accepted}" type="submit">Edit</button>
+</form>
+<div align="center" th:if="${!user.accepted}">
+    <a th:href="@{/manager/delete/{id}(id=${user.getUserId})}">Delete</a>
+    <br>
+    <a th:href="@{/manager/requests}">Back<</a>
+</div>
+</body>
+</html>

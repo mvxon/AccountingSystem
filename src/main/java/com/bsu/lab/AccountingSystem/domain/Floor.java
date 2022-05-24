@@ -21,7 +21,7 @@ public class Floor implements Comparable<Floor> {
     private Long id;
     private int floorNumber;
     private int flatsCount;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "floor_id")
     @OrderBy("id")
     private Set<Flat> flats;

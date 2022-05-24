@@ -3,8 +3,6 @@ package com.bsu.lab.AccountingSystem.consolecontrol.actions.realization;
 
 import com.bsu.lab.AccountingSystem.domain.Address;
 import com.bsu.lab.AccountingSystem.domain.House;
-import com.bsu.lab.AccountingSystem.dao.HouseRepository;
-import com.bsu.lab.AccountingSystem.domain.HouseStatus;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.consolecontrol.inputs.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +54,7 @@ public class AddHouseAction {
         House house;
         house = houseService.createHouse(houseNumber, entrancesCount, floorsCount, squareOfRoomsOfFlats);
         house.setAddress(Address.builder().city("Logoysk").street("Pobedy").build());
-        houseService.save(house);
+        houseService.finalStepSave(house);
         System.out.println("Дом номер " + houseNumber + " успешно добавлен!");
     }
 }

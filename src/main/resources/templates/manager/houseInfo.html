@@ -70,7 +70,7 @@
             <td th:text="${flat.entranceNumber}"></td>
             <td th:text="${flat.floorNumber}"></td>
             <td><a th:href="@{/flat/{id}(id = ${flat.flatId})}"><span th:text="${flat.flatNumber}"></span></a></td>
-            <td th:text="${flat.residentsCount}"></td>
+            <td th:text="${flat.residentsCount} +'/' + ${flat.maxResidentsCount}"></td>
         </tr>
     </table>
 </div>
