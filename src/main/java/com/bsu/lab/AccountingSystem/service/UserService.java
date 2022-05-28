@@ -4,6 +4,7 @@ import com.bsu.lab.AccountingSystem.domain.User;
 import com.bsu.lab.AccountingSystem.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -13,7 +14,7 @@ public interface UserService extends UserDetailsService {
 
     void save(User user);
 
-    Set<UserDTO> getAll();
+    List<UserDTO> getAll();
 
     User getUserByName(String username);
 

@@ -5,7 +5,6 @@ import com.bsu.lab.AccountingSystem.domain.*;
 import com.bsu.lab.AccountingSystem.dto.UserDTO;
 import com.bsu.lab.AccountingSystem.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final HouseService houseService;
-    private final AddressService addressService;
 
 
     @Override
@@ -34,9 +32,6 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .email(userDTO.getEmail())
                 .role(Role.RESIDENT)
-                .saidAddress(Address.builder()
-                        .city(userDTO.getCity())
-                        .street(userDTO.getStreet()).build())
                 .flat(flat)
                 .build();
         userRepository.save(user);
@@ -49,10 +44,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserDTO> getAll() {
-        return userRepository.findAllByAcceptedIsTrue().stream()
+    public List<UserDTO> getAll() {
+        return userRepository.findAllByAcceptedIsTrueOrderByName().stream()
                 .map(this::userToDto)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -95,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<UserDTO> getAllUnAcceptedUsers() {
-        return userRepository.findAllByAcceptedIsFalse().stream()
+        return userRepository.findAllByAcceptedIsFalseOrderByName().stream()
                 .map(this::userToDto)
                 .collect(Collectors.toSet());
     }
@@ -104,9 +99,6 @@ public class UserServiceImpl implements UserService {
     public void setUserAccepted(Long userId) {
         User user = userRepository.getById(userId);
         user.setAccepted(true);
-        Long addressId = user.getSaidAddress().getId();
-        user.setSaidAddress(null);
-        addressService.deleteById(addressId);
         userRepository.save(user);
     }
 
@@ -131,10 +123,6 @@ public class UserServiceImpl implements UserService {
                 .role(user.getRole())
                 .accepted(user.isAccepted())
                 .build();
-        if (!user.isAccepted()) {
-            userDTO.setCity(user.getSaidAddress().getCity());
-            userDTO.setStreet(user.getSaidAddress().getStreet());
-        }
         if (house != null) {
             userDTO.setFlatId(user.getFlat().getId());
             userDTO.setHouseId(house.getId());

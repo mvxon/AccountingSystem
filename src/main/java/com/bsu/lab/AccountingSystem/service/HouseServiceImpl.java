@@ -214,7 +214,7 @@ public class HouseServiceImpl implements HouseService {
 
 
     @Override
-    public Set<House> getAllHouses() {
+    public List<House> getAllHouses() {
         return houseRepository.findAllFinishedHouses();
     }
 
@@ -252,7 +252,7 @@ public class HouseServiceImpl implements HouseService {
 
 
     @Override
-    public Set<House> getAllUnFinishedHouses() {
+    public List<House> getAllUnFinishedHouses() {
         return houseRepository.findAllUnFinishedHouses();
     }
 
@@ -366,12 +366,16 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public List<HouseDTO> allExistingHousesToDto() { // not complete dto for list of houses
-        return houseRepository.findAllFinishedHouses().stream().map(house -> HouseDTO.builder()
-                .houseId(house.getId())
-                .houseNumber(house.getHouseNumber())
-                .city(house.getAddress().getCity())
-                .street(house.getAddress().getStreet())
-                .build()).collect(Collectors.toList());
+        return houseRepository.findAllFinishedHouses()
+                .stream()
+                .map(house ->
+                        HouseDTO.builder()
+                                .houseId(house.getId())
+                                .houseNumber(house.getHouseNumber())
+                                .city(house.getAddress().getCity())
+                                .street(house.getAddress().getStreet())
+                                .build())
+                .collect(Collectors.toList());
     }
 
     @Override

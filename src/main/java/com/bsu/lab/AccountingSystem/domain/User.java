@@ -23,13 +23,11 @@ public class User {
     @Column(unique = true)
     private String name;
     private String password;
+    @Column(unique = true)
     private String email;
     private boolean accepted;
     @Enumerated(EnumType.STRING)
     private Role role;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Flat flat;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "said_address_id")
-    private Address saidAddress;
 }

@@ -7,9 +7,8 @@ import com.bsu.lab.AccountingSystem.dto.HouseDTO;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 public interface HouseService {
@@ -50,7 +49,7 @@ public interface HouseService {
 
     Long getHousesCount();
 
-    Set<House> getAllHouses();
+    List<House> getAllHouses();
 
     boolean isFlatNumberExists(House house, int flatNumber);
 
@@ -58,7 +57,7 @@ public interface HouseService {
 
     boolean isHouseWithNumberExists(int houseNumber);
 
-    Set<House> getAllUnFinishedHouses();
+    List<House> getAllUnFinishedHouses();
 
     House firstStepSave(HouseDTO houseDTO);
 

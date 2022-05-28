@@ -8,8 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name = "floors",
-        indexes = @Index(columnList = "floorNumber"))
+@Table(name = "floors")
 @Entity
 @Data
 @NoArgsConstructor

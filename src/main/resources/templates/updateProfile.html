@@ -7,7 +7,7 @@
 <body>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <h1 th:text="${user.username} + ' profile'" align="center">Resident profile</h1>
-<form th:action="@{/profile/update}" th:object="${user}"  th:align="center" method="post">
+<form th:action="@{/profile/update}" th:object="${user}" th:align="center" method="post">
     <table border="1" align="center">
         <tr>
             <td>Name</td>
@@ -15,15 +15,24 @@
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="email" th:field="*{email}"></td>
+            <td><input type="email" th:field="*{email}">
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            </td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" th:field="*{password}"></td>
+            <td><input type="password" th:field="*{password}">
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Pass error
+                </div>
+            </td>
         </tr>
         <tr>
             <td>Matching password</td>
-            <td><input type="password" th:field="*{matchingPassword}"></td>
+            <td><input type="password" th:field="*{matchingPassword}">
+                <div style="color: red" th:if="${#fields.hasErrors('matchingPassword')}"
+                     th:errors="*{matchingPassword}">Matching pass error
+                </div>
+            </td>
         </tr>
     </table>
     <button type="submit">Update</button>

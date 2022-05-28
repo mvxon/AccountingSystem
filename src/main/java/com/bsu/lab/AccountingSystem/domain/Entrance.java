@@ -8,8 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name = "entrances",
-        indexes = @Index(columnList = "entranceNumber"))
+@Table(name = "entrances")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +24,6 @@ public class Entrance implements Comparable<Entrance> {
     @JoinColumn(name = "entrance_id")
     @OrderBy("id")
     private Set<Floor> floors;
-
 
     @Override
     public boolean equals(Object o) {

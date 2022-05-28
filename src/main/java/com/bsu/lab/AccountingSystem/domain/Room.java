@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table(name = "rooms",
-        indexes = @Index(columnList = "roomNumber"))
+@Table(name = "rooms")
 @Entity
 @Data
 @NoArgsConstructor

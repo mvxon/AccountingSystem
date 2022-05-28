@@ -75,7 +75,6 @@ public class HouseController {
         }
         int flatsPerFloor = houseService.getFlatsPerFloor(house);
         List<FlatDTO> flatsOfOneFloor = new ArrayList<>();
-
         for (int i = 0; i < flatsPerFloor; i++) {
             flatsOfOneFloor.add(FlatDTO.builder()
                     .flatNumber(i + 1)
@@ -170,11 +169,11 @@ public class HouseController {
 
     @GetMapping("/unfinished")
     public String unfinishedHouses(Model model) {
-        Set<House> houses = houseService.getAllUnFinishedHouses();
+        List<House> houses = houseService.getAllUnFinishedHouses();
         if (houses.isEmpty()) {
             return "redirect:/houses/new";
         }
-        model.addAttribute("houses", houseService.getAllUnFinishedHouses());
+        model.addAttribute("houses", houses);
         return "manager/unfinishedHousesList";
 
     }

@@ -10,8 +10,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name = "houses",
-        indexes = @Index(columnList = "houseNumber"))
+@Table(name = "houses")
 @Entity
 @Data
 @NoArgsConstructor

@@ -50,26 +50,24 @@
                 </select>
             </td>
         </tr>
-        <tr th:if="*{!accepted}">
-            <td>Said address</td>
-            <td th:text="'City: ' + *{city} + ', '+ 'Street: ' + *{street}"></td>
-        </tr>
-        <tr>
+        <tr th:if="${houses != null}">
             <td>With flat</td>
             <td><label for="withFlatCheckBox" onclick="setVisible()"></label><input type="checkbox"
-                                                             id="withFlatCheckBox" th:value="*{withFlat}"
-                                                             th:field="*{withFlat}" th:checked="*{withFlat}"/></td>
+                                                                                    id="withFlatCheckBox"
+                                                                                    th:value="*{withFlat}"
+                                                                                    th:field="*{withFlat}"
+                                                                                    th:checked="*{withFlat}"/></td>
         </tr>
-        <tr id="houseNumber">
-            <td>Living house</td>
-            <td>
+        <tr id="houseNumber" th:if="${houses != null}">
+            <td>House</td>
+            <td>Available houses:
                 <select th:field="*{houseNumber}">
-                    <option th:each="hNumber : ${houseNumbers}" th:value="${hNumber}" th:text="${hNumber}"
-                            th:selected="${hNumber == houseNumber}"></option>
+                    <option th:each="house : ${houses}" th:value="${house.houseNumber}"
+                            th:text="${house.houseNumber} +'('+${house.city} +', ' + ${house.street} + ')'"></option>
                 </select>
             </td>
         </tr>
-        <tr id="flatNumber">
+        <tr th:if="${houses != null}">
             <td>Flat number</td>
             <td><input type="number" th:field="*{flatNumber}">
                 <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number

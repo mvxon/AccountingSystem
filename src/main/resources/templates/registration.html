@@ -24,27 +24,16 @@
                 <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             </td>
         </tr>
-        <tr>
-            <td>City</td>
-            <td><input type="text" th:field="*{city}">
-                <div style="color: red" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City error</div>
-            </td>
-        </tr>
-        <tr>
-            <td>Street</td>
-            <td><input type="text" th:field="*{street}">
-                <div style="color: red" th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Street error</div>
-            </td>
-        </tr>
-        <tr>
-            <td>House number</td>
+        <tr th:if="${houses != null}">
+            <td>House</td>
             <td>Available houses:
                 <select th:field="*{houseNumber}">
-                    <option th:each="hNumber : ${houseNumbers}" th:value="${hNumber}" th:text="${hNumber}"></option>
+                    <option th:each="house : ${houses}" th:value="${house.houseNumber}"
+                            th:text="${house.houseNumber} +'('+${house.city} +', ' + ${house.street} + ')'"></option>
                 </select>
             </td>
         </tr>
-        <tr>
+        <tr th:if="${houses != null}">
             <td>Flat number</td>
             <td><input type="number" th:field="*{flatNumber}">
                 <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number

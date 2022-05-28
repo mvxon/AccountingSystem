@@ -9,8 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Table(name = "flats",
-        indexes = @Index(columnList = "flatNumber"))
+@Table(name = "flats")
 @Entity
 @Data
 @NoArgsConstructor

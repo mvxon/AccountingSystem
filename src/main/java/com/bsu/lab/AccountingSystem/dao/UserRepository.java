@@ -3,6 +3,8 @@ package com.bsu.lab.AccountingSystem.dao;
 import com.bsu.lab.AccountingSystem.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.persistence.OrderBy;
+import java.util.List;
 import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -10,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    Set<User> findAllByAcceptedIsTrue();
+    Set<User> findAllByAcceptedIsTrueOrderByName();
 
-    Set<User> findAllByAcceptedIsFalse();
+    Set<User> findAllByAcceptedIsFalseOrderByName();
 }

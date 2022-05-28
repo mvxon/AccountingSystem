@@ -26,10 +26,8 @@ public class UserDTO {
     private String email;
     private Integer houseNumber;
     private Integer flatNumber;
-    private String city;
-    private String street;
     private Role role;
     private Boolean accepted;
     private Boolean withFlat;
-
+    private String oldPassword;
 }

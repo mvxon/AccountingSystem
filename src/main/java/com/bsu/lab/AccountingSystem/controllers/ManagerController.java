@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -50,17 +51,17 @@ public class ManagerController {
 
     @GetMapping("/users")
     public String residentsList(Model model) {
-        Set<UserDTO> setOfUsers = userService.getAll();
-        if(setOfUsers.size() == 1) {
+        List<UserDTO> listOfUsers = userService.getAll();
+        if (listOfUsers.size() == 1) {
             model.addAttribute("error", "There is no users");
             return "error";
         }
-        model.addAttribute("users", setOfUsers);
+        model.addAttribute("users", listOfUsers);
         return "manager/usersList";
     }
 
     @GetMapping("/flat/delete/{residentId}")
-    public String deleteResidentFromFlat(@PathVariable Long residentId, Model model) {
+    public String deleteResidentFromFlat(@PathVariable Long residentId) {
         User user = userService.getById(residentId);
         Long flatId = user.getFlat().getId();
         userService.moveOutFromFlat(residentId);
@@ -70,7 +71,7 @@ public class ManagerController {
     @GetMapping("/edit_user/{id}")
     public String editUser(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.userToDto(userService.getById(id)));
-        model.addAttribute("houseNumbers", houseService.getUsedHouseNumbers());
+        model.addAttribute("houses", houseService.allExistingHousesToDto());
         model.addAttribute("roles", Role.values());
         return "manager/editUser";
     }
@@ -86,11 +87,7 @@ public class ManagerController {
         userDTO.setAccepted(underEditedUser.isAccepted());
         userValidator.validate(userDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            if (!underEditedUser.isAccepted()) {
-                userDTO.setCity(underEditedUser.getSaidAddress().getCity());
-                userDTO.setStreet(underEditedUser.getSaidAddress().getCity());
-            }
-            model.addAttribute("houseNumbers", houseService.getUsedHouseNumbers());
+            model.addAttribute("houses", houseService.allExistingHousesToDto());
             model.addAttribute("roles", Role.values());
             return "manager/editUser";
         }

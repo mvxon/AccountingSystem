@@ -36,8 +36,12 @@ public class HouseDTO {
     private Integer flatsPerFloor;
     private List<FlatDTO> flatsOfOneFloor;
     @NotEmpty(message = "Required field")
+    @Min(value = 3, message = "Street should be between 3 and 20 chars")
+    @Max(value = 25, message = "Street should be between 3 and 25 chars")
     private String street;
     @NotEmpty(message = "Required field")
+    @Min(value = 3, message = "City should be between 3 and 20 chars")
+    @Max(value = 25, message = "City should be between 3 and 25 chars")
     private String city;
     private Double totalHouseSquare;
     private Integer totalResidentsCount;

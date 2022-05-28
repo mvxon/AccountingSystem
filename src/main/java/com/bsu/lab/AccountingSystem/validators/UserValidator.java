@@ -29,9 +29,12 @@ public class UserValidator implements Validator {
     public void validate(@NotNull Object target, @NotNull Errors errors) {
         UserDTO user = (UserDTO) target;
         User savedUser = null;
-        boolean isCreation = !(user.getPassword() == null);
-        if (!isCreation) {
+        boolean creation = !(user.getPassword() == null);
+        if (!creation) {
             savedUser = userService.getById(user.getUserId());
+        }
+        if (user.getWithFlat() == null) {
+            user.setWithFlat(!houseService.getAllHouses().isEmpty());
         }
         if (user.getUsername().isBlank()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "",
@@ -41,7 +44,7 @@ public class UserValidator implements Validator {
                 errors.rejectValue("username", "",
                         "Length of the username should be between 3 and 32 chars");
             }
-            if (isCreation) {
+            if (creation) {
                 if (userService.getUserByName(user.getUsername()) != null) {
                     errors.rejectValue("username", "", "User with username "
                             + user.getUsername() + " already exists");
@@ -56,7 +59,7 @@ public class UserValidator implements Validator {
             }
         }
 
-        if (isCreation) {
+        if (creation) {
             if (user.getPassword().isBlank()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "",
                         "Required field");
@@ -70,18 +73,9 @@ public class UserValidator implements Validator {
                     }
                 }
             }
-            if (user.getCity().isBlank()) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "city", "",
-                        "Required field");
-            }
-            if (user.getStreet().isBlank()) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "street", "",
-                        "Required field");
-            }
-
         }
         if (!user.getEmail().isBlank()) {
-            if (isCreation) {
+            if (creation) {
                 if (userService.getUserByEmail(user.getEmail()) != null) {
                     errors.rejectValue("email", "", "User with such email already exists");
                 }

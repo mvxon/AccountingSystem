@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,24 +25,23 @@ public class UserController {
     @GetMapping("/registration")
     public String newResident(Model model) {
         model.addAttribute("user", new UserDTO());
-        model.addAttribute("houseNumbers", houseService.getUsedHouseNumbers());
+        model.addAttribute("houses", houseService.allExistingHousesToDto());
         return "registration";
     }
 
     @PostMapping("/registration")
     public String saveUser(@ModelAttribute(name = "user") @Valid UserDTO userDTO,
-                           BindingResult bindingResult, Model model
+                           BindingResult bindingResult,
+                           Model model
     ) {
         userValidator.validate(userDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("houseNumbers", houseService.getUsedHouseNumbers());
+            model.addAttribute("houses", houseService.allExistingHousesToDto());
             return "registration";
         }
-        if (userService.save(userDTO)) {
-            return "redirect:/login";
-        } else {
-            return "registration";
-        }
+        userService.save(userDTO);
+        return "redirect:/login";
+
     }
 
 
@@ -55,12 +53,12 @@ public class UserController {
     }
 
     @PostMapping("/profile/update")
-    public String updateProfileUser(UserDTO userDTO,
-                                    Model model, Principal principal) {
-        if (userDTO.getPassword() != null
-                && !userDTO.getPassword().isEmpty()
-                && Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())) {
-            model.addAttribute("user", userDTO);
+    public String updateProfileUser(@ModelAttribute(name = "user") @Valid UserDTO userDTO,
+                                    BindingResult bindingResult
+    ) {
+        userDTO.setWithFlat(false);
+        userValidator.validate(userDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "updateProfile";
         }
         userService.updateProfile(userDTO);
