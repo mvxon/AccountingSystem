@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:align="center" th:action="@{/registration}" th:object="${user}" method="post">
+    <h1>REGISTRATION</h1>
+    <table align="center" border="1">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{username}">
+                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" th:field="*{email}">
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            </td>
+        </tr>
+        <tr th:if="${houses.size() != 0}">
+            <td>House</td>
+            <td>Available houses:
+                <select th:field="*{houseNumber}">
+                    <option th:each="house : ${houses}" th:value="${house.houseNumber}"
+                            th:text="${house.houseNumber} +'('+${house.city} +', ' + ${house.street} + ')'"></option>
+                </select>
+            </td>
+        </tr>
+        <tr th:if="${houses.size() != 0}">
+            <td>Flat number</td>
+            <td><input type="number" th:field="*{flatNumber}">
+                <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number
+                    error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" th:field="*{password}">
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Pass error
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Matching password</td>
+            <td><input type="password" th:field="*{matchingPassword}">
+                <div style="color: red" th:if="${#fields.hasErrors('matchingPassword')}"
+                     th:errors="*{matchingPassword}">Matching pass error
+                </div>
+            </td>
+        </tr>
+    </table>
+    <button align="center" type="submit">Sign up</button>
+</form>
+</body>
+</html>

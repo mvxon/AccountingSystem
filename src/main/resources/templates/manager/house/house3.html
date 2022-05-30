@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>House creating</title>
+</head>
+<body>
+<div th:insert="~{fragments/menu :: #nav-menu}"></div>
+
+<form th:align="center" th:action="@{/houses/final_step/{id}(id = ${house.houseId})}" th:object="${house}" method="post">
+    <h1>FLATS SQUARE SETTING</h1>
+    <div th:each="flat, flatStat : *{flatsOfOneFloor}">
+        <p th:text="'Enter rooms squares of ' + ${flatStat.count} + ' flat on the floor'"></p>
+        <div th:each="room, roomStat : ${flat.rooms}">
+            <p th:text="'Enter room square of ' + ${roomStat.count} + ' room, m^2'"></p>
+            <input type="number"
+                   th:field="*{flatsOfOneFloor[__${flatStat.index}__].rooms[__${roomStat.index}__].roomSquare}"></div>
+        <br>
+    </div>
+    <h1 style="color: red" th:if="${#fields.hasErrors('flatsOfOneFloor')}" th:errors="*{flatsOfOneFloor}">error
+    </h1>
+    <button align="center" type="submit">Submit</button>
+</form>
+</body>
+</html>
