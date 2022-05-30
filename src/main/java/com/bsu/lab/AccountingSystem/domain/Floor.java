@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Floor implements Comparable<Floor> {
+public class Floor {
     private static final String SEQ_NAME = "floor_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -27,23 +27,5 @@ public class Floor implements Comparable<Floor> {
     @OrderBy("id")
     private Set<Flat> flats;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Floor floor = (Floor) o;
-        return floorNumber == floor.floorNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(floorNumber);
-    }
-
-    @Override
-    public int compareTo(@NotNull Floor o) {
-        return Integer.compare(flatsCount, o.flatsCount);
-    }
 }
 

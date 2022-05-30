@@ -3,10 +3,9 @@ package com.bsu.lab.AccountingSystem.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Where;
-import org.jetbrains.annotations.NotNull;
+
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "flats")
@@ -15,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Flat implements Comparable<Flat> {
+public class Flat  {
     private static final String SEQ_NAME = "flat_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -37,21 +36,4 @@ public class Flat implements Comparable<Flat> {
         residents.forEach(resident -> resident.setFlat(null));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Flat flat = (Flat) o;
-        return flatNumber == flat.flatNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(flatNumber);
-    }
-
-    @Override
-    public int compareTo(@NotNull Flat o) {
-        return Integer.compare(roomsCount, o.roomsCount);
-    }
 }

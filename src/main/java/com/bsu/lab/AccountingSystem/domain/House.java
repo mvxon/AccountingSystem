@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class House implements Comparable<House> {
+public class House {
     private static final String SEQ_NAME = "house_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -35,22 +35,4 @@ public class House implements Comparable<House> {
     @Enumerated(EnumType.STRING)
     private HouseStatus status;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        House house = (House) o;
-        return houseNumber == house.houseNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(houseNumber);
-    }
-
-
-    @Override
-    public int compareTo(@NotNull House o) {
-        return Integer.compare(entrancesCount, o.entrancesCount);
-    }
 }

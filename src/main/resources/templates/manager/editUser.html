@@ -5,19 +5,6 @@
     <title th:text="'Edit ' + ${user.username} + ' profile'"></title>
 </head>
 <body>
-<script>
-    function setVisible() {
-        document.getElementById("houseNumberNumber").style.visibility = "hidden";
-        document.getElementById("flatNumber").style.visibility = "hidden";
-        /* if (document.getElementById("withFlatCheckBox").checked) {
-             document.getElementById("houseNumberNumber").style.visibility = "visible";
-             document.getElementById("flatNumber").style.visibility = "visible";
-         } else {
-             document.getElementById("houseNumberNumber").style.visibility = "hidden";
-             document.getElementById("flatNumber").style.visibility = "hidden";
-         }*/
-    }
-</script>
 <div th:insert="~{fragments/menu :: #nav-menu}"></div>
 <form th:action="@{/manager/edit_user/{id}(id = ${user.userId})}" th:object="${user}" th:align="center"
       method="post">

@@ -16,7 +16,7 @@
         <tr>
             <td>Link</td>
             <td>Delete</td>
-            <td>Edit/td>
+            <td>Edit</td>
         </tr>
         <tr th:each="user : ${users}" th:if="${#authentication.principal.username != user.username}">
             <td><a th:href="@{/profile/{username}(username = ${user.username})}"><span

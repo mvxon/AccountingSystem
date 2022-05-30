@@ -12,7 +12,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Room implements Comparable<Room> {
+public class Room {
     private static final String SEQ_NAME = "room_seq";
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
@@ -21,22 +21,5 @@ public class Room implements Comparable<Room> {
     private int roomNumber;
     private double roomSquare;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Room room = (Room) o;
-        return roomNumber == room.roomNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(roomNumber);
-    }
-
-    @Override
-    public int compareTo(@NotNull Room o) {
-        return Double.compare(roomSquare, o.roomSquare);
-    }
 }
 

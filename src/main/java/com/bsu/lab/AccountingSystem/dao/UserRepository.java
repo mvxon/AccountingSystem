@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    Set<User> findAllByAcceptedIsTrueOrderByName();
+    List<User> findAllByAcceptedIsTrueOrderByName();
 
-    Set<User> findAllByAcceptedIsFalseOrderByName();
+    List<User> findAllByAcceptedIsFalseOrderByName();
 }
