@@ -1,10 +1,8 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
-import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
 import com.bsu.lab.AccountingSystem.domain.*;
 import com.bsu.lab.AccountingSystem.dao.HouseRepository;
-import com.bsu.lab.AccountingSystem.consolecontrol.inputs.services.InputForHouseNumber;
 import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.dto.HouseDTO;
 import lombok.NonNull;
@@ -12,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,24 +20,22 @@ public class HouseServiceImpl implements HouseService {
     private final HouseRepository houseRepository;
     private final EntranceService entranceService;
     private final FloorService floorService;
-    private final InputForHouseNumber inputForHouseNumber;
     private final FlatService flatService;
 
-    public HouseServiceImpl(HouseRepository houseRepository,
-                            @Lazy EntranceService entranceService,
-                            @Lazy FloorService floorService,
-                            InputForHouseNumber inputForHouseNumber,
-                            @Lazy FlatService flatService) {
+    public HouseServiceImpl(
+            HouseRepository houseRepository,
+            @Lazy EntranceService entranceService,
+            @Lazy FloorService floorService,
+            @Lazy FlatService flatService
+    ) {
         this.houseRepository = houseRepository;
         this.entranceService = entranceService;
         this.floorService = floorService;
-        this.inputForHouseNumber = inputForHouseNumber;
         this.flatService = flatService;
     }
 
 
     @Override
-    @Transactional
     public @NotNull House createHouse(int houseNumber,
                                       int entrancesCount,
                                       int floorsCount,
@@ -121,23 +116,6 @@ public class HouseServiceImpl implements HouseService {
         return new Entrance();
     }
 
-    @Override
-    public String allHouseInfoToString(@NotNull House house) {
-        String result = "\n" + GeneralConstants.SEPARATION +
-                "\nНомер дома: " + (house.getHouseNumber()) +
-                "\nКоличество подъездов: " + (house.getEntrancesCount());
-        if (!house.getEntrances().isEmpty()) {
-            result +=
-                    "\nКоличество этажей: " + getFloorsCount(house) +
-                            "\nКоличество квартир на одном этаже: " + getFlatsPerFloor(house) +
-                            "\nОбщее количество квартир: " + getFlatsCount(house) +
-                            "\nОбщая площадь дома: " + (findTotalHouseSquare(house)) +
-                            "\nОбщее количество жильцов: " + (findMaximumResidentsCapacity(house)) +
-                            "\n" + GeneralConstants.SEPARATION + "\n";
-        }
-        return result;
-    }
-
 
     @Override
     public Flat getFlatByNumber(House house, int flatNumber) {
@@ -176,26 +154,6 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public int generateUniqueHouseNumber() {
-        int houseNumber = inputForHouseNumber.input();
-        Set<Integer> usedHouseNumbers = new TreeSet<>(houseRepository.findUsedHouseNumbers());
-        if (houseRepository.count() != 0) {
-            while (usedHouseNumbers.contains(houseNumber)) {
-                System.out.println("Дом с таким номером уже создан. Введите еще раз");
-                houseNumber = inputForHouseNumber.input();
-            }
-        }
-        return houseNumber;
-    }
-
-
-    @Override
-    public void deleteHouseByHouseNumber(int houseNumber) {
-        houseRepository.deleteHouseByHouseNumber(houseNumber);
-    }
-
-
-    @Override
     public House getHouseByHouseNumber(int houseNumber) {
         return houseRepository.findByHouseNumber(houseNumber);
     }
@@ -205,13 +163,6 @@ public class HouseServiceImpl implements HouseService {
     public TreeSet<Integer> getUsedHouseNumbers() {
         return houseRepository.findUsedHouseNumbers();
     }
-
-
-    @Override
-    public Long getHousesCount() {
-        return houseRepository.count();
-    }
-
 
     @Override
     public List<House> getAllHouses() {

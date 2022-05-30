@@ -15,8 +15,10 @@ import java.util.Set;
 @Entity
 @Builder
 public class Entrance implements Comparable<Entrance> {
+    private static final String SEQ_NAME = "entrance_seq";
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     private int entranceNumber;
     private int floorsCount;

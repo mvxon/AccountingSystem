@@ -1,7 +1,7 @@
 package com.bsu.lab.AccountingSystem.service;
 
 
-import com.bsu.lab.AccountingSystem.consolecontrol.constants.GeneralConstants;
+
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
 import com.bsu.lab.AccountingSystem.domain.Room;
@@ -78,29 +78,6 @@ public class FlatServiceImpl implements FlatService {
             this.addRoom(flat, room); // rooms creating
         }
         return flat;
-    }
-
-    @Override
-    public @NotNull String flatInfoToString(@NotNull House house, @NotNull Flat flat) {
-        String result = "";
-        int houseNumber = house.getHouseNumber();
-        int flatNumber = flat.getFlatNumber();
-        int entranceNumber = houseService.getEntranceByFlatNumber(house, flat.getFlatNumber()).getEntranceNumber();
-        int floorNumber = entranceService.getFloorByFlatNumber(houseService.getEntranceByFlatNumber(house, flatNumber),
-                flatNumber).getFloorNumber();
-        result += "\n" + GeneralConstants.SEPARATION + "\n";
-        result += "Номер квартиры: " + flatNumber +
-                "\nНомер дома: " + houseNumber +
-                "\nНомер подъезда: " + entranceNumber +
-                "\nЭтаж: " + floorNumber +
-                "\nКоличество комнат: " + flat.getRoomsCount();
-        for (Room room : flat.getRooms()) {
-            result += "\nПлощадь " + (room.getRoomNumber()) + " комнаты: " + room.getRoomSquare();
-        }
-        result += "\nОбщая площадь квартиры: " + this.findFlatSquare(flat) +
-                "\nКоличество жильцов: " + flat.getMaxResidentsCount();
-        result += "\n" + GeneralConstants.SEPARATION + "\n";
-        return result;
     }
 
     @Override

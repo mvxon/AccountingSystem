@@ -25,8 +25,6 @@ public interface HouseService {
 
     Entrance getEntranceByFlatNumber(@NotNull House house, int flatNumber);
 
-    String allHouseInfoToString(@NotNull House house);
-
     Flat getFlatByNumber(House house, int flatNumber);
 
     int getFlatsCount(@NotNull House house);
@@ -39,15 +37,9 @@ public interface HouseService {
 
     List<Flat> getHouseFlats(@NotNull House house);
 
-    int generateUniqueHouseNumber();
-
-    void deleteHouseByHouseNumber(int houseNumber);
-
     House getHouseByHouseNumber(int houseNumber);
 
     TreeSet<Integer> getUsedHouseNumbers();
-
-    Long getHousesCount();
 
     List<House> getAllHouses();
 

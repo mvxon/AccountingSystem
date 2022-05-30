@@ -24,7 +24,7 @@
                 <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             </td>
         </tr>
-        <tr th:if="${houses != null}">
+        <tr th:if="${houses.size() != 0}">
             <td>House</td>
             <td>Available houses:
                 <select th:field="*{houseNumber}">
@@ -33,7 +33,7 @@
                 </select>
             </td>
         </tr>
-        <tr th:if="${houses != null}">
+        <tr th:if="${houses.size() != 0}">
             <td>Flat number</td>
             <td><input type="number" th:field="*{flatNumber}">
                 <div style="color: red" th:if="${#fields.hasErrors('flatNumber')}" th:errors="*{flatNumber}">Flat number

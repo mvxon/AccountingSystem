@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.validators;
+package com.bsu.lab.AccountingSystem.validator;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.User;
@@ -36,7 +36,7 @@ public class UserValidator implements Validator {
         if (user.getWithFlat() == null) {
             user.setWithFlat(!houseService.getAllHouses().isEmpty());
         }
-        if (user.getUsername().isBlank()) {
+        if (user.getUsername().length() != 0) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "",
                     "Required field");
         } else {
@@ -60,7 +60,7 @@ public class UserValidator implements Validator {
         }
 
         if (creation) {
-            if (user.getPassword().isBlank()) {
+            if (user.getPassword().length() != 0) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "",
                         "Required field");
             } else {
@@ -74,7 +74,7 @@ public class UserValidator implements Validator {
                 }
             }
         }
-        if (!user.getEmail().isBlank()) {
+        if (user.getEmail().length() != 0) {
             if (creation) {
                 if (userService.getUserByEmail(user.getEmail()) != null) {
                     errors.rejectValue("email", "", "User with such email already exists");

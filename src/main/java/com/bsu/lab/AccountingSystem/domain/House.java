@@ -17,8 +17,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class House implements Comparable<House> {
+    private static final String SEQ_NAME = "house_seq";
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     @Column(nullable = false, unique = true)
     private int houseNumber;

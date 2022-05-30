@@ -1,10 +1,10 @@
-package com.bsu.lab.AccountingSystem.controllers;
+package com.bsu.lab.AccountingSystem.controller;
 
 import com.bsu.lab.AccountingSystem.domain.User;
 import com.bsu.lab.AccountingSystem.dto.UserDTO;
 import com.bsu.lab.AccountingSystem.service.HouseService;
 import com.bsu.lab.AccountingSystem.service.UserService;
-import com.bsu.lab.AccountingSystem.validators.UserValidator;
+import com.bsu.lab.AccountingSystem.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 

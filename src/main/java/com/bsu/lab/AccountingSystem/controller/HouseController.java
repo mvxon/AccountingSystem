@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.controllers;
+package com.bsu.lab.AccountingSystem.controller;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.domain.House;
@@ -6,9 +6,9 @@ import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.dto.HouseDTO;
 import com.bsu.lab.AccountingSystem.dto.RoomDTO;
 import com.bsu.lab.AccountingSystem.service.HouseService;
-import com.bsu.lab.AccountingSystem.validators.FlatValidator;
-import com.bsu.lab.AccountingSystem.validators.HouseValidator;
-import com.bsu.lab.AccountingSystem.validators.RoomValidator;
+import com.bsu.lab.AccountingSystem.validator.FlatValidator;
+import com.bsu.lab.AccountingSystem.validator.HouseValidator;
+import com.bsu.lab.AccountingSystem.validator.RoomValidator;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
@@ -99,8 +99,9 @@ public class HouseController {
         houseDTO.setHouseId(id);
         houseService.secondStepSave(houseDTO);
         List<FlatDTO> flats = houseDTO.getFlatsOfOneFloor();
+        List<RoomDTO> rooms;
         for (FlatDTO flat : flats) {
-            List<RoomDTO> rooms = new ArrayList<>();
+            rooms = new ArrayList<>();
             for (int i = 0; i < flat.getRoomsCount(); i++) {
                 rooms.add(RoomDTO.builder()
                         .roomNumber(i + 1)

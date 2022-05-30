@@ -15,8 +15,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class Floor implements Comparable<Floor> {
+    private static final String SEQ_NAME = "floor_seq";
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
+    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     private Long id;
     private int floorNumber;
     private int flatsCount;

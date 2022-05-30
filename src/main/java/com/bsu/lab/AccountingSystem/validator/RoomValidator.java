@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.validators;
+package com.bsu.lab.AccountingSystem.validator;
 
 import com.bsu.lab.AccountingSystem.dto.FlatDTO;
 import com.bsu.lab.AccountingSystem.dto.HouseDTO;

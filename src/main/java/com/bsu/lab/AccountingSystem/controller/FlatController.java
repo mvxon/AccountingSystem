@@ -1,4 +1,4 @@
-package com.bsu.lab.AccountingSystem.controllers;
+package com.bsu.lab.AccountingSystem.controller;
 
 import com.bsu.lab.AccountingSystem.domain.Flat;
 import com.bsu.lab.AccountingSystem.service.FlatService;

@@ -25,8 +25,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean save(UserDTO userDTO) {
-        Flat flat = houseService.getFlatByNumber(houseService.
-                getHouseByHouseNumber(userDTO.getHouseNumber()), userDTO.getFlatNumber());
+        Flat flat = null;
+        if (userDTO.getWithFlat()) {
+            flat = houseService.getFlatByNumber(houseService.
+                    getHouseByHouseNumber(userDTO.getHouseNumber()), userDTO.getFlatNumber());
+        }
         User user = User.builder()
                 .name(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
@@ -34,6 +37,10 @@ public class UserServiceImpl implements UserService {
                 .role(Role.RESIDENT)
                 .flat(flat)
                 .build();
+        /*if (Objects.equals(userDTO.getUsername(), "max")) {
+            user.setAccepted(true);
+            user.setRole(Role.ADMIN);
+        }*/
         userRepository.save(user);
         return true;
     }
